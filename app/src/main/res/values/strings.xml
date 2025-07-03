@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">PRM391_Project_AppRestaurants</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="restaurant_dashboard">Restaurant Dashboard</string>
+    <string name="logout">Logout</string>
+    <string name="manage_restaurants">Manage Restaurants</string>
+    <string name="title_activity_restaurant_management">RestaurantManagement</string>
+    <string name="start">Start</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="end">End</string>
 </resources>
