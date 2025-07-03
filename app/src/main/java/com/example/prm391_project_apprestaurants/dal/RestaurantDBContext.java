@@ -24,13 +24,13 @@ public class RestaurantDBContext {
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(0);
                 String name = cursor.getString(1);
-                String address = cursor.getString(2);
-                String description = cursor.getString(3);
-                String image = cursor.getString(4);
+                String address = cursor.getString(3);
+                String description = cursor.getString(2);
+                String image = cursor.getString(10);
                 String priceRange = cursor.getString(5);
-                String website = cursor.getString(6);
-                String category = cursor.getString(7);
-                String district = cursor.getString(8);
+                String website = cursor.getString(9);
+                String category = cursor.getString(6);
+                String district = cursor.getString(4);
                 Restaurant restaurant = new Restaurant();
                 restaurant.setId(id);
                 restaurant.setName(name);
