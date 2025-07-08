@@ -42,17 +42,19 @@ public class Constant {
             );
             """;
     public static final String SQL_CREATE_TABLE_REVIEWS = """
-            CREATE TABLE IF NOT EXISTS Reviews (
-                Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                UserId INTEGER NOT NULL,
-                RestaurantId INTEGER NOT NULL,
-                Content TEXT NOT NULL,
-                CreatedAt TEXT DEFAULT CURRENT_TIMESTAMP,
-                UpdatedAt TEXT DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (UserId) REFERENCES Users(Id),
-                FOREIGN KEY (RestaurantId) REFERENCES Restaurants(Id)
-            );
-            """;
+    CREATE TABLE IF NOT EXISTS Reviews (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+        UserId INTEGER NOT NULL,
+        RestaurantId INTEGER NOT NULL,
+        Content TEXT NOT NULL,
+        Rating INTEGER NOT NULL DEFAULT 5,
+        CreatedAt TEXT DEFAULT CURRENT_TIMESTAMP,
+        UpdatedAt TEXT DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (UserId) REFERENCES Users(Id),
+        FOREIGN KEY (RestaurantId) REFERENCES Restaurants(Id)
+    );
+""";
+
     public static final String SQL_INSERT_TABLE_USERS = """ 
             INSERT INTO Users (Username, Password, Email, Role) VALUES
             ('admin', 'adminpass', 'admin@gmail.com', 'Admin'),
@@ -89,18 +91,17 @@ public class Constant {
             (5, 5);
             """;
     public static final String SQL_INSERT_TABLE_REVIEWS = """
-            INSERT INTO Reviews (UserId, RestaurantId, Content) VALUES
-            (2, 1, 'Bún chả ngon, không gian sạch sẽ.'),
-            (2, 2, 'Phở đậm đà, ăn rất vừa miệng.'),
-            (2, 3, 'Bánh mì giòn, pate thơm.'),
-            (2, 4, 'Không gian yên tĩnh, đồ ăn chay ngon.'),
-            (3, 5, 'Cơm tấm ổn, nước mắm ngon.'),
-            (5, 6, 'Bún riêu ngon nhưng hơi đông khách.'),
-            (4, 7, 'Lẩu nhiều đồ, phục vụ nhanh.'),
-            (3, 8, 'Xôi nhiều topping, ăn rất đã.'),
-            (3, 9, 'Mì thủ công sợi mềm.'),
-            (4, 10, 'Cafe trứng siêu ngon!');
-            
-            """;
+    INSERT INTO Reviews (UserId, RestaurantId, Content, Rating) VALUES
+    (2, 1, 'Bún chả ngon, không gian sạch sẽ.', 5),
+    (2, 2, 'Phở đậm đà, ăn rất vừa miệng.', 4),
+    (3, 3, 'Bánh mì giòn, pate thơm.', 5),
+    (3, 4, 'Không gian yên tĩnh, đồ ăn chay ngon.', 5),
+    (4, 5, 'Cơm tấm ổn, nước mắm ngon.', 4),
+    (5, 6, 'Bún riêu ngon nhưng hơi đông khách.', 3),
+    (4, 7, 'Lẩu nhiều đồ, phục vụ nhanh.', 5),
+    (3, 8, 'Xôi nhiều topping, ăn rất đã.', 4),
+    (2, 9, 'Mì thủ công sợi mềm.', 5),
+    (4, 10, 'Cafe trứng siêu ngon!', 5);
+""";
 
 }

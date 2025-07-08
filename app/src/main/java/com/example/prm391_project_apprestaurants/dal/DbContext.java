@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 public class DbContext extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Restaurants.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static DbContext INSTANCE = null;
     private final String SCRIPT_DATABASE = "";
     public static synchronized DbContext getInstance(Context context) {
