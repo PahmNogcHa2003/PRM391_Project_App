@@ -3,24 +3,31 @@ package com.example.prm391_project_apprestaurants.dal;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.prm391_project_apprestaurants.entities.Restaurant;
+import com.example.prm391_project_apprestaurants.requests.SearchRestaurantRequest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RestaurantDBContext {
     private final DbContext dbContext;
+
     public RestaurantDBContext(Context context) {
         dbContext = DbContext.getInstance(context);
     }
 
-    public List<Restaurant> getRestaurants() {
+    public List<Restaurant> getRestaurants(SearchRestaurantRequest request) {
         List<Restaurant> restaurants = new ArrayList<>();
-        try{
+        long totalElement = countTotalRestaurants(request);
+        try {
             SQLiteDatabase db = dbContext.getReadableDatabase();
-            String query = "SELECT * FROM Restaurants";
-            Cursor cursor = db.rawQuery(query, null);
+            String query = "SELECT * FROM Restaurants r";
+            List<String> params = new ArrayList<>();
+            query += buildSearchRestaurantQuery(request, true, params, totalElement).toString();
+            Cursor cursor = db.rawQuery(query, params.toArray(new String[0]));
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(0);
                 String name = cursor.getString(1);
@@ -41,13 +48,112 @@ public class RestaurantDBContext {
                 restaurant.setWebsite(website);
                 restaurant.setCategory(category);
                 restaurant.setDistrict(district);
+                restaurant.setReviewCount(countReviewByRestaurantId(id));
                 restaurants.add(restaurant);
             }
             cursor.close();
             db.close();
-        }catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Log.d("Error", Objects.requireNonNull(e.getMessage()));
         }
         return restaurants;
+    }
+
+    StringBuilder buildSearchRestaurantQuery(SearchRestaurantRequest request, boolean isPagination, List<String> params, long totalElement) {
+        StringBuilder query = new StringBuilder();
+        query.append(" WHERE 1=1 ");
+
+        if (request.getKeyword() != null && !request.getKeyword().isEmpty()) {
+            query.append(" AND (r.Name LIKE ? OR r.Description LIKE ? OR r.Address LIKE ?) ");
+            String keyword = "%" + request.getKeyword() + "%";
+            params.add(keyword);
+            params.add(keyword);
+            params.add(keyword);
+        }
+        if (isPagination) {
+            int totalPage = (int) Math.ceil(totalElement * 1.0 / request.getPageSize());
+            query.append(" LIMIT ? OFFSET ? ");
+            int correctPage = request.getPage() <= totalPage ? request.getPage() : 1;
+            request.setPage(correctPage);
+            request.setTotalPage(totalPage);
+            params.add(String.valueOf(request.getPageSize()));
+            params.add(String.valueOf((correctPage - 1) * request.getPageSize()));
+        }
+
+        return query;
+    }
+
+    public Restaurant findById(int id) {
+        try {
+            SQLiteDatabase db = dbContext.getReadableDatabase();
+            String query = "SELECT * FROM Restaurants WHERE id = ?";
+            Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+            if (cursor.moveToNext()) {
+                String name = cursor.getString(1);
+                String address = cursor.getString(3);
+                String description = cursor.getString(2);
+                String image = cursor.getString(10);
+                String priceRange = cursor.getString(5);
+                String website = cursor.getString(9);
+                String category = cursor.getString(6);
+                String district = cursor.getString(4);
+                Restaurant restaurant = new Restaurant();
+                restaurant.setId(id);
+                restaurant.setName(name);
+                restaurant.setAddress(address);
+                restaurant.setDescription(description);
+                restaurant.setImage(image);
+                restaurant.setPriceRange(priceRange);
+                restaurant.setWebsite(website);
+                restaurant.setCategory(category);
+                restaurant.setDistrict(district);
+                restaurant.setReviewCount(countReviewByRestaurantId(id));
+                return restaurant;
+            }
+            cursor.close();
+            db.close();
+        } catch (Exception e) {
+            Log.d("Error", Objects.requireNonNull(e.getMessage()));
+        }
+        return null;
+    }
+
+    public long countTotalRestaurants(SearchRestaurantRequest request) {
+        long count = 0;
+        try {
+            SQLiteDatabase db = dbContext.getReadableDatabase();
+            String query = "SELECT COUNT(r.id) FROM Restaurants r";
+            List<String> params = new ArrayList<>();
+            query += buildSearchRestaurantQuery(request, false, params, 0).toString();
+            Cursor cursor = db.rawQuery(query, params.toArray(new String[0]));
+            if (cursor.moveToFirst()) {
+                count = cursor.getLong(0);
+            }
+            cursor.close();
+            db.close();
+        } catch (Exception e) {
+            Log.d("Error", Objects.requireNonNull(e.getMessage()));
+        }
+        return count;
+    }
+
+    public int countReviewByRestaurantId(int id) {
+        int count = 0;
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        try {
+            db = dbContext.getReadableDatabase();
+            String query = "SELECT COUNT(r.RestaurantId) FROM Reviews r WHERE r.RestaurantId = ?";
+            cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+            if (cursor.moveToFirst()) {
+                count = cursor.getInt(0);
+            }
+        } catch (Exception e) {
+            Log.d("Error", Objects.requireNonNull(e.getMessage()));
+        } finally {
+            if (cursor != null) cursor.close();
+            if (db != null) db.close();
+        }
+        return count;
     }
 }

@@ -1,64 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
     tools:context=".controllers.admin.RestaurantManagementActivity">
 
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:elevation="20dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="12dp"
+        tools:ignore="MissingConstraints">
 
         <!-- Tìm kiếm theo tên -->
-        <EditText
-            android:id="@+id/editTextSearch"
+        <!-- Thanh tìm kiếm -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:drawableStart="@android:drawable/ic_menu_search"
-            android:hint="Tìm kiếm tên nhà hàng"
-            android:padding="10dp" />
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <ImageButton
+                android:id="@+id/imageMenuButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Menu"
+                app:srcCompat="@drawable/menu"
+                app:tint="@color/black" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:elevation="2dp"
+                android:radius="8dp">
+
+                <EditText
+                    android:id="@+id/editTextSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:drawableStart="@android:drawable/ic_menu_search"
+                    android:hint="@string/search_by_name_description_positon"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
         <!-- Bộ lọc -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginBottom="8dp"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <Spinner
-                android:id="@+id/spinnerCategory"
+                android:id="@+id/spinnerPageSize"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="42dp"
                 android:layout_weight="1"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:spinnerMode="dropdown" />
 
-            <Spinner
-                android:id="@+id/spinnerDistrict"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_weight="1"
-                android:spinnerMode="dropdown" />
+            <Button
+                android:id="@+id/btnSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_marginStart="12dp"
+                android:backgroundTint="#4CAF50"
+                android:drawablePadding="6dp"
+                android:minWidth="90dp"
+                android:text="Search"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
 
-            <Spinner
-                android:id="@+id/spinnerPrice"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_weight="1"
-                android:spinnerMode="dropdown" />
         </LinearLayout>
+
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/btnCreate"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="42dp"-->
+        <!--            android:layout_marginStart="12dp"-->
+        <!--            android:background="#4CAF50"-->
+        <!--            android:clickable="true"-->
+        <!--            android:focusable="true"-->
+        <!--            android:gravity="center_vertical"-->
+        <!--            android:minWidth="90dp"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            android:padding="8dp">-->
+
+        <!--            <ImageView-->
+        <!--                android:layout_width="20dp"-->
+        <!--                android:layout_height="20dp"-->
+        <!--                android:layout_marginEnd="6dp"-->
+        <!--                android:src="@drawable/plus" />-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="@string/create"-->
+        <!--                android:textColor="#FFFFFF"-->
+        <!--                android:textSize="14sp" />-->
+        <!--        </LinearLayout>-->
+
 
         <!-- RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
@@ -80,63 +144,60 @@
                 android:id="@+id/paginationLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="4dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="10dp"
-                android:layout_margin="4dp">
+                android:padding="10dp">
 
-                <Button
-                    android:id="@+id/btnPrev"
-                    android:layout_width="wrap_content"
-                    android:layout_height="42dp"
-                    android:minWidth="80dp"
-                    android:text="@string/previous"
-                    android:backgroundTint="#2196F3"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:layout_marginEnd="8dp"
-                    android:drawablePadding="6dp" />
+                <ImageButton
+                    android:id="@+id/btnStart"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@color/white"
+                    android:padding="8dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/start" />
+
+                <ImageButton
+                    android:id="@+id/btnPrevious"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/white"
+                    android:padding="8dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/arrow" />
+
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/txtPage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3 of 120102"
+                    android:layout_marginHorizontal="8dp"
+                    android:gravity="center_vertical"
                     android:textColor="#333333"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginHorizontal="8dp"
-                    android:gravity="center_vertical" />
+                    android:textStyle="bold" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/btnNext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="42dp"
-                    android:minWidth="80dp"
-                    android:text="@string/next"
-                    android:backgroundTint="#2196F3"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:layout_marginStart="8dp"
-                    android:drawablePadding="6dp" />
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@color/white"
+                    android:padding="8dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/next" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/btnEnd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="42dp"
-                    android:minWidth="80dp"
-                    android:text="@string/end"
-                    android:backgroundTint="#4CAF50"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:layout_marginStart="8dp"
-                    android:drawablePadding="6dp" />
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/white"
+                    android:padding="8dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/end" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-
-
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

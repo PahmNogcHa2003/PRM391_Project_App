@@ -30,11 +30,16 @@ public class DbContext extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_TABLE_REVIEWS);
         db.execSQL(SQL_INSERT_TABLE_USERS);
         db.execSQL(SQL_INSERT_TABLE_RESTAURANTS);
-        db.execSQL(SQL_CREATE_TABLE_FAVORITES);
-        db.execSQL(SQL_CREATE_TABLE_REVIEWS);
+        db.execSQL(SQL_INSERT_TABLE_FAVORITES);
+        db.execSQL(SQL_INSERT_TABLE_REVIEWS);
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        if(oldVersion < 2 && newVersion >= 2) {
+            db.execSQL(SQL_DELETE_TABLE_FAVORITES);
+            db.execSQL(SQL_DELETE_TABLE_REVIEWS);
+            db.execSQL(SQL_DELETE_TABLE_RESTAURANTS);
+            db.execSQL(SQL_DELETE_TABLE_USERS);
+        }
     }
 }

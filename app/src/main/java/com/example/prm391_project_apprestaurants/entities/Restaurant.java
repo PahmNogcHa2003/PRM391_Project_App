@@ -23,6 +23,7 @@ public class Restaurant implements Serializable {
     private boolean isHidden;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private int reviewCount;
 
     public int getId() {
         return id;
@@ -152,4 +153,11 @@ public class Restaurant implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    public int getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(int reviewCount) {
+        this.reviewCount = reviewCount;
+    }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
@@ -7,19 +7,26 @@
             type="com.example.prm391_project_apprestaurants.entities.Restaurant" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginBottom="10dp"
         >
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewRestaurant"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp"
-            tools:ignore="MissingConstraints">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,7 +71,7 @@
                         android:textSize="14sp" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="10dp"
                         android:orientation="horizontal">
@@ -88,7 +95,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
 
@@ -102,6 +109,7 @@
                             android:fontFamily="@font/afacad"
                             android:textColor="#BB0000"
                             android:textSize="13sp"
+                            android:text="@{viewHolder.priceRange}"
                             android:textStyle="bold" />
 
                         <TextView
@@ -113,6 +121,7 @@
                             android:fontFamily="@font/amiko"
                             android:textColor="#FFCC66"
                             android:textSize="13sp"
+                            android:text="@{String.valueOf(viewHolder.reviewCount) + ` review(s)`}"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -120,7 +129,5 @@
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

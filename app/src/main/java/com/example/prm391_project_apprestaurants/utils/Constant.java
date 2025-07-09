@@ -102,5 +102,16 @@ public class Constant {
             (4, 10, 'Cafe trứng siêu ngon!');
             
             """;
-
+    public static final String SQL_DELETE_TABLE_REVIEWS = """
+            DELETE FROM Reviews IF EXISTS;            
+            """;
+    public static final String SQL_DELETE_TABLE_FAVORITES = """
+            DELETE FROM Favorites IF EXISTS;            
+            """;
+    public static final String SQL_DELETE_TABLE_RESTAURANTS = """
+            DELETE FROM Restaurants IF EXISTS;            
+            """;
+    public static final String SQL_DELETE_TABLE_USERS = """
+            DELETE FROM Users IF EXISTS;            
+            """;
 }

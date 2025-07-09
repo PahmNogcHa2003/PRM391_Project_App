@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.prm391_project_apprestaurants.dal.RestaurantDBContext;
 import com.example.prm391_project_apprestaurants.entities.Restaurant;
+import com.example.prm391_project_apprestaurants.requests.SearchRestaurantRequest;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class RestaurantService {
     public RestaurantService(Context context) {
         restaurantDBContext = new RestaurantDBContext(context);
     }
-    public List<Restaurant> getAllRestaurants() {
-        return restaurantDBContext.getRestaurants();
+    public List<Restaurant> getAllRestaurants(SearchRestaurantRequest searchRestaurantRequest) {
+        return restaurantDBContext.getRestaurants(searchRestaurantRequest);
     }
 }
