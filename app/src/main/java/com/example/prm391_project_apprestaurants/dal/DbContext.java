@@ -32,6 +32,10 @@ public class DbContext extends SQLiteOpenHelper {
         db.execSQL(SQL_INSERT_TABLE_RESTAURANTS);
         db.execSQL(SQL_CREATE_TABLE_FAVORITES);
         db.execSQL(SQL_CREATE_TABLE_REVIEWS);
+
+        // Insert dữ liệu mẫu
+
+
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

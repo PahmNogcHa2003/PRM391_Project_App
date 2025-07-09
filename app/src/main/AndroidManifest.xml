@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -14,21 +15,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
-<!--        <activity-->
-<!--            android:name=".controllers.admin.RestaurantManagementActivity"-->
-<!--            android:exported="false"-->
-<!--            android:label="@string/title_activity_restaurant_management"-->
-<!--            android:theme="@style/Theme.PRM391_Project_AppRestaurants" />-->
+
+        <!-- Login activity - Launcher -->
         <activity
-            android:name=".controllers.admin.RestaurantManagementActivity"
+            android:name=".controllers.Login.Login"
+            android:theme="@style/Theme.PRM391_Project_AppRestaurants"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <!-- Restaurant Management Activity -->
+        <activity
+            android:name=".controllers.admin.RestaurantManagementActivity"
+            android:exported="false"
+            android:label="@string/title_activity_restaurant_management"
+            android:theme="@style/Theme.PRM391_Project_AppRestaurants" />
+
+        <activity android:name=".controllers.user.HomeUser"/>
+
+
+
+
+
+        <!-- Metadata for fonts -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
