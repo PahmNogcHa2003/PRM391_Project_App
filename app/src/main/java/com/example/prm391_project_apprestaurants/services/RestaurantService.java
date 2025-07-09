@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.example.prm391_project_apprestaurants.dal.RestaurantDBContext;
 import com.example.prm391_project_apprestaurants.entities.Restaurant;
-import com.example.prm391_project_apprestaurants.dal.EnhancedDbContext;
 
 import java.util.List;
 

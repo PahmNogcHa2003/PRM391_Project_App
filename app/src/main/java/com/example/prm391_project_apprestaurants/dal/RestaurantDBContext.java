@@ -3,7 +3,6 @@ package com.example.prm391_project_apprestaurants.dal;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.example.prm391_project_apprestaurants.entities.Restaurant;
 
@@ -11,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RestaurantDBContext {
-    private final EnhancedDbContext dbContext;
+    private final DbContext dbContext;
 
     public RestaurantDBContext(Context context) {
-        dbContext = EnhancedDbContext.getInstance(context);
+        dbContext = DbContext.getInstance(context);
     }
 
     public List<Restaurant> getRestaurants() {
@@ -23,7 +22,6 @@ public class RestaurantDBContext {
             SQLiteDatabase db = dbContext.getReadableDatabase();
             String query = "SELECT * FROM Restaurants";
             Cursor cursor = db.rawQuery(query, null);
-            Log.d("RestaurantDBContext", "Query executed, cursor count: " + cursor.getCount());
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(0);
                 String name = cursor.getString(1);
@@ -49,7 +47,7 @@ public class RestaurantDBContext {
             cursor.close();
             db.close();
         } catch (Exception e) {
-            Log.e("RestaurantDBContext", "Error fetching restaurants: " + e.getMessage());
+            e.printStackTrace();
         }
         return restaurants;
     }
@@ -79,7 +77,6 @@ public class RestaurantDBContext {
             }
 
             Cursor cursor = db.rawQuery(query, selectionArgs.toArray(new String[0]));
-            Log.d("RestaurantDBContext", "Filter query executed, cursor count: " + cursor.getCount());
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(0);
                 String name = cursor.getString(1);
@@ -105,7 +102,7 @@ public class RestaurantDBContext {
             cursor.close();
             db.close();
         } catch (Exception e) {
-            Log.e("RestaurantDBContext", "Error fetching filtered restaurants: " + e.getMessage());
+            e.printStackTrace();
         }
         return restaurants;
     }
