@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.prm391_project_apprestaurants.dal.RestaurantDBContext;
 import com.example.prm391_project_apprestaurants.entities.Restaurant;
+import com.example.prm391_project_apprestaurants.dal.EnhancedDbContext;
 
 import java.util.List;
 
@@ -15,5 +16,9 @@ public class RestaurantService {
     }
     public List<Restaurant> getAllRestaurants() {
         return restaurantDBContext.getRestaurants();
+    }
+
+    public List<Restaurant> getAllRestaurantsWithFilter(String priceRange, String district, String category, String searchQuery) {
+        return restaurantDBContext.getAllRestaurantsWithFilter(priceRange, district, category, searchQuery);
     }
 }

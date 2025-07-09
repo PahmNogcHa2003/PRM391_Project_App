@@ -1,6 +1,9 @@
 package com.example.prm391_project_apprestaurants.controllers.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,5 +41,13 @@ public class RestaurantManagementActivity extends AppCompatActivity {
         adapter = new RestaurantManagementAdapter(restaurantService.getAllRestaurants());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
+    }
+
+    public void onSearchClick(View view) {
+        EditText editTextSearch = findViewById(R.id.editTextSearch);
+        String initialQuery = editTextSearch.getText().toString();
+        Intent intent = new Intent(this, FilterActivity.class);
+        intent.putExtra("initialQuery", initialQuery);
+        startActivity(intent);
     }
 }

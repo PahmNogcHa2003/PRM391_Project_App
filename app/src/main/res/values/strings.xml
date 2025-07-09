@@ -10,4 +10,7 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="end">End</string>
+    <string name="filter_select_price_range">Giá</string>
+    <string name="filter_select_district">Huyện</string>
+    <string name="filter_select_category">Loại món</string>
 </resources>

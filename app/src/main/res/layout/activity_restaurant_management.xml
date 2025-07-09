@@ -27,6 +27,12 @@
             android:drawableStart="@android:drawable/ic_menu_search"
             android:hint="Tìm kiếm tên nhà hàng"
             android:padding="10dp" />
+        <!-- New Button to trigger filter -->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter"
+            android:onClick="onSearchClick" />
 
         <!-- Bộ lọc -->
         <LinearLayout
@@ -64,9 +70,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewRestaurants"
             android:layout_width="match_parent"
-            android:layout_height="500dp">
-
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -131,6 +136,8 @@
                     android:textSize="14sp"
                     android:layout_marginStart="8dp"
                     android:drawablePadding="6dp" />
+
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
