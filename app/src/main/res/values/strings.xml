@@ -19,4 +19,14 @@
         <item>20</item>
         <item>50</item>
     </string-array>
+    <string name="login_name">ResMap</string>
+    <string name="welcome">Welcome</string>
+    <string name="login_instruction">Please login with your information</string>
+    <string name="email_label">Email Address</string>
+    <string name="password_label">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forgot_password">I forgot my password</string>
+    <string name="login">Login</string>
+    <string name="or_login_with">Or Login with</string>
+    <string name="location_icon_desc">Location icon</string>
 </resources>

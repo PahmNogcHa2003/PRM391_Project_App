@@ -24,18 +24,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="0c1475f4-ad5c-404e-aa83-d0c7431b817f">
-      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[SELECT * FROM Reviews r join Users u on r.UserId = u.Id WHERE RestaurantId = 1 ORDER BY CreatedAt DESC]]></console>
-      <console name="Connection 1" type="STANDARD" schema="main" session="Main"><![CDATA[INSERT INTO Reviews (UserId, RestaurantId, Content) VALUES
-            (2, 1, 'Bún chả ngon, không gian sạch sẽ.'),
-            (2, 2, 'Phở đậm đà, ăn rất vừa miệng.'),
-            (2, 3, 'Bánh mì giòn, pate thơm.'),
-            (2, 4, 'Không gian yên tĩnh, đồ ăn chay ngon.'),
-            (3, 5, 'Cơm tấm ổn, nước mắm ngon.'),
-            (5, 6, 'Bún riêu ngon nhưng hơi đông khách.'),
-            (4, 7, 'Lẩu nhiều đồ, phục vụ nhanh.'),
-            (3, 8, 'Xôi nhiều topping, ăn rất đã.'),
-            (3, 9, 'Mì thủ công sợi mềm.'),
-            (4, 10, 'Cafe trứng siêu ngon!')]]></console>
+      <console name="Connection" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
