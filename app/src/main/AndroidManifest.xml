@@ -30,8 +30,8 @@
 
         <!-- Login activity - Launcher -->
         <activity
-            android:name=".controllers.Login.Login"
             android:theme="@style/Theme.PRM391_Project_AppRestaurants"
+            android:name=".controllers.activities.ReviewActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
