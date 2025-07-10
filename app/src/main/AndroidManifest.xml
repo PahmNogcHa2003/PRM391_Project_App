@@ -36,6 +36,11 @@
 
         <activity android:name=".controllers.user.HomeUser"/>
 
+        <activity android:name=".controllers.Login.RegisterActivity"
+            android:theme="@style/Theme.PRM391_Project_AppRestaurants">
+
+        </activity>
+
 
 
 

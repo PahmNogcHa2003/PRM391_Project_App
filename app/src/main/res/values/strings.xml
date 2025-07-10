@@ -20,4 +20,16 @@
     <string name="login">Login</string>
     <string name="or_login_with">Or Login with</string>
     <string name="location_icon_desc">Location icon</string>
+
+
+    <!-- Thêm vào file strings.xml -->
+    <string name="register_title">Register</string>
+    <string name="create_account">Register New Account</string>
+    <string name="username_label">Username</string>
+    <string name="confirm_password_label">Confirm Password</string>
+    <string name="register">Register</string>
+    <string name="have_account">Already have an account? Login</string>
+
+    <string name="no_account">Don\'t have an account</string>
+    <string name="register_here">Register here</string>
 </resources>

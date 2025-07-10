@@ -1,5 +1,6 @@
 package com.example.prm391_project_apprestaurants.dal;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -31,5 +32,24 @@ public class UserDBContext {
         cursor.close();
         db.close();
         return user;
+    }
+    public boolean insertUser(String username, String email, String password) {
+        SQLiteDatabase db = dbContext.getWritableDatabase();
+
+        // Kiểm tra đã tồn tại
+        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE username=?", new String[]{username});
+        if (cursor.getCount() > 0) {
+            cursor.close();
+            return false; // đã tồn tại
+        }
+        cursor.close();
+
+        ContentValues values = new ContentValues();
+        values.put("username", username);
+        values.put("email", email);       // nếu có cột email
+        values.put("password", password);
+
+        long result = db.insert("users", null, values);
+        return result != -1;
     }
 }
