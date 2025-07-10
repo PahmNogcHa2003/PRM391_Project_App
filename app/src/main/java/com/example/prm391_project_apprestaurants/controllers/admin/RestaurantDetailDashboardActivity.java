@@ -5,15 +5,11 @@ import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm391_project_apprestaurants.R;
-import com.example.prm391_project_apprestaurants.controllers.adapters.ReviewAdapter;
+import com.example.prm391_project_apprestaurants.controllers.adapters.ReviewDashboardAdapter;
 import com.example.prm391_project_apprestaurants.databinding.ActivityRestaurantDetailDashboardBinding;
 import com.example.prm391_project_apprestaurants.entities.Restaurant;
 import com.example.prm391_project_apprestaurants.entities.Review;
@@ -55,7 +51,7 @@ public class RestaurantDetailDashboardActivity extends AppCompatActivity {
         binding.setViewHolder(restaurant);
         // Setup review RecyclerView
         List<Review> reviews = reviewService.getReviews(restaurantId);
-        ReviewAdapter reviewAdapter = new ReviewAdapter(reviews);
+        ReviewDashboardAdapter reviewAdapter = new ReviewDashboardAdapter(reviews);
         binding.recyclerViewReview.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerViewReview.setAdapter(reviewAdapter);
     }

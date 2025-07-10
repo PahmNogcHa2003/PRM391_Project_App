@@ -8,15 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm391_project_apprestaurants.R;
 import com.example.prm391_project_apprestaurants.controllers.viewholders.BindingViewHolder;
-import com.example.prm391_project_apprestaurants.databinding.ViewholderRestaurantItemBinding;
 import com.example.prm391_project_apprestaurants.databinding.ViewholderReviewItemBinding;
 import com.example.prm391_project_apprestaurants.entities.Review;
 
 import java.util.List;
 
-public class ReviewAdapter extends RecyclerView.Adapter<BindingViewHolder<ViewholderReviewItemBinding>>{
+public class ReviewDashboardAdapter extends RecyclerView.Adapter<BindingViewHolder<ViewholderReviewItemBinding>>{
     private final List<Review> reviews;
-    public ReviewAdapter(List<Review> reviews) {
+    public ReviewDashboardAdapter(List<Review> reviews) {
         this.reviews = reviews;
     }
     @NonNull
