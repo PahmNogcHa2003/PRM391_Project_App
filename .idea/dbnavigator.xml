@@ -6,7 +6,7 @@
   </component>
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DatabaseAssistantManager">
@@ -24,7 +24,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="0c1475f4-ad5c-404e-aa83-d0c7431b817f">
-      <console name="Connection" type="STANDARD" schema="main" session="Main" />
+      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[SELECT * FROM Reviews r join Users u on r.UserId = u.Id WHERE RestaurantId = 1 ORDER BY CreatedAt DESC]]></console>
       <console name="Connection 1" type="STANDARD" schema="main" session="Main"><![CDATA[INSERT INTO Reviews (UserId, RestaurantId, Content) VALUES
             (2, 1, 'Bún chả ngon, không gian sạch sẽ.'),
             (2, 2, 'Phở đậm đà, ăn rất vừa miệng.'),

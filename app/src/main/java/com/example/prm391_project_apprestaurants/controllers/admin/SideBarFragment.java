@@ -1,15 +1,21 @@
 package com.example.prm391_project_apprestaurants.controllers.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.prm391_project_apprestaurants.R;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +32,8 @@ public class SideBarFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private LinearLayout statisticBar;
 
     public SideBarFragment() {
         // Required empty public constructor
@@ -63,5 +71,19 @@ public class SideBarFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_side_bar, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initViews(view);
+    }
+
+    private void initViews(View view) {
+        statisticBar = view.findViewById(R.id.llStatistics);
+        statisticBar.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), StatisticDashboard.class);
+            startActivity(intent);
+        });
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -14,11 +15,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
-<!--        <activity-->
-<!--            android:name=".controllers.admin.RestaurantManagementActivity"-->
-<!--            android:exported="false"-->
-<!--            android:label="@string/title_activity_restaurant_management"-->
-<!--            android:theme="@style/Theme.PRM391_Project_AppRestaurants" />-->
+        <activity
+            android:name=".controllers.admin.UpdateRestaurantDashboard"
+            android:exported="false" />
+        <activity
+            android:name=".controllers.admin.StatisticDashboard"
+            android:exported="false" />
+        <activity
+            android:name=".controllers.admin.RestaurantDetailDashboardActivity"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".controllers.admin.RestaurantManagementActivity" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_restaurant_management" -->
+        <!-- android:theme="@style/Theme.PRM391_Project_AppRestaurants" /> -->
         <activity
             android:name=".controllers.admin.RestaurantManagementActivity"
             android:exported="true">

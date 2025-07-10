@@ -17,4 +17,8 @@ public class RestaurantService {
     public List<Restaurant> getAllRestaurants(SearchRestaurantRequest searchRestaurantRequest) {
         return restaurantDBContext.getRestaurants(searchRestaurantRequest);
     }
+
+    public Restaurant getRestaurantById(int id) {
+        return restaurantDBContext.findById(id);
+    }
 }
