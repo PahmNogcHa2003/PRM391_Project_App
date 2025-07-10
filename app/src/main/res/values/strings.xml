@@ -10,4 +10,26 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="end">End</string>
+
+    <!-- Bổ sung cho chức năng yêu thích và chi tiết quán ăn -->
+    <string name="add_to_favorite">Thêm vào yêu thích</string>
+    <string name="remove_from_favorite">Bỏ khỏi yêu thích</string>
+    <string name="added_to_favorite">Đã thêm vào danh sách yêu thích</string>
+    <string name="removed_from_favorite">Đã bỏ khỏi danh sách yêu thích</string>
+    <string name="favorite_restaurants">Quán ăn yêu thích</string>
+    <string name="no_favorite_restaurant">Bạn chưa lưu quán ăn nào!</string>
+    <string name="restaurant_detail">Chi tiết quán ăn</string>
+    <string name="address">Địa chỉ</string>
+    <string name="category">Loại món</string>
+    <string name="price_range">Mức giá</string>
+    <string name="opening_hours">Giờ mở cửa</string>
+    <string name="phone_number">Số điện thoại</string>
+    <string name="website">Website</string>
+    <string name="description">Mô tả</string>
+    <string name="not_found_restaurant">Không tìm thấy thông tin quán ăn!</string>
+
+    <!-- Bổ sung cho nút yêu thích có emoji -->
+    <string name="favorite_add">🤍 Thêm vào yêu thích</string>
+    <string name="favorite_remove">❤️ Bỏ khỏi yêu thích</string>
+    <string name="favorite_list_title">Danh sách quán đã lưu</string>
 </resources>

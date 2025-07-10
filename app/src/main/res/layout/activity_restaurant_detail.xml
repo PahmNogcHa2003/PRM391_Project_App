@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#FFFFFF"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:textColor="#222222"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/tvCategory"
+            android:textSize="16sp"
+            android:textColor="#D81B60"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView
+            android:id="@+id/tvPrice"
+            android:textSize="16sp"
+            android:textColor="#1976D2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:textSize="15sp"
+            android:textColor="#666666"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView
+            android:id="@+id/tvDistrict"
+            android:textSize="15sp"
+            android:textColor="#666666"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView
+            android:id="@+id/tvOpening"
+            android:textSize="15sp"
+            android:textColor="#666666"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView
+            android:id="@+id/tvPhone"
+            android:textSize="15sp"
+            android:textColor="#666666"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView
+            android:id="@+id/tvWebsite"
+            android:textSize="15sp"
+            android:textColor="#1976D2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView
+            android:id="@+id/tvLatLng"
+            android:textSize="14sp"
+            android:textColor="#888888"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:textSize="15sp"
+            android:textColor="#222222"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"/>
+
+        <Button
+            android:id="@+id/btnFavorite"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="🤍 Thêm vào yêu thích"
+            android:textAllCaps="false"
+            android:textColor="#D81B60"
+            android:backgroundTint="#FFE4EC"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"/>
+
+    </LinearLayout>
+</ScrollView>

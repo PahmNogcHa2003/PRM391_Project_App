@@ -1,0 +1,471 @@
+Index: app/src/main/java/com/example/prm391_project_apprestaurants/entities/Restaurant.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.prm391_project_apprestaurants.entities;\r\n\r\nimport java.io.Serializable;\r\nimport java.time.LocalDateTime;\r\n\r\nimport lombok.Getter;\r\nimport lombok.Setter;\r\n\r\npublic class Restaurant implements Serializable {\r\n    private int id;\r\n    private String name;\r\n    private String address;\r\n    private String description;\r\n    private String image;\r\n    private String district;\r\n    private String priceRange;\r\n    private String category;\r\n    private String openingHours;\r\n    private String phoneNumber;\r\n    private String website;\r\n    private double latitude;\r\n    private double longitude;\r\n    private boolean isHidden;\r\n    private LocalDateTime createdAt;\r\n    private LocalDateTime updatedAt;\r\n\r\n    public int getId() {\r\n        return id;\r\n    }\r\n\r\n    public void setId(int id) {\r\n        this.id = id;\r\n    }\r\n\r\n    public String getName() {\r\n        return name;\r\n    }\r\n\r\n    public void setName(String name) {\r\n        this.name = name;\r\n    }\r\n\r\n    public String getAddress() {\r\n        return address;\r\n    }\r\n\r\n    public void setAddress(String address) {\r\n        this.address = address;\r\n    }\r\n\r\n    public String getDescription() {\r\n        return description;\r\n    }\r\n\r\n    public void setDescription(String description) {\r\n        this.description = description;\r\n    }\r\n\r\n    public String getImage() {\r\n        return image;\r\n    }\r\n\r\n    public void setImage(String image) {\r\n        this.image = image;\r\n    }\r\n\r\n    public String getDistrict() {\r\n        return district;\r\n    }\r\n\r\n    public void setDistrict(String district) {\r\n        this.district = district;\r\n    }\r\n\r\n    public String getPriceRange() {\r\n        return priceRange;\r\n    }\r\n\r\n    public void setPriceRange(String priceRange) {\r\n        this.priceRange = priceRange;\r\n    }\r\n\r\n    public String getCategory() {\r\n        return category;\r\n    }\r\n\r\n    public void setCategory(String category) {\r\n        this.category = category;\r\n    }\r\n\r\n    public String getOpeningHours() {\r\n        return openingHours;\r\n    }\r\n\r\n    public void setOpeningHours(String openingHours) {\r\n        this.openingHours = openingHours;\r\n    }\r\n\r\n    public String getPhoneNumber() {\r\n        return phoneNumber;\r\n    }\r\n\r\n    public void setPhoneNumber(String phoneNumber) {\r\n        this.phoneNumber = phoneNumber;\r\n    }\r\n\r\n    public String getWebsite() {\r\n        return website;\r\n    }\r\n\r\n    public void setWebsite(String website) {\r\n        this.website = website;\r\n    }\r\n\r\n    public double getLatitude() {\r\n        return latitude;\r\n    }\r\n\r\n    public void setLatitude(double latitude) {\r\n        this.latitude = latitude;\r\n    }\r\n\r\n    public double getLongitude() {\r\n        return longitude;\r\n    }\r\n\r\n    public void setLongitude(double longitude) {\r\n        this.longitude = longitude;\r\n    }\r\n\r\n    public boolean isHidden() {\r\n        return isHidden;\r\n    }\r\n\r\n    public void setHidden(boolean hidden) {\r\n        isHidden = hidden;\r\n    }\r\n\r\n    public LocalDateTime getCreatedAt() {\r\n        return createdAt;\r\n    }\r\n\r\n    public void setCreatedAt(LocalDateTime createdAt) {\r\n        this.createdAt = createdAt;\r\n    }\r\n\r\n    public LocalDateTime getUpdatedAt() {\r\n        return updatedAt;\r\n    }\r\n\r\n    public void setUpdatedAt(LocalDateTime updatedAt) {\r\n        this.updatedAt = updatedAt;\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/prm391_project_apprestaurants/entities/Restaurant.java b/app/src/main/java/com/example/prm391_project_apprestaurants/entities/Restaurant.java
+--- a/app/src/main/java/com/example/prm391_project_apprestaurants/entities/Restaurant.java	(revision 30c663095b321c38791aaca63fa6b1149b67fa02)
++++ b/app/src/main/java/com/example/prm391_project_apprestaurants/entities/Restaurant.java	(date 1752085425366)
+@@ -3,15 +3,20 @@
+ import java.io.Serializable;
+ import java.time.LocalDateTime;
+ 
+-import lombok.Getter;
+-import lombok.Setter;
+-
++/**
++ * Model Restaurant dùng cho app quản lý quán ăn.
++ * Đã bổ sung các trường: isHidden, createdAt, updatedAt, imageUrl.
++ * Không xóa trường cũ, chỉ bổ sung và comment rõ ràng.
++ */
++@SuppressWarnings("serial")
+ public class Restaurant implements Serializable {
++
++    // Trường cũ
+     private int id;
+     private String name;
+     private String address;
+     private String description;
+-    private String image;
++    private String image; // Trường cũ, giữ lại để tương thích
+     private String district;
+     private String priceRange;
+     private String category;
+@@ -20,136 +25,113 @@
+     private String website;
+     private double latitude;
+     private double longitude;
+-    private boolean isHidden;
+-    private LocalDateTime createdAt;
+-    private LocalDateTime updatedAt;
+ 
+-    public int getId() {
+-        return id;
+-    }
++    // Trường bổ sung
++    private boolean isHidden; // Trường bổ sung
++    private LocalDateTime createdAt; // Trường bổ sung
++    private LocalDateTime updatedAt; // Trường bổ sung
++    private String imageUrl; // Trường bổ sung cho đồng nhất với DB (nếu cần)
+ 
+-    public void setId(int id) {
++    // Constructor mặc định
++    public Restaurant() {}
++
++    // Constructor đầy đủ (tuỳ chọn, có thể bổ sung nếu cần)
++    public Restaurant(int id, String name, String address, String description, String image, String district,
++                      String priceRange, String category, String openingHours, String phoneNumber, String website,
++                      double latitude, double longitude, boolean isHidden, LocalDateTime createdAt,
++                      LocalDateTime updatedAt, String imageUrl) {
+         this.id = id;
+-    }
+-
+-    public String getName() {
+-        return name;
+-    }
+-
+-    public void setName(String name) {
+         this.name = name;
+-    }
+-
+-    public String getAddress() {
+-        return address;
+-    }
+-
+-    public void setAddress(String address) {
+         this.address = address;
+-    }
+-
+-    public String getDescription() {
+-        return description;
+-    }
+-
+-    public void setDescription(String description) {
+         this.description = description;
+-    }
+-
+-    public String getImage() {
+-        return image;
+-    }
+-
+-    public void setImage(String image) {
+         this.image = image;
+-    }
+-
+-    public String getDistrict() {
+-        return district;
+-    }
+-
+-    public void setDistrict(String district) {
+         this.district = district;
+-    }
+-
+-    public String getPriceRange() {
+-        return priceRange;
+-    }
+-
+-    public void setPriceRange(String priceRange) {
+         this.priceRange = priceRange;
+-    }
+-
+-    public String getCategory() {
+-        return category;
+-    }
+-
+-    public void setCategory(String category) {
+         this.category = category;
+-    }
+-
+-    public String getOpeningHours() {
+-        return openingHours;
+-    }
+-
+-    public void setOpeningHours(String openingHours) {
+         this.openingHours = openingHours;
+-    }
+-
+-    public String getPhoneNumber() {
+-        return phoneNumber;
+-    }
+-
+-    public void setPhoneNumber(String phoneNumber) {
+         this.phoneNumber = phoneNumber;
+-    }
+-
+-    public String getWebsite() {
+-        return website;
+-    }
+-
+-    public void setWebsite(String website) {
+         this.website = website;
+-    }
+-
+-    public double getLatitude() {
+-        return latitude;
+-    }
+-
+-    public void setLatitude(double latitude) {
+         this.latitude = latitude;
+-    }
+-
+-    public double getLongitude() {
+-        return longitude;
+-    }
+-
+-    public void setLongitude(double longitude) {
+         this.longitude = longitude;
+-    }
+-
+-    public boolean isHidden() {
+-        return isHidden;
+-    }
+-
+-    public void setHidden(boolean hidden) {
+-        isHidden = hidden;
+-    }
+-
+-    public LocalDateTime getCreatedAt() {
+-        return createdAt;
+-    }
+-
+-    public void setCreatedAt(LocalDateTime createdAt) {
++        this.isHidden = isHidden;
+         this.createdAt = createdAt;
+-    }
+-
+-    public LocalDateTime getUpdatedAt() {
+-        return updatedAt;
+-    }
+-
+-    public void setUpdatedAt(LocalDateTime updatedAt) {
+         this.updatedAt = updatedAt;
++        this.imageUrl = imageUrl;
+     }
+ 
++    // Getter & Setter cho tất cả các trường
++    public int getId() { return id; }
++    public void setId(int id) { this.id = id; }
++
++    public String getName() { return name; }
++    public void setName(String name) { this.name = name; }
++
++    public String getAddress() { return address; }
++    public void setAddress(String address) { this.address = address; }
++
++    public String getDescription() { return description; }
++    public void setDescription(String description) { this.description = description; }
++
++    public String getImage() { return image; }
++    public void setImage(String image) { this.image = image; }
++
++    public String getDistrict() { return district; }
++    public void setDistrict(String district) { this.district = district; }
++
++    public String getPriceRange() { return priceRange; }
++    public void setPriceRange(String priceRange) { this.priceRange = priceRange; }
++
++    public String getCategory() { return category; }
++    public void setCategory(String category) { this.category = category; }
++
++    public String getOpeningHours() { return openingHours; }
++    public void setOpeningHours(String openingHours) { this.openingHours = openingHours; }
++
++    public String getPhoneNumber() { return phoneNumber; }
++    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
++
++    public String getWebsite() { return website; }
++    public void setWebsite(String website) { this.website = website; }
++
++    public double getLatitude() { return latitude; }
++    public void setLatitude(double latitude) { this.latitude = latitude; }
++
++    public double getLongitude() { return longitude; }
++    public void setLongitude(double longitude) { this.longitude = longitude; }
++
++    public boolean isHidden() { return isHidden; }
++    public void setHidden(boolean hidden) { isHidden = hidden; }
++
++    public LocalDateTime getCreatedAt() { return createdAt; }
++    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
++
++    public LocalDateTime getUpdatedAt() { return updatedAt; }
++    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
++
++    public String getImageUrl() { return imageUrl; }
++    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
++
++    // Optional: override toString() để debug dễ hơn
++    @Override
++    public String toString() {
++        return "Restaurant{" +
++                "id=" + id +
++                ", name='" + name + '\'' +
++                ", address='" + address + '\'' +
++                ", description='" + description + '\'' +
++                ", image='" + image + '\'' +
++                ", district='" + district + '\'' +
++                ", priceRange='" + priceRange + '\'' +
++                ", category='" + category + '\'' +
++                ", openingHours='" + openingHours + '\'' +
++                ", phoneNumber='" + phoneNumber + '\'' +
++                ", website='" + website + '\'' +
++                ", latitude=" + latitude +
++                ", longitude=" + longitude +
++                ", isHidden=" + isHidden +
++                ", createdAt=" + createdAt +
++                ", updatedAt=" + updatedAt +
++                ", imageUrl='" + imageUrl + '\'' +
++                '}';
++    }
+ }
+Index: app/src/main/java/com/example/prm391_project_apprestaurants/dal/RestaurantDBContext.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.prm391_project_apprestaurants.dal;\r\n\r\nimport android.content.Context;\r\nimport android.database.Cursor;\r\nimport android.database.sqlite.SQLiteDatabase;\r\n\r\nimport com.example.prm391_project_apprestaurants.entities.Restaurant;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class RestaurantDBContext {\r\n    private final DbContext dbContext;\r\n    public RestaurantDBContext(Context context) {\r\n        dbContext = DbContext.getInstance(context);\r\n    }\r\n\r\n    public List<Restaurant> getRestaurants() {\r\n        List<Restaurant> restaurants = new ArrayList<>();\r\n        try{\r\n            SQLiteDatabase db = dbContext.getReadableDatabase();\r\n            String query = \"SELECT * FROM Restaurants\";\r\n            Cursor cursor = db.rawQuery(query, null);\r\n            while (cursor.moveToNext()) {\r\n                int id = cursor.getInt(0);\r\n                String name = cursor.getString(1);\r\n                String address = cursor.getString(3);\r\n                String description = cursor.getString(2);\r\n                String image = cursor.getString(10);\r\n                String priceRange = cursor.getString(5);\r\n                String website = cursor.getString(9);\r\n                String category = cursor.getString(6);\r\n                String district = cursor.getString(4);\r\n                Restaurant restaurant = new Restaurant();\r\n                restaurant.setId(id);\r\n                restaurant.setName(name);\r\n                restaurant.setAddress(address);\r\n                restaurant.setDescription(description);\r\n                restaurant.setImage(image);\r\n                restaurant.setPriceRange(priceRange);\r\n                restaurant.setWebsite(website);\r\n                restaurant.setCategory(category);\r\n                restaurant.setDistrict(district);\r\n                restaurants.add(restaurant);\r\n            }\r\n            cursor.close();\r\n            db.close();\r\n        }catch (Exception e) {\r\n            e.printStackTrace();\r\n        }\r\n        return restaurants;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/prm391_project_apprestaurants/dal/RestaurantDBContext.java b/app/src/main/java/com/example/prm391_project_apprestaurants/dal/RestaurantDBContext.java
+--- a/app/src/main/java/com/example/prm391_project_apprestaurants/dal/RestaurantDBContext.java	(revision 30c663095b321c38791aaca63fa6b1149b67fa02)
++++ b/app/src/main/java/com/example/prm391_project_apprestaurants/dal/RestaurantDBContext.java	(date 1752083720093)
+@@ -1,5 +1,6 @@
+ package com.example.prm391_project_apprestaurants.dal;
+ 
++import android.content.ContentValues;
+ import android.content.Context;
+ import android.database.Cursor;
+ import android.database.sqlite.SQLiteDatabase;
+@@ -10,44 +11,146 @@
+ import java.util.List;
+ 
+ public class RestaurantDBContext {
++
+     private final DbContext dbContext;
++
+     public RestaurantDBContext(Context context) {
+         dbContext = DbContext.getInstance(context);
+     }
+ 
++    // Lấy danh sách tất cả quán ăn
+     public List<Restaurant> getRestaurants() {
+         List<Restaurant> restaurants = new ArrayList<>();
+-        try{
+-            SQLiteDatabase db = dbContext.getReadableDatabase();
++        SQLiteDatabase db = null;
++        Cursor cursor = null;
++        try {
++            db = dbContext.getReadableDatabase();
+             String query = "SELECT * FROM Restaurants";
+-            Cursor cursor = db.rawQuery(query, null);
++            cursor = db.rawQuery(query, null);
+             while (cursor.moveToNext()) {
+-                int id = cursor.getInt(0);
+-                String name = cursor.getString(1);
+-                String address = cursor.getString(3);
+-                String description = cursor.getString(2);
+-                String image = cursor.getString(10);
+-                String priceRange = cursor.getString(5);
+-                String website = cursor.getString(9);
+-                String category = cursor.getString(6);
+-                String district = cursor.getString(4);
+-                Restaurant restaurant = new Restaurant();
+-                restaurant.setId(id);
+-                restaurant.setName(name);
+-                restaurant.setAddress(address);
+-                restaurant.setDescription(description);
+-                restaurant.setImage(image);
+-                restaurant.setPriceRange(priceRange);
+-                restaurant.setWebsite(website);
+-                restaurant.setCategory(category);
+-                restaurant.setDistrict(district);
+-                restaurants.add(restaurant);
++                restaurants.add(mapCursorToRestaurant(cursor));
+             }
+-            cursor.close();
+-            db.close();
+-        }catch (Exception e) {
++        } catch (Exception e) {
+             e.printStackTrace();
++        } finally {
++            if (cursor != null) cursor.close();
++            if (db != null) db.close();
+         }
+         return restaurants;
+     }
++
++    // Lấy chi tiết quán ăn theo ID
++    public Restaurant getRestaurantById(int id) {
++        Restaurant restaurant = null;
++        SQLiteDatabase db = null;
++        Cursor cursor = null;
++        try {
++            db = dbContext.getReadableDatabase();
++            String query = "SELECT * FROM Restaurants WHERE Id = ?";
++            cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
++            if (cursor.moveToFirst()) {
++                restaurant = mapCursorToRestaurant(cursor);
++            }
++        } catch (Exception e) {
++            e.printStackTrace();
++        } finally {
++            if (cursor != null) cursor.close();
++            if (db != null) db.close();
++        }
++        return restaurant;
++    }
++
++    // Kiểm tra quán đã được user yêu thích chưa
++    public boolean isFavorite(int userId, int restaurantId) {
++        boolean exists = false;
++        SQLiteDatabase db = null;
++        Cursor cursor = null;
++        try {
++            db = dbContext.getReadableDatabase();
++            String query = "SELECT 1 FROM Favorites WHERE UserId = ? AND RestaurantId = ?";
++            cursor = db.rawQuery(query, new String[]{
++                    String.valueOf(userId), String.valueOf(restaurantId)});
++            exists = cursor.moveToFirst();
++        } catch (Exception e) {
++            e.printStackTrace();
++        } finally {
++            if (cursor != null) cursor.close();
++            if (db != null) db.close();
++        }
++        return exists;
++    }
++
++    // Thêm quán vào danh sách yêu thích của user
++    public void addFavorite(int userId, int restaurantId) {
++        if (!isFavorite(userId, restaurantId)) {
++            SQLiteDatabase db = null;
++            try {
++                db = dbContext.getWritableDatabase();
++                ContentValues values = new ContentValues();
++                values.put("UserId", userId);
++                values.put("RestaurantId", restaurantId);
++                db.insert("Favorites", null, values);
++            } catch (Exception e) {
++                e.printStackTrace();
++            } finally {
++                if (db != null) db.close();
++            }
++        }
++    }
++
++    // Xóa quán khỏi danh sách yêu thích của user
++    public void removeFavorite(int userId, int restaurantId) {
++        SQLiteDatabase db = null;
++        try {
++            db = dbContext.getWritableDatabase();
++            db.delete("Favorites", "UserId=? AND RestaurantId=?",
++                    new String[]{String.valueOf(userId), String.valueOf(restaurantId)});
++        } catch (Exception e) {
++            e.printStackTrace();
++        } finally {
++            if (db != null) db.close();
++        }
++    }
++
++    // Lấy danh sách quán yêu thích của 1 user
++    public List<Restaurant> getFavoriteRestaurants(int userId) {
++        List<Restaurant> favorites = new ArrayList<>();
++        SQLiteDatabase db = null;
++        Cursor cursor = null;
++        try {
++            db = dbContext.getReadableDatabase();
++            String query = "SELECT r.* FROM Restaurants r " +
++                    "INNER JOIN Favorites f ON r.Id = f.RestaurantId " +
++                    "WHERE f.UserId = ?";
++            cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
++            while (cursor.moveToNext()) {
++                favorites.add(mapCursorToRestaurant(cursor));
++            }
++        } catch (Exception e) {
++            e.printStackTrace();
++        } finally {
++            if (cursor != null) cursor.close();
++            if (db != null) db.close();
++        }
++        return favorites;
++    }
++
++    // Hàm ánh xạ Cursor sang Restaurant (giúp code gọn gàng)
++    private Restaurant mapCursorToRestaurant(Cursor cursor) {
++        Restaurant restaurant = new Restaurant();
++        restaurant.setId(cursor.getInt(cursor.getColumnIndexOrThrow("Id")));
++        restaurant.setName(cursor.getString(cursor.getColumnIndexOrThrow("Name")));
++        restaurant.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("Description")));
++        restaurant.setAddress(cursor.getString(cursor.getColumnIndexOrThrow("Address")));
++        restaurant.setDistrict(cursor.getString(cursor.getColumnIndexOrThrow("District")));
++        restaurant.setPriceRange(cursor.getString(cursor.getColumnIndexOrThrow("PriceRange")));
++        restaurant.setCategory(cursor.getString(cursor.getColumnIndexOrThrow("Category")));
++        restaurant.setOpeningHours(cursor.getString(cursor.getColumnIndexOrThrow("OpeningHours")));
++        restaurant.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow("PhoneNumber")));
++        restaurant.setWebsite(cursor.getString(cursor.getColumnIndexOrThrow("Website")));
++        restaurant.setImage(cursor.getString(cursor.getColumnIndexOrThrow("ImageUrl")));
++        restaurant.setLatitude(cursor.getDouble(cursor.getColumnIndexOrThrow("Latitude")));
++        restaurant.setLongitude(cursor.getDouble(cursor.getColumnIndexOrThrow("Longitude")));
++        return restaurant;
++    }
+ }
+Index: app/src/main/java/com/example/prm391_project_apprestaurants/utils/BindingAdapters.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.prm391_project_apprestaurants.utils;\r\n\r\nimport android.graphics.drawable.Drawable;\r\nimport android.widget.ImageView;\r\n\r\nimport androidx.core.content.ContextCompat;\r\nimport androidx.databinding.BindingAdapter;\r\n\r\nimport com.bumptech.glide.Glide;\r\nimport com.bumptech.glide.request.RequestOptions;\r\nimport com.example.prm391_project_apprestaurants.R;\r\n\r\npublic class BindingAdapters {\r\n    @BindingAdapter(\"imageUrl\")\r\n    public static void loadImage(ImageView view, String url) {\r\n        if (url != null && !url.isEmpty()) {\r\n            Glide.with(view.getContext())\r\n                    .load(url)\r\n                    .apply(RequestOptions.centerCropTransform())\r\n                    .error(ContextCompat.getDrawable(view.getContext(), R.drawable.restaurant))\r\n                    .into(view);\r\n        } else {\r\n            view.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.placeholder));\r\n        }\r\n    }\r\n    @BindingAdapter(\"iconMapUrl\")\r\n    public static void loadIconMapUrl(ImageView view, Drawable url) {\r\n        view.setImageDrawable(url);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/prm391_project_apprestaurants/utils/BindingAdapters.java b/app/src/main/java/com/example/prm391_project_apprestaurants/utils/BindingAdapters.java
+--- a/app/src/main/java/com/example/prm391_project_apprestaurants/utils/BindingAdapters.java	(revision 30c663095b321c38791aaca63fa6b1149b67fa02)
++++ b/app/src/main/java/com/example/prm391_project_apprestaurants/utils/BindingAdapters.java	(date 1752076928787)
+@@ -20,7 +20,7 @@
+                     .error(ContextCompat.getDrawable(view.getContext(), R.drawable.restaurant))
+                     .into(view);
+         } else {
+-            view.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.placeholder));
++            view.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_location));
+         }
+     }
+     @BindingAdapter("iconMapUrl")

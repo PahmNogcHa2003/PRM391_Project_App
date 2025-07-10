@@ -1,0 +1,705 @@
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">PRM391_Project_AppRestaurants</string>\r\n    <!-- TODO: Remove or change this placeholder text -->\r\n    <string name=\"hello_blank_fragment\">Hello blank fragment</string>\r\n    <string name=\"restaurant_dashboard\">Restaurant Dashboard</string>\r\n    <string name=\"logout\">Logout</string>\r\n    <string name=\"manage_restaurants\">Manage Restaurants</string>\r\n    <string name=\"title_activity_restaurant_management\">RestaurantManagement</string>\r\n    <string name=\"start\">Start</string>\r\n    <string name=\"previous\">Previous</string>\r\n    <string name=\"next\">Next</string>\r\n    <string name=\"end\">End</string>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+--- a/app/src/main/res/values/strings.xml	(revision 30c663095b321c38791aaca63fa6b1149b67fa02)
++++ b/app/src/main/res/values/strings.xml	(date 1752086301806)
+@@ -10,4 +10,17 @@
+     <string name="previous">Previous</string>
+     <string name="next">Next</string>
+     <string name="end">End</string>
+-</resources>
+\ No newline at end of file
++    <string name="restaurant_name">Tên quán</string>
++    <string name="restaurant_address">Địa chỉ quán</string>
++    <string name="restaurant_category">Loại: Bún</string>
++    <string name="restaurant_price">Giá: 30-50k</string>
++    <string name="restaurant_opening">Giờ mở cửa: 8:00 - 22:00</string>
++    <string name="restaurant_phone">SĐT: 0123456789</string>
++    <string name="restaurant_description">Mô tả chi tiết về quán ăn...</string>
++    <string name="add_to_favorite">Thêm vào yêu thích</string>
++    <string name="remove_from_favorite">Bỏ khỏi yêu thích</string>
++    <string name="restaurant_image">Ảnh quán ăn</string>
++    <string name="favorite_list_desc">Danh sách quán yêu thích</string>
++    <string name="restaurant_image_desc">Ảnh quán ăn</string>
++    <string name="favorite_icon_desc">Biểu tượng yêu thích</string>
++</resources>
+Index: app/src/main/java/com/example/prm391_project_apprestaurants/dal/DbContext.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.prm391_project_apprestaurants.dal;\r\n\r\nimport android.content.Context;\r\nimport android.database.sqlite.SQLiteDatabase;\r\nimport android.database.sqlite.SQLiteOpenHelper;\r\n\r\nimport static com.example.prm391_project_apprestaurants.utils.Constant.*;\r\n\r\nimport androidx.annotation.Nullable;\r\n\r\npublic class DbContext extends SQLiteOpenHelper {\r\n    private static final String DATABASE_NAME = \"Restaurants.db\";\r\n    private static final int DATABASE_VERSION = 1;\r\n    private static DbContext INSTANCE = null;\r\n    private final String SCRIPT_DATABASE = \"\";\r\n    public static synchronized DbContext getInstance(Context context) {\r\n        if (INSTANCE == null) {\r\n            INSTANCE = new DbContext(context, DATABASE_NAME, null, DATABASE_VERSION);\r\n        }\r\n        return INSTANCE;\r\n    }\r\n    private DbContext(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {\r\n        super(context, name, factory, version);\r\n    }\r\n    @Override\r\n    public void onCreate(SQLiteDatabase db) {\r\n        db.execSQL(SQL_CREATE_TABLE_USERS);\r\n        db.execSQL(SQL_CREATE_TABLE_RESTAURANTS);\r\n        db.execSQL(SQL_CREATE_TABLE_FAVORITES);\r\n        db.execSQL(SQL_CREATE_TABLE_REVIEWS);\r\n        db.execSQL(SQL_INSERT_TABLE_USERS);\r\n        db.execSQL(SQL_INSERT_TABLE_RESTAURANTS);\r\n        db.execSQL(SQL_CREATE_TABLE_FAVORITES);\r\n        db.execSQL(SQL_CREATE_TABLE_REVIEWS);\r\n    }\r\n    @Override\r\n    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/prm391_project_apprestaurants/dal/DbContext.java b/app/src/main/java/com/example/prm391_project_apprestaurants/dal/DbContext.java
+--- a/app/src/main/java/com/example/prm391_project_apprestaurants/dal/DbContext.java	(revision 30c663095b321c38791aaca63fa6b1149b67fa02)
++++ b/app/src/main/java/com/example/prm391_project_apprestaurants/dal/DbContext.java	(date 1752087795394)
+@@ -4,37 +4,57 @@
+ import android.database.sqlite.SQLiteDatabase;
+ import android.database.sqlite.SQLiteOpenHelper;
+ 
+-import static com.example.prm391_project_apprestaurants.utils.Constant.*;
+-
+ import androidx.annotation.Nullable;
+ 
++import static com.example.prm391_project_apprestaurants.utils.Constant.SQL_CREATE_TABLE_USERS;
++import static com.example.prm391_project_apprestaurants.utils.Constant.SQL_CREATE_TABLE_RESTAURANTS;
++import static com.example.prm391_project_apprestaurants.utils.Constant.SQL_CREATE_TABLE_FAVORITES;
++import static com.example.prm391_project_apprestaurants.utils.Constant.SQL_CREATE_TABLE_REVIEWS;
++import static com.example.prm391_project_apprestaurants.utils.Constant.SQL_INSERT_TABLE_USERS;
++import static com.example.prm391_project_apprestaurants.utils.Constant.SQL_INSERT_TABLE_RESTAURANTS;
++
+ public class DbContext extends SQLiteOpenHelper {
++
+     private static final String DATABASE_NAME = "Restaurants.db";
+-    private static final int DATABASE_VERSION = 1;
++    private static final int DATABASE_VERSION = 2; // Tăng version nếu thay đổi cấu trúc
++
+     private static DbContext INSTANCE = null;
+-    private final String SCRIPT_DATABASE = "";
++
++    // Singleton pattern để tránh tạo nhiều instance
+     public static synchronized DbContext getInstance(Context context) {
+         if (INSTANCE == null) {
+-            INSTANCE = new DbContext(context, DATABASE_NAME, null, DATABASE_VERSION);
++            // Dùng application context để tránh memory leak
++            INSTANCE = new DbContext(context.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
+         }
+         return INSTANCE;
+     }
++
+     private DbContext(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+         super(context, name, factory, version);
+     }
++
+     @Override
+     public void onCreate(SQLiteDatabase db) {
++        // Tạo các bảng
+         db.execSQL(SQL_CREATE_TABLE_USERS);
+         db.execSQL(SQL_CREATE_TABLE_RESTAURANTS);
+         db.execSQL(SQL_CREATE_TABLE_FAVORITES);
+         db.execSQL(SQL_CREATE_TABLE_REVIEWS);
++
++        // Thêm dữ liệu mẫu nếu cần
+         db.execSQL(SQL_INSERT_TABLE_USERS);
+         db.execSQL(SQL_INSERT_TABLE_RESTAURANTS);
+-        db.execSQL(SQL_CREATE_TABLE_FAVORITES);
+-        db.execSQL(SQL_CREATE_TABLE_REVIEWS);
+     }
++
+     @Override
+     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
++        // Xóa bảng cũ khi nâng cấp database
++        db.execSQL("DROP TABLE IF EXISTS Reviews");
++        db.execSQL("DROP TABLE IF EXISTS Favorites");
++        db.execSQL("DROP TABLE IF EXISTS Restaurants");
++        db.execSQL("DROP TABLE IF EXISTS Users");
+ 
++        // Tạo lại bảng mới
++        onCreate(db);
+     }
+ }
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\">\r\n    <uses-permission android:name=\"android.permission.INTERNET\" />\r\n    <uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:dataExtractionRules=\"@xml/data_extraction_rules\"\r\n        android:fullBackupContent=\"@xml/backup_rules\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/Theme.AppCompat.Light.NoActionBar\"\r\n        tools:targetApi=\"31\">\r\n<!--        <activity-->\r\n<!--            android:name=\".controllers.admin.RestaurantManagementActivity\"-->\r\n<!--            android:exported=\"false\"-->\r\n<!--            android:label=\"@string/title_activity_restaurant_management\"-->\r\n<!--            android:theme=\"@style/Theme.PRM391_Project_AppRestaurants\" />-->\r\n        <activity\r\n            android:name=\".controllers.admin.RestaurantManagementActivity\"\r\n            android:exported=\"true\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n\r\n        <meta-data\r\n            android:name=\"preloaded_fonts\"\r\n            android:resource=\"@array/preloaded_fonts\" />\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	(revision 30c663095b321c38791aaca63fa6b1149b67fa02)
++++ b/app/src/main/AndroidManifest.xml	(date 1752087967969)
+@@ -20,7 +20,7 @@
+ <!--            android:label="@string/title_activity_restaurant_management"-->
+ <!--            android:theme="@style/Theme.PRM391_Project_AppRestaurants" />-->
+         <activity
+-            android:name=".controllers.admin.RestaurantManagementActivity"
++            android:name=".controllers.admin.RestaurantDetailActivity"
+             android:exported="true">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+Index: app/src/main/res/layout/activity_restaurant_detail.xml
+===================================================================
+diff --git a/app/src/main/res/layout/activity_restaurant_detail.xml b/app/src/main/res/layout/activity_restaurant_detail.xml
+new file mode 100644
+--- /dev/null	(date 1752082749267)
++++ b/app/src/main/res/layout/activity_restaurant_detail.xml	(date 1752082749267)
+@@ -0,0 +1,84 @@
++<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent">
++    <LinearLayout
++        android:orientation="vertical"
++        android:padding="16dp"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content">
++
++        <ImageView
++            android:id="@+id/ivImage"
++            android:layout_width="match_parent"
++            android:layout_height="200dp"
++            android:scaleType="centerCrop"
++            android:src="@drawable/ic_launcher_background"
++            android:contentDescription="@string/restaurant_image" />
++
++        <TextView
++            android:id="@+id/tvName"
++            android:textStyle="bold"
++            android:textSize="22sp"
++            android:layout_marginTop="12dp"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content" />
++
++        <TextView
++            android:id="@+id/tvDescription"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:textStyle="italic"
++            android:textColor="#555"/>
++
++        <TextView
++            android:id="@+id/tvAddress"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content" />
++
++        <TextView
++            android:id="@+id/tvDistrict"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content" />
++
++        <TextView
++            android:id="@+id/tvCategory"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content" />
++
++        <TextView
++            android:id="@+id/tvPrice"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content" />
++
++        <TextView
++            android:id="@+id/tvOpening"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content" />
++
++        <TextView
++            android:id="@+id/tvPhone"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content" />
++
++        <TextView
++            android:id="@+id/tvWebsite"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:autoLink="web" />
++
++        <TextView
++            android:id="@+id/tvCoordinates"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content" />
++
++        <Button
++            android:id="@+id/btnFavorite"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:text="@string/add_to_favorite"
++            android:layout_marginTop="16dp"
++            android:backgroundTint="@color/teal_700"
++            android:textColor="@android:color/white"
++            android:drawablePadding="8dp"/>
++    </LinearLayout>
++</ScrollView>
+Index: app/src/main/java/com/example/prm391_project_apprestaurants/controllers/admin/RestaurantDetailActivity.java
+===================================================================
+diff --git a/app/src/main/java/com/example/prm391_project_apprestaurants/controllers/admin/RestaurantDetailActivity.java b/app/src/main/java/com/example/prm391_project_apprestaurants/controllers/admin/RestaurantDetailActivity.java
+new file mode 100644
+--- /dev/null	(date 1752082775578)
++++ b/app/src/main/java/com/example/prm391_project_apprestaurants/controllers/admin/RestaurantDetailActivity.java	(date 1752082775578)
+@@ -0,0 +1,95 @@
++package com.example.prm391_project_apprestaurants.controllers.admin;
++
++import android.os.Bundle;
++import android.graphics.drawable.Drawable;
++import android.widget.ImageView;
++import android.widget.TextView;
++import android.widget.Button;
++import android.widget.Toast;
++import androidx.appcompat.app.AppCompatActivity;
++import androidx.core.content.ContextCompat;
++import com.bumptech.glide.Glide;
++import com.example.prm391_project_apprestaurants.dal.RestaurantDBContext;
++import com.example.prm391_project_apprestaurants.entities.Restaurant;
++import com.example.prm391_project_apprestaurants.R;
++
++public class RestaurantDetailActivity extends AppCompatActivity {
++
++    private RestaurantDBContext dbContext;
++    private int restaurantId, userId;
++    private Restaurant restaurant;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_restaurant_detail);
++
++        // Lấy restaurantId từ Intent (phải truyền đúng từ màn danh sách)
++        restaurantId = getIntent().getIntExtra("RESTAURANT_ID", -1);
++        userId = 2; // Thay bằng userId thực tế nếu có đăng nhập
++
++        dbContext = new RestaurantDBContext(this);
++
++        ImageView ivImage = findViewById(R.id.ivImage);
++        TextView tvName = findViewById(R.id.tvName);
++        TextView tvAddress = findViewById(R.id.tvAddress);
++        TextView tvDistrict = findViewById(R.id.tvDistrict);
++        TextView tvCategory = findViewById(R.id.tvCategory);
++        TextView tvPrice = findViewById(R.id.tvPrice);
++        TextView tvOpening = findViewById(R.id.tvOpening);
++        TextView tvPhone = findViewById(R.id.tvPhone);
++        TextView tvWebsite = findViewById(R.id.tvWebsite);
++        TextView tvCoordinates = findViewById(R.id.tvCoordinates);
++        TextView tvDescription = findViewById(R.id.tvDescription);
++        Button btnFavorite = findViewById(R.id.btnFavorite);
++
++        restaurant = dbContext.getRestaurantById(restaurantId);
++
++        if (restaurant != null) {
++            tvName.setText(restaurant.getName());
++            tvAddress.setText("Địa chỉ: " + restaurant.getAddress());
++            tvDistrict.setText("Quận/Huyện: " + restaurant.getDistrict());
++            tvCategory.setText("Loại: " + restaurant.getCategory());
++            tvPrice.setText("Giá: " + restaurant.getPriceRange());
++            tvOpening.setText("Giờ mở cửa: " + restaurant.getOpeningHours());
++            tvPhone.setText("SĐT: " + restaurant.getPhoneNumber());
++            tvWebsite.setText("Website: " + (restaurant.getWebsite() == null || restaurant.getWebsite().isEmpty() ? "Không có" : restaurant.getWebsite()));
++            tvCoordinates.setText("Tọa độ: " + restaurant.getLatitude() + ", " + restaurant.getLongitude());
++            tvDescription.setText(restaurant.getDescription());
++
++            Glide.with(this)
++                    .load(restaurant.getImage())
++                    .placeholder(R.drawable.ic_launcher_background)
++                    .into(ivImage);
++
++            updateFavoriteButton(btnFavorite, dbContext.isFavorite(userId, restaurantId));
++        } else {
++            tvName.setText("Không tìm thấy dữ liệu quán ăn!");
++        }
++
++        btnFavorite.setOnClickListener(v -> {
++            boolean isFav = dbContext.isFavorite(userId, restaurantId);
++            if (isFav) {
++                dbContext.removeFavorite(userId, restaurantId);
++                Toast.makeText(this, "Đã bỏ khỏi danh sách yêu thích", Toast.LENGTH_SHORT).show();
++            } else {
++                dbContext.addFavorite(userId, restaurantId);
++                Toast.makeText(this, "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT).show();
++            }
++            updateFavoriteButton(btnFavorite, dbContext.isFavorite(userId, restaurantId));
++        });
++    }
++
++    private void updateFavoriteButton(Button btn, boolean isFavorite) {
++        int iconRes = isFavorite ? R.drawable.ic_favorite : R.drawable.ic_favorite_border;
++        Drawable icon = ContextCompat.getDrawable(this, iconRes);
++        if (icon != null) {
++            int iconSize = (int) (getResources().getDisplayMetrics().density * 18); // 18dp
++            icon.setBounds(0, 0, iconSize, iconSize);
++            btn.setCompoundDrawables(icon, null, null, null);
++        }
++        btn.setText(isFavorite ? R.string.remove_from_favorite : R.string.add_to_favorite);
++        btn.setBackgroundTintList(ContextCompat.getColorStateList(this,
++                isFavorite ? R.color.pink : R.color.teal_700));
++    }
++}
+Index: app/src/main/res/layout/viewholder_restaurant_item.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\">\r\n    <data>\r\n        <variable\r\n            name=\"viewHolder\"\r\n            type=\"com.example.prm391_project_apprestaurants.entities.Restaurant\" />\r\n    </data>\r\n\r\n    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"10dp\"\r\n        >\r\n\r\n        <androidx.cardview.widget.CardView\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_margin=\"8dp\"\r\n            app:cardCornerRadius=\"12dp\"\r\n            app:cardElevation=\"4dp\"\r\n            tools:ignore=\"MissingConstraints\">\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:orientation=\"horizontal\"\r\n                android:padding=\"12dp\">\r\n\r\n                <ImageView\r\n                    android:id=\"@+id/imageRestaurant\"\r\n                    android:layout_width=\"100dp\"\r\n                    android:layout_height=\"100dp\"\r\n                    android:layout_marginEnd=\"12dp\"\r\n                    android:scaleType=\"centerCrop\"\r\n                    app:imageUrl=\"@{viewHolder.image}\"\r\n                    />\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"0dp\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_weight=\"1\"\r\n                    android:orientation=\"vertical\">\r\n\r\n                    <TextView\r\n                        android:id=\"@+id/textName\"\r\n                        android:layout_width=\"wrap_content\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:layout_marginBottom=\"10dp\"\r\n                        android:text=\"@{viewHolder.name}\"\r\n                        android:textColor=\"#222\"\r\n                        android:textSize=\"18sp\"\r\n                        android:textStyle=\"bold\" />\r\n\r\n                    <TextView\r\n                        android:id=\"@+id/textDescription\"\r\n                        android:layout_width=\"wrap_content\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:layout_marginBottom=\"10dp\"\r\n                        android:ellipsize=\"end\"\r\n                        android:maxLines=\"2\"\r\n                        android:text=\"@{viewHolder.description}\"\r\n                        android:textColor=\"#C0C0C0\"\r\n                        android:textSize=\"14sp\" />\r\n\r\n                    <LinearLayout\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"match_parent\"\r\n                        android:layout_marginBottom=\"10dp\"\r\n                        android:orientation=\"horizontal\">\r\n\r\n                        <ImageView\r\n                            android:id=\"@+id/imageView8\"\r\n                            android:layout_width=\"20dp\"\r\n                            android:layout_height=\"20dp\"\r\n                            android:layout_marginEnd=\"10dp\"\r\n                            android:src=\"@drawable/placeholder\" />\r\n\r\n                        <TextView\r\n                            android:id=\"@+id/textAddress\"\r\n                            android:layout_width=\"wrap_content\"\r\n                            android:layout_height=\"wrap_content\"\r\n                            android:layout_marginBottom=\"2dp\"\r\n                            android:text=\"@{viewHolder.address + `-` + viewHolder.district}\"\r\n                            android:textColor=\"#C0C0C0\"\r\n                            android:textSize=\"13sp\" />\r\n\r\n                    </LinearLayout>\r\n\r\n                    <LinearLayout\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"match_parent\"\r\n                        android:orientation=\"horizontal\">\r\n\r\n                        <TextView\r\n                            android:id=\"@+id/textPrice\"\r\n                            android:layout_width=\"150dp\"\r\n                            android:layout_height=\"wrap_content\"\r\n                            android:layout_marginEnd=\"10dp\"\r\n                            android:layout_marginBottom=\"2dp\"\r\n                            android:layout_weight=\"1\"\r\n                            android:fontFamily=\"@font/afacad\"\r\n                            android:textColor=\"#BB0000\"\r\n                            android:textSize=\"13sp\"\r\n                            android:textStyle=\"bold\" />\r\n\r\n                        <TextView\r\n                            android:id=\"@+id/textAddress3\"\r\n                            android:layout_width=\"150dp\"\r\n                            android:layout_height=\"wrap_content\"\r\n                            android:layout_marginBottom=\"2dp\"\r\n                            android:layout_weight=\"1\"\r\n                            android:fontFamily=\"@font/amiko\"\r\n                            android:textColor=\"#FFCC66\"\r\n                            android:textSize=\"13sp\"\r\n                            android:textStyle=\"bold\" />\r\n\r\n                    </LinearLayout>\r\n\r\n                </LinearLayout>\r\n            </LinearLayout>\r\n        </androidx.cardview.widget.CardView>\r\n\r\n\r\n    </androidx.constraintlayout.widget.ConstraintLayout>\r\n</layout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/viewholder_restaurant_item.xml b/app/src/main/res/layout/viewholder_restaurant_item.xml
+--- a/app/src/main/res/layout/viewholder_restaurant_item.xml	(revision 30c663095b321c38791aaca63fa6b1149b67fa02)
++++ b/app/src/main/res/layout/viewholder_restaurant_item.xml	(date 1752076928782)
+@@ -74,7 +74,7 @@
+                             android:layout_width="20dp"
+                             android:layout_height="20dp"
+                             android:layout_marginEnd="10dp"
+-                            android:src="@drawable/placeholder" />
++                            android:src="@drawable/ic_location" />
+ 
+                         <TextView
+                             android:id="@+id/textAddress"
+Index: app/src/main/res/values/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<resources>\r\n    <color name=\"black\">#FF000000</color>\r\n    <color name=\"white\">#FFFFFFFF</color>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/colors.xml b/app/src/main/res/values/colors.xml
+--- a/app/src/main/res/values/colors.xml	(revision 30c663095b321c38791aaca63fa6b1149b67fa02)
++++ b/app/src/main/res/values/colors.xml	(date 1752082215990)
+@@ -2,4 +2,8 @@
+ <resources>
+     <color name="black">#FF000000</color>
+     <color name="white">#FFFFFFFF</color>
++    <color name="pink">#E91E63</color>
++    <color name="gray">#BDBDBD</color>
++    <color name="teal_700">#018786</color>
++
+ </resources>
+\ No newline at end of file
+Index: app/src/main/java/com/example/prm391_project_apprestaurants/dal/FavoriteRepository.java
+===================================================================
+diff --git a/app/src/main/java/com/example/prm391_project_apprestaurants/dal/FavoriteRepository.java b/app/src/main/java/com/example/prm391_project_apprestaurants/dal/FavoriteRepository.java
+new file mode 100644
+--- /dev/null	(date 1752084763977)
++++ b/app/src/main/java/com/example/prm391_project_apprestaurants/dal/FavoriteRepository.java	(date 1752084763977)
+@@ -0,0 +1,54 @@
++package com.example.prm391_project_apprestaurants.dal;
++
++import android.database.Cursor;
++import android.database.sqlite.SQLiteDatabase;
++import java.util.ArrayList;
++import java.util.List;
++import com.example.prm391_project_apprestaurants.entities.Restaurant;
++
++public class FavoriteRepository {
++    private SQLiteDatabase db;
++
++    public FavoriteRepository(SQLiteDatabase db) {
++        this.db = db;
++    }
++
++    public List<Restaurant> getFavoriteRestaurants(int userId) {
++        List<Restaurant> list = new ArrayList<>();
++        String query = "SELECT r.* FROM Favorites f JOIN Restaurants r ON f.RestaurantId = r.Id WHERE f.UserId = ?";
++        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
++        if (cursor.moveToFirst()) {
++            do {
++                Restaurant r = new Restaurant();
++                r.setId(cursor.getInt(cursor.getColumnIndexOrThrow("Id")));
++                r.setName(cursor.getString(cursor.getColumnIndexOrThrow("Name")));
++                r.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("Description")));
++                r.setAddress(cursor.getString(cursor.getColumnIndexOrThrow("Address")));
++                r.setDistrict(cursor.getString(cursor.getColumnIndexOrThrow("District")));
++                r.setPriceRange(cursor.getString(cursor.getColumnIndexOrThrow("PriceRange")));
++                r.setCategory(cursor.getString(cursor.getColumnIndexOrThrow("Category")));
++                r.setOpeningHours(cursor.getString(cursor.getColumnIndexOrThrow("OpeningHours")));
++                r.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow("PhoneNumber")));
++                r.setWebsite(cursor.getString(cursor.getColumnIndexOrThrow("Website")));
++                r.setImageUrl(cursor.getString(cursor.getColumnIndexOrThrow("ImageUrl")));
++                r.setLatitude(cursor.getDouble(cursor.getColumnIndexOrThrow("Latitude")));
++                r.setLongitude(cursor.getDouble(cursor.getColumnIndexOrThrow("Longitude")));
++                r.setHidden(cursor.getInt(cursor.getColumnIndexOrThrow("IsHidden")) == 1);
++                // createdAt, updatedAt có thể lấy kiểu String nếu không dùng LocalDateTime
++                list.add(r);
++            } while (cursor.moveToNext());
++        }
++        cursor.close();
++        return list;
++    }
++
++    public void addFavorite(int userId, int restaurantId) {
++        String sql = "INSERT INTO Favorites (UserId, RestaurantId) VALUES (?, ?)";
++        db.execSQL(sql, new Object[]{userId, restaurantId});
++    }
++
++    public void removeFavorite(int userId, int restaurantId) {
++        String sql = "DELETE FROM Favorites WHERE UserId = ? AND RestaurantId = ?";
++        db.execSQL(sql, new Object[]{userId, restaurantId});
++    }
++}
+Index: app/src/main/java/com/example/prm391_project_apprestaurants/services/FavoriteService.java
+===================================================================
+diff --git a/app/src/main/java/com/example/prm391_project_apprestaurants/services/FavoriteService.java b/app/src/main/java/com/example/prm391_project_apprestaurants/services/FavoriteService.java
+new file mode 100644
+--- /dev/null	(date 1752084776075)
++++ b/app/src/main/java/com/example/prm391_project_apprestaurants/services/FavoriteService.java	(date 1752084776075)
+@@ -0,0 +1,25 @@
++package com.example.prm391_project_apprestaurants.services;
++
++import java.util.List;
++import com.example.prm391_project_apprestaurants.entities.Restaurant;
++import com.example.prm391_project_apprestaurants.dal.FavoriteRepository;
++
++public class FavoriteService {
++    private FavoriteRepository favoriteRepository;
++
++    public FavoriteService(FavoriteRepository repository) {
++        this.favoriteRepository = repository;
++    }
++
++    public List<Restaurant> getUserFavorites(int userId) {
++        return favoriteRepository.getFavoriteRestaurants(userId);
++    }
++
++    public void addFavorite(int userId, int restaurantId) {
++        favoriteRepository.addFavorite(userId, restaurantId);
++    }
++
++    public void removeFavorite(int userId, int restaurantId) {
++        favoriteRepository.removeFavorite(userId, restaurantId);
++    }
++}
+Index: app/src/main/res/drawable/baseline_location_on_24.xml
+===================================================================
+diff --git a/app/src/main/res/drawable/baseline_location_on_24.xml b/app/src/main/res/drawable/baseline_location_on_24.xml
+new file mode 100644
+--- /dev/null	(date 1752076568207)
++++ b/app/src/main/res/drawable/baseline_location_on_24.xml	(date 1752076568207)
+@@ -0,0 +1,5 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android" android:height="24dp" android:tint="#AD0E0E" android:viewportHeight="24" android:viewportWidth="24" android:width="24dp">
++      
++    <path android:fillColor="@android:color/white" android:pathData="M12,2C8.13,2 5,5.13 5,9c0,5.25 7,13 7,13s7,-7.75 7,-13c0,-3.87 -3.13,-7 -7,-7zM12,11.5c-1.38,0 -2.5,-1.12 -2.5,-2.5s1.12,-2.5 2.5,-2.5 2.5,1.12 2.5,2.5 -1.12,2.5 -2.5,2.5z"/>
++    
++</vector>
+Index: app/src/main/res/layout/activity_favorite_list.xml
+===================================================================
+diff --git a/app/src/main/res/layout/activity_favorite_list.xml b/app/src/main/res/layout/activity_favorite_list.xml
+new file mode 100644
+--- /dev/null	(date 1752086084798)
++++ b/app/src/main/res/layout/activity_favorite_list.xml	(date 1752086084798)
+@@ -0,0 +1,13 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:orientation="vertical"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent">
++
++    <androidx.recyclerview.widget.RecyclerView
++        android:id="@+id/recyclerViewFavorite"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:contentDescription="@string/favorite_list_desc" />
++
++</LinearLayout>
+Index: app/src/main/res/drawable/bg_chip.xml
+===================================================================
+diff --git a/app/src/main/res/drawable/bg_chip.xml b/app/src/main/res/drawable/bg_chip.xml
+new file mode 100644
+--- /dev/null	(date 1752076400227)
++++ b/app/src/main/res/drawable/bg_chip.xml	(date 1752076400227)
+@@ -0,0 +1,5 @@
++<shape xmlns:android="http://schemas.android.com/apk/res/android"
++    android:shape="rectangle">
++    <solid android:color="#E3F2FD"/>
++    <corners android:radius="16dp"/>
++</shape>
+Index: app/src/main/res/drawable/bg_image_rounded.xml
+===================================================================
+diff --git a/app/src/main/res/drawable/bg_image_rounded.xml b/app/src/main/res/drawable/bg_image_rounded.xml
+new file mode 100644
+--- /dev/null	(date 1752076441924)
++++ b/app/src/main/res/drawable/bg_image_rounded.xml	(date 1752076441924)
+@@ -0,0 +1,5 @@
++<shape xmlns:android="http://schemas.android.com/apk/res/android"
++    android:shape="rectangle">
++    <corners android:radius="12dp"/>
++    <solid android:color="#EEEEEE"/>
++</shape>
+Index: app/src/main/res/layout/item_favorite_restaurant.xml
+===================================================================
+diff --git a/app/src/main/res/layout/item_favorite_restaurant.xml b/app/src/main/res/layout/item_favorite_restaurant.xml
+new file mode 100644
+--- /dev/null	(date 1752085903897)
++++ b/app/src/main/res/layout/item_favorite_restaurant.xml	(date 1752085903897)
+@@ -0,0 +1,57 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:orientation="horizontal"
++    android:padding="8dp"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content">
++
++    <ImageView
++        android:id="@+id/imgRestaurant"
++        android:layout_width="80dp"
++        android:layout_height="80dp"
++        android:scaleType="centerCrop"
++        android:src="@drawable/restaurant"
++        android:contentDescription="@string/restaurant_image_desc" />
++
++    <LinearLayout
++        android:orientation="vertical"
++        android:layout_marginStart="8dp"
++        android:layout_width="0dp"
++        android:layout_height="wrap_content"
++        android:layout_weight="1">
++
++        <TextView
++            android:id="@+id/tvName"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:textStyle="bold"
++            android:textSize="16sp"
++            android:text="Tên quán" />
++
++        <TextView
++            android:id="@+id/tvAddress"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="Địa chỉ" />
++
++        <TextView
++            android:id="@+id/tvCategory"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="Loại món" />
++
++        <TextView
++            android:id="@+id/tvPriceRange"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="Giá" />
++    </LinearLayout>
++
++    <ImageView
++        android:id="@+id/imgFavorite"
++        android:layout_width="32dp"
++        android:layout_height="32dp"
++        android:src="@drawable/ic_favorite"
++        android:layout_gravity="center_vertical"
++        android:contentDescription="@string/favorite_icon_desc" />
++</LinearLayout>
+Index: app/src/main/java/com/example/prm391_project_apprestaurants/controllers/favorite/FavoriteListActivity.java
+===================================================================
+diff --git a/app/src/main/java/com/example/prm391_project_apprestaurants/controllers/favorite/FavoriteListActivity.java b/app/src/main/java/com/example/prm391_project_apprestaurants/controllers/favorite/FavoriteListActivity.java
+new file mode 100644
+--- /dev/null	(date 1752086873570)
++++ b/app/src/main/java/com/example/prm391_project_apprestaurants/controllers/favorite/FavoriteListActivity.java	(date 1752086873570)
+@@ -0,0 +1,43 @@
++package com.example.prm391_project_apprestaurants.controllers.favorite;
++
++import android.database.sqlite.SQLiteDatabase;
++import android.os.Bundle;
++import androidx.appcompat.app.AppCompatActivity;
++import androidx.recyclerview.widget.LinearLayoutManager;
++import androidx.recyclerview.widget.RecyclerView;
++import com.example.prm391_project_apprestaurants.controllers.adapters.FavoriteRestaurantAdapter;
++import com.example.prm391_project_apprestaurants.dal.FavoriteRepository;
++import com.example.prm391_project_apprestaurants.entities.Restaurant;
++import com.example.prm391_project_apprestaurants.services.FavoriteService;
++import java.util.List;
++import com.example.prm391_project_apprestaurants.R;
++
++public class FavoriteListActivity extends AppCompatActivity {
++    private RecyclerView recyclerView;
++    private FavoriteRestaurantAdapter adapter;
++    private FavoriteService favoriteService;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_favorite_list);
++
++        recyclerView = findViewById(R.id.recyclerViewFavorite);
++        recyclerView.setLayoutManager(new LinearLayoutManager(this));
++
++        SQLiteDatabase db = openOrCreateDatabase("YourDatabaseName.db", MODE_PRIVATE, null);
++        FavoriteRepository repository = new FavoriteRepository(db);
++        favoriteService = new FavoriteService(repository);
++
++        int userId = getCurrentUserId();
++        List<Restaurant> favorites = favoriteService.getUserFavorites(userId);
++
++        adapter = new FavoriteRestaurantAdapter(favorites, favoriteService, userId);
++        recyclerView.setAdapter(adapter);
++    }
++
++    private int getCurrentUserId() {
++        // Lấy userId đăng nhập (ví dụ hardcode hoặc lấy từ SharedPreferences)
++        return 2;
++    }
++}
+Index: app/src/main/java/com/example/prm391_project_apprestaurants/controllers/adapters/FavoriteRestaurantAdapter.java
+===================================================================
+diff --git a/app/src/main/java/com/example/prm391_project_apprestaurants/controllers/adapters/FavoriteRestaurantAdapter.java b/app/src/main/java/com/example/prm391_project_apprestaurants/controllers/adapters/FavoriteRestaurantAdapter.java
+new file mode 100644
+--- /dev/null	(date 1752085771279)
++++ b/app/src/main/java/com/example/prm391_project_apprestaurants/controllers/adapters/FavoriteRestaurantAdapter.java	(date 1752085771279)
+@@ -0,0 +1,79 @@
++package com.example.prm391_project_apprestaurants.controllers.adapters;
++
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.ImageView;
++import android.widget.TextView;
++
++import androidx.annotation.NonNull;
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.example.prm391_project_apprestaurants.R;
++import com.example.prm391_project_apprestaurants.entities.Restaurant;
++import com.example.prm391_project_apprestaurants.services.FavoriteService;
++
++import java.util.List;
++
++public class FavoriteRestaurantAdapter extends RecyclerView.Adapter<FavoriteRestaurantAdapter.ViewHolder> {
++    private List<Restaurant> restaurantList;
++    private FavoriteService favoriteService;
++    private int userId;
++
++    public FavoriteRestaurantAdapter(List<Restaurant> list, FavoriteService service, int userId) {
++        this.restaurantList = list;
++        this.favoriteService = service;
++        this.userId = userId;
++    }
++
++    @NonNull
++    @Override
++    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
++        View view = LayoutInflater.from(parent.getContext())
++                .inflate(R.layout.item_favorite_restaurant, parent, false);
++        return new ViewHolder(view);
++    }
++
++    @Override
++    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
++        Restaurant r = restaurantList.get(position);
++        holder.tvName.setText(r.getName());
++        holder.tvAddress.setText(r.getAddress());
++        holder.tvCategory.setText(r.getCategory());
++        holder.tvPriceRange.setText(r.getPriceRange());
++
++        // Chỉ dùng icon trong drawable cho ảnh quán ăn
++        holder.imgRestaurant.setImageResource(R.drawable.restaurant);
++
++        // Icon trái tim đầy (yêu thích)
++        holder.imgFavorite.setImageResource(R.drawable.ic_favorite);
++
++        // Xử lý sự kiện bỏ yêu thích
++        holder.imgFavorite.setOnClickListener(v -> {
++            favoriteService.removeFavorite(userId, r.getId());
++            restaurantList.remove(position);
++            notifyItemRemoved(position);
++            notifyItemRangeChanged(position, restaurantList.size());
++        });
++    }
++
++    @Override
++    public int getItemCount() {
++        return restaurantList != null ? restaurantList.size() : 0;
++    }
++
++    public static class ViewHolder extends RecyclerView.ViewHolder {
++        TextView tvName, tvAddress, tvCategory, tvPriceRange;
++        ImageView imgRestaurant, imgFavorite;
++
++        public ViewHolder(@NonNull View itemView) {
++            super(itemView);
++            tvName = itemView.findViewById(R.id.tvName);
++            tvAddress = itemView.findViewById(R.id.tvAddress);
++            tvCategory = itemView.findViewById(R.id.tvCategory);
++            tvPriceRange = itemView.findViewById(R.id.tvPriceRange);
++            imgRestaurant = itemView.findViewById(R.id.imgRestaurant);
++            imgFavorite = itemView.findViewById(R.id.imgFavorite);
++        }
++    }
++}

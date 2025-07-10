@@ -1,10 +1,8 @@
 package com.example.prm391_project_apprestaurants.services;
 
 import android.content.Context;
-
 import com.example.prm391_project_apprestaurants.dal.RestaurantDBContext;
 import com.example.prm391_project_apprestaurants.entities.Restaurant;
-
 import java.util.List;
 
 public class RestaurantService {
@@ -13,7 +11,11 @@ public class RestaurantService {
     public RestaurantService(Context context) {
         restaurantDBContext = new RestaurantDBContext(context);
     }
+
     public List<Restaurant> getAllRestaurants() {
-        return restaurantDBContext.getRestaurants();
+        // Sửa lại tên hàm cho đúng với RestaurantDBContext
+        return restaurantDBContext.getAllRestaurants();
     }
+
+    // Các hàm khác nếu có...
 }

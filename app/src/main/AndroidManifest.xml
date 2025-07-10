@@ -20,7 +20,7 @@
 <!--            android:label="@string/title_activity_restaurant_management"-->
 <!--            android:theme="@style/Theme.PRM391_Project_AppRestaurants" />-->
         <activity
-            android:name=".controllers.admin.RestaurantManagementActivity"
+            android:name=".controllers.user.RestaurantDetailActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

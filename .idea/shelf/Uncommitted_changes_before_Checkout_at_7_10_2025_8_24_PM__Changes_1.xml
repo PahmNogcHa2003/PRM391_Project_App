@@ -1,0 +1,25 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_7_10_2025_8_24_PM_[Changes]1" date="1752153907788" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_10_2025_8_24_PM_[Changes]1/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 7/10/2025 8:24 PM [Changes]" />
+  <binary>
+    <option name="AFTER_PATH" value="app/src/main/res/drawable/ic_favorite_border.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_10_2025_8_24_PM_[Changes]1/ic_favorite_border.png" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="app/src/main/res/drawable/ic_time.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_10_2025_8_24_PM_[Changes]1/ic_time.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/src/main/res/drawable/placeholder.png" />
+    <option name="AFTER_PATH" value="app/src/main/res/drawable/ic_location.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_10_2025_8_24_PM_[Changes]1/ic_location.png" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="app/src/main/res/drawable/ic_favorite.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_10_2025_8_24_PM_[Changes]1/ic_favorite.png" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="app/src/main/res/drawable/ic_phone.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_10_2025_8_24_PM_[Changes]1/ic_phone.png" />
+  </binary>
+</changelist>

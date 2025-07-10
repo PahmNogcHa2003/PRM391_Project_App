@@ -20,7 +20,7 @@ public class BindingAdapters {
                     .error(ContextCompat.getDrawable(view.getContext(), R.drawable.restaurant))
                     .into(view);
         } else {
-            view.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.placeholder));
+            view.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_location));
         }
     }
     @BindingAdapter("iconMapUrl")
