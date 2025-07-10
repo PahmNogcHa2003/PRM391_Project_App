@@ -21,4 +21,8 @@ public class RestaurantService {
     public Restaurant getRestaurantById(int id) {
         return restaurantDBContext.findById(id);
     }
+
+    public List<Restaurant> getAllRestaurantsWithFilter(String priceRange, String district, String category, String searchQuery) {
+        return restaurantDBContext.getAllRestaurantsWithFilter(priceRange, district, category, searchQuery);
+    }
 }

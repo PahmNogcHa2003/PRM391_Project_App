@@ -156,4 +156,59 @@ public class RestaurantDBContext {
         }
         return count;
     }
+
+    public List<Restaurant> getAllRestaurantsWithFilter(String priceRange, String district, String category, String searchQuery) {
+        List<Restaurant> restaurants = new ArrayList<>();
+        try {
+            SQLiteDatabase db = dbContext.getReadableDatabase();
+            String query = "SELECT * FROM Restaurants WHERE 1=1";
+            List<String> selectionArgs = new ArrayList<>();
+
+            if (priceRange != null && !priceRange.isEmpty()) {
+                query += " AND PriceRange = ?";
+                selectionArgs.add(priceRange);
+            }
+            if (district != null && !district.isEmpty()) {
+                query += " AND District = ?";
+                selectionArgs.add(district);
+            }
+            if (category != null && !category.isEmpty()) {
+                query += " AND Category = ?";
+                selectionArgs.add(category);
+            }
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                query += " AND Name LIKE ?";
+                selectionArgs.add("%" + searchQuery + "%");
+            }
+
+            Cursor cursor = db.rawQuery(query, selectionArgs.toArray(new String[0]));
+            while (cursor.moveToNext()) {
+                int id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                String address = cursor.getString(3);
+                String description = cursor.getString(2);
+                String image = cursor.getString(10);
+                String priceRangeValue = cursor.getString(5);
+                String website = cursor.getString(9);
+                String categoryValue = cursor.getString(6);
+                String districtValue = cursor.getString(4);
+                Restaurant restaurant = new Restaurant();
+                restaurant.setId(id);
+                restaurant.setName(name);
+                restaurant.setAddress(address);
+                restaurant.setDescription(description);
+                restaurant.setImage(image);
+                restaurant.setPriceRange(priceRangeValue);
+                restaurant.setWebsite(website);
+                restaurant.setCategory(categoryValue);
+                restaurant.setDistrict(districtValue);
+                restaurants.add(restaurant);
+            }
+            cursor.close();
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return restaurants;
+    }
 }

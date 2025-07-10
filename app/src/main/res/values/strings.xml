@@ -29,4 +29,7 @@
     <string name="login">Login</string>
     <string name="or_login_with">Or Login with</string>
     <string name="location_icon_desc">Location icon</string>
+    <string name="filter_select_price_range">Giá</string>
+    <string name="filter_select_district">Huyện</string>
+    <string name="filter_select_category">Loại món</string>
 </resources>
