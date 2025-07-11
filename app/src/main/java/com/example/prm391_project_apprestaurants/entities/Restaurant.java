@@ -3,9 +3,6 @@ package com.example.prm391_project_apprestaurants.entities;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class Restaurant implements Serializable {
     private int id;
     private String name;

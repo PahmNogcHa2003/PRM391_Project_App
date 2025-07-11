@@ -1,4 +1,4 @@
-package com.example.prm391_project_apprestaurants.controllers.admin;
+package com.example.prm391_project_apprestaurants.controllers.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +13,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.example.prm391_project_apprestaurants.R;
-
-import java.util.Objects;
+import com.example.prm391_project_apprestaurants.controllers.Login.Login;
+import com.example.prm391_project_apprestaurants.controllers.admin.RestaurantManagementActivity;
+import com.example.prm391_project_apprestaurants.controllers.admin.StatisticDashboardActivity;
+import com.example.prm391_project_apprestaurants.controllers.admin.UserManagementActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,8 +33,6 @@ public class SideBarFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    private LinearLayout statisticBar;
 
     public SideBarFragment() {
         // Required empty public constructor
@@ -80,9 +79,26 @@ public class SideBarFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        statisticBar = view.findViewById(R.id.llStatistics);
+        LinearLayout statisticBar = view.findViewById(R.id.llStatistics);
+        LinearLayout userManagementBar = view.findViewById(R.id.llManageUsers);
+        LinearLayout restaurantManagementBar = view.findViewById(R.id.llManageRestaurants);
+        LinearLayout logoutBar = view.findViewById(R.id.llLogout);
+
         statisticBar.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), StatisticDashboard.class);
+            Intent intent = new Intent(getContext(), StatisticDashboardActivity.class);
+            startActivity(intent);
+        });
+        userManagementBar.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), UserManagementActivity.class);
+            startActivity(intent);
+        });
+        restaurantManagementBar.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), RestaurantManagementActivity.class);
+            startActivity(intent);
+        });
+        logoutBar.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         });
     }

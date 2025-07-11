@@ -3,9 +3,11 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-@Entity(tableName = "Users")
-public class User {
 
+import java.io.Serializable;
+
+@Entity(tableName = "Users")
+public class User implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "Id")
     private int id;
@@ -24,6 +26,8 @@ public class User {
 
     @ColumnInfo(name = "CreatedAt")
     private String createdAt;
+
+    private boolean isActive;
 
     public User() {
     }
@@ -87,4 +91,11 @@ public class User {
         this.createdAt = createdAt;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 }

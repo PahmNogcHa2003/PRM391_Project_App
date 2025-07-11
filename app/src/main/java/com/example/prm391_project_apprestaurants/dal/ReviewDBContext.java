@@ -34,6 +34,26 @@ public class ReviewDBContext {
         db.close();
         return reviews;
     }
+
+    public List<Review> getReviewsByUserId(int userId) {
+        List<Review> reviews = new ArrayList<>();
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Reviews r join Users u on r.UserId = u.Id WHERE UserId = ? ORDER BY CreatedAt DESC", new String[]{String.valueOf(userId)});
+        while (cursor.moveToNext()) {
+            Review r = new Review();
+            r.setId(cursor.getInt(0));
+            r.setUserId(cursor.getInt(1));
+            r.setRestaurantId(cursor.getInt(2));
+            r.setContent(cursor.getString(3));
+            r.setRating(cursor.getInt(4));
+            r.setCreatedAt(cursor.getString(5));
+            r.setUserName(cursor.getString(7));
+            reviews.add(r);
+        }
+        cursor.close();
+        db.close();
+        return reviews;
+    }
     public void addReview(int userId, int restaurantId, String content, int rating) {
         SQLiteDatabase db = dbContext.getWritableDatabase();
         ContentValues values = new ContentValues();

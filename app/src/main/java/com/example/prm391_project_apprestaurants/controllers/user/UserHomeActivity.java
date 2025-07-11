@@ -17,6 +17,7 @@ import android.widget.Toast;
 import android.content.Intent;
 
 import com.example.prm391_project_apprestaurants.R;
+import com.example.prm391_project_apprestaurants.controllers.Login.Login;
 import com.example.prm391_project_apprestaurants.entities.HomeRestaurant;
 import com.example.prm391_project_apprestaurants.controllers.adapters.HomeRestaurantAdapter;
 import com.example.prm391_project_apprestaurants.dal.RestaurantDetailDBContext;
@@ -44,6 +45,7 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
     private RestaurantDetailDBContext dbContext;
     private FavoriteDBContext favoriteDB;
     private int userId = 2; // Giả sử userId đang đăng nhập là 2
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +119,10 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
         });
 
         btnLogout.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             Toast.makeText(this, "Đăng xuất", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
         });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

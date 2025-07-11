@@ -10,7 +10,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.prm391_project_apprestaurants.R;
 
-public class StatisticDashboard extends AppCompatActivity {
+public class StatisticDashboardActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

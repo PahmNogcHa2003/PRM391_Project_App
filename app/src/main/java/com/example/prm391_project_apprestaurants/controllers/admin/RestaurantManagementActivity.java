@@ -1,5 +1,6 @@
 package com.example.prm391_project_apprestaurants.controllers.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,9 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm391_project_apprestaurants.R;
 import com.example.prm391_project_apprestaurants.controllers.adapters.RestaurantManagementAdapter;
+import com.example.prm391_project_apprestaurants.controllers.fragments.SideBarFragment;
 import com.example.prm391_project_apprestaurants.entities.Restaurant;
 import com.example.prm391_project_apprestaurants.requests.SearchRestaurantRequest;
 import com.example.prm391_project_apprestaurants.services.RestaurantService;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -128,7 +132,7 @@ public class RestaurantManagementActivity extends AppCompatActivity {
         loadRestaurantData();
     }
 
-    private void loadRestaurantData(){
+    public void loadRestaurantData(){
         List<Restaurant> restaurants = restaurantService.getAllRestaurants(searchRestaurantRequest);
         adapter.setRestaurants(restaurants);
         bindingPaginationData(searchRestaurantRequest);
@@ -137,4 +141,14 @@ public class RestaurantManagementActivity extends AppCompatActivity {
     private void bindingPaginationData(SearchRestaurantRequest searchRestaurantRequest) {
         textViewPage.setText("Page " + searchRestaurantRequest.getPage() + " of " + searchRestaurantRequest.getTotalPage());
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+           loadRestaurantData();
+        }
+    }
+
+
 }

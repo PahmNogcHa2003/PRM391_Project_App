@@ -24,6 +24,10 @@ public class ReviewService {
         reviewDBContext.updateReview(reviewId, newContent);
     }
 
+    public List<Review> getReviewsByUserId(int userId) {
+        return reviewDBContext.getReviewsByUserId(userId);
+    }
+
     public void deleteReview(int reviewId) {
         reviewDBContext.deleteReview(reviewId);
     }
