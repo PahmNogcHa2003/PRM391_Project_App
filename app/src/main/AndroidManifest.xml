@@ -38,7 +38,10 @@
 
         <activity android:name=".controllers.Login.RegisterActivity"
             android:theme="@style/Theme.PRM391_Project_AppRestaurants">
+        </activity>
 
+        <activity android:name=".controllers.Login.VerifyActivity"
+            android:theme="@style/Theme.PRM391_Project_AppRestaurants">
         </activity>
 
 

@@ -32,4 +32,18 @@
 
     <string name="no_account">Don\'t have an account</string>
     <string name="register_here">Register here</string>
+
+    <!-- Verify Email -->
+    <string name="verify_title">Vui lòng nhập mã xác thực đã gửi đến email của bạn</string>
+    <string name="verify_hint">Nhập mã xác thực</string>
+    <string name="verify_button">Xác nhận</string>
+    <string name="resend_code">Gửi lại mã xác thực</string>
+    <string name="resend_success">Mã xác thực mới đã được tạo</string>
+    <string name="resend_log">Mã xác thực mới: </string>
+    <string name="wrong_code">Sai mã xác thực</string>
+    <string name="empty_code">Vui lòng nhập mã xác thực</string>
+    <string name="invalid_code">Mã xác thực không hợp lệ</string>
+    <string name="verify_success">Xác thực thành công</string>
+    <string name="create_user_fail">Tài khoản đã tồn tại hoặc lỗi khi tạo</string>
+    <string name="code_resend_label">Mã mới đã gửi (giả lập): </string>
 </resources>

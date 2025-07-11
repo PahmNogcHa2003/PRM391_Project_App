@@ -16,6 +16,15 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    packaging {
+        resources {
+            excludes += setOf(
+                "META-INF/LICENSE.md",
+                "META-INF/LICENSE-notice.md",
+                "META-INF/NOTICE.md" // ⚠️ thêm dòng này
+            )
+        }
+    }
 
     buildTypes {
         release {
@@ -55,7 +64,14 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.room.common.jvm)
     implementation("androidx.room:room-runtime:2.6.1")
+
+    // JavaMail cho Android
+    implementation ("com.sun.mail:android-mail:1.6.7")
+
+    implementation ("com.sun.mail:android-activation:1.6.7")
+
     annotationProcessor("androidx.room:room-compiler:2.6.1")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -63,4 +79,5 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+
 }
