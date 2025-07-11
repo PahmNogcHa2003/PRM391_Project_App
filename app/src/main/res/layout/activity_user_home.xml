@@ -9,7 +9,7 @@
     android:orientation="vertical"
     tools:context=".controllers.user.UserHomeActivity">
 
-    <!-- Header với logo và user menu -->
+    <!-- Header -->
     <LinearLayout
         android:id="@+id/header_layout"
         android:layout_width="match_parent"
@@ -61,11 +61,10 @@
                 android:layout_gravity="center"
                 android:contentDescription="@string/ic_user_desc"
                 android:src="@drawable/ic_user" />
-
         </FrameLayout>
     </LinearLayout>
 
-    <!-- User Menu Dropdown (ẩn mặc định, show khi bấm avatar) -->
+    <!-- Dropdown -->
     <LinearLayout
         android:id="@+id/user_menu_dropdown"
         android:layout_width="180dp"
@@ -91,7 +90,7 @@
                 android:layout_height="18dp"
                 android:src="@drawable/ic_user"
                 android:contentDescription="@string/ic_user_desc"
-                app:tint="@color/gray_333" />
+                android:layout_marginEnd="8dp" />
 
             <TextView
                 android:id="@+id/tv_user_name"
@@ -123,8 +122,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:src="@drawable/ic_lock"
-                android:contentDescription="@string/ic_lock_desc"
-                app:tint="@color/gray_666" />
+                android:contentDescription="@string/ic_lock_desc" />
 
             <TextView
                 android:layout_width="0dp"
@@ -150,8 +148,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:src="@drawable/ic_settings"
-                android:contentDescription="@string/ic_settings_desc"
-                app:tint="@color/gray_666" />
+                android:contentDescription="@string/ic_settings_desc" />
 
             <TextView
                 android:layout_width="0dp"
@@ -182,8 +179,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:src="@drawable/ic_logout"
-                android:contentDescription="@string/ic_logout_desc"
-                app:tint="@color/red_f44336" />
+                android:contentDescription="@string/ic_logout_desc" />
 
             <TextView
                 android:layout_width="0dp"
@@ -196,7 +192,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- SearchView -->
+    <!-- Search -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -253,7 +249,7 @@
             android:prompt="@string/category" />
     </LinearLayout>
 
-    <!-- Nút gợi ý ngẫu nhiên và yêu thích: Button thường, chữ màu đen -->
+    <!-- Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -290,7 +286,6 @@
             android:drawablePadding="8dp"
             android:textAllCaps="false"
             android:gravity="center_vertical" />
-
     </LinearLayout>
 
     <!-- Danh sách quán ăn -->
@@ -301,7 +296,7 @@
         android:layout_weight="1"
         tools:listitem="@layout/item_restaurant" />
 
-    <!-- Top 10 quán yêu thích -->
+    <!-- Top 10 -->
     <TextView
         android:id="@+id/tvTop10Title"
         android:layout_width="match_parent"
@@ -318,5 +313,4 @@
         android:layout_height="120dp"
         android:orientation="horizontal"
         tools:listitem="@layout/item_restaurant_top10" />
-
 </LinearLayout>
