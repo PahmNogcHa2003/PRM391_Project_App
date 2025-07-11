@@ -32,4 +32,6 @@
     <string name="filter_select_price_range">Giá</string>
     <string name="filter_select_district">Huyện</string>
     <string name="filter_select_category">Loại món</string>
+    <string name="manage_users">Manage Users</string>
+    <string name="search_by_name_email">Search by name, email,...</string>
 </resources>

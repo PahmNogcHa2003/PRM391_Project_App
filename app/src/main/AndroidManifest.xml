@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -15,56 +16,71 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".controllers.admin.UpdateRestaurantDashboard"
+            android:name=".controllers.admin.UpdateUserDashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".controllers.admin.StatisticDashboard"
+            android:name=".controllers.admin.UserDetailDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controllers.admin.UserManagementActivity"
+            android:exported="false" />
+        <!--
+             TODO: Before you run your application, you need a Google Maps API key.
+
+             To get one, follow the directions here:
+
+                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+
+             Once you have your API key (it starts with "AIza"), define a new property in your
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCcm1-tm594tu_GAMv_9uk6OznoyMGpWSc" />
+
+        <activity
+            android:name=".controllers.admin.UpdateRestaurantDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controllers.admin.StatisticDashboardActivity"
             android:exported="false" />
         <activity
             android:name=".controllers.admin.RestaurantDetailDashboardActivity"
             android:exported="false" />
         <activity
             android:name=".controllers.activities.ReviewActivity"
-            android:exported="false" /><!-- <activity -->
+            android:exported="false" /> <!-- <activity -->
         <!-- android:name=".controllers.admin.RestaurantManagementActivity" -->
         <!-- android:exported="false" -->
         <!-- android:label="@string/title_activity_restaurant_management" -->
         <!-- android:theme="@style/Theme.PRM391_Project_AppRestaurants" /> -->
-
         <!-- Login activity - Launcher -->
         <activity
-            android:theme="@style/Theme.PRM391_Project_AppRestaurants"
             android:name=".controllers.Login.Login"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.PRM391_Project_AppRestaurants">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".controllers.admin.FilterActivity"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-
-        <!-- Restaurant Management Activity -->
+        </activity> <!-- Restaurant Management Activity -->
         <activity
             android:name=".controllers.admin.RestaurantManagementActivity"
             android:exported="false"
             android:label="@string/title_activity_restaurant_management"
             android:theme="@style/Theme.PRM391_Project_AppRestaurants" />
-
-        <activity android:name=".controllers.user.HomeUser"/>
-
-
-
-
-
-        <!-- Metadata for fonts -->
+        <activity android:name=".controllers.user.HomeUser" /> <!-- Metadata for fonts -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

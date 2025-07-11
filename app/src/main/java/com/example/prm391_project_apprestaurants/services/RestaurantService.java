@@ -25,4 +25,16 @@ public class RestaurantService {
     public List<Restaurant> getAllRestaurantsWithFilter(String priceRange, String district, String category, String searchQuery) {
         return restaurantDBContext.getAllRestaurantsWithFilter(priceRange, district, category, searchQuery);
     }
+
+    public boolean updateRestaurant(Restaurant restaurant) {
+        return restaurantDBContext.updateRestaurant(restaurant);
+    }
+
+    public boolean deleteRestaurant(Restaurant restaurant) {
+        return restaurantDBContext.deleteRestaurant(restaurant);
+    }
+
+    public boolean activeRestaurant(Restaurant restaurant) {
+        return restaurantDBContext.activeRestaurant(restaurant);
+    }
 }

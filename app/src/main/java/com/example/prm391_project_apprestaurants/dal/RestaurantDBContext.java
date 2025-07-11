@@ -1,5 +1,6 @@
 package com.example.prm391_project_apprestaurants.dal;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,6 +9,7 @@ import android.util.Log;
 import com.example.prm391_project_apprestaurants.entities.Restaurant;
 import com.example.prm391_project_apprestaurants.requests.SearchRestaurantRequest;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -38,6 +40,7 @@ public class RestaurantDBContext {
                 String website = cursor.getString(9);
                 String category = cursor.getString(6);
                 String district = cursor.getString(4);
+                Boolean isHidden = cursor.getInt(13) == 1;
                 Restaurant restaurant = new Restaurant();
                 restaurant.setId(id);
                 restaurant.setName(name);
@@ -48,6 +51,7 @@ public class RestaurantDBContext {
                 restaurant.setWebsite(website);
                 restaurant.setCategory(category);
                 restaurant.setDistrict(district);
+                restaurant.setHidden(isHidden);
                 restaurant.setReviewCount(countReviewByRestaurantId(id));
                 restaurants.add(restaurant);
             }
@@ -97,6 +101,10 @@ public class RestaurantDBContext {
                 String website = cursor.getString(9);
                 String category = cursor.getString(6);
                 String district = cursor.getString(4);
+                String openning = cursor.getString(7);
+                String phoneNumber = cursor.getString(8);
+                double latitude = cursor.getDouble(11);
+                double longitude = cursor.getDouble(12);
                 Restaurant restaurant = new Restaurant();
                 restaurant.setId(id);
                 restaurant.setName(name);
@@ -107,7 +115,11 @@ public class RestaurantDBContext {
                 restaurant.setWebsite(website);
                 restaurant.setCategory(category);
                 restaurant.setDistrict(district);
+                restaurant.setOpeningHours(openning);
+                restaurant.setPhoneNumber(phoneNumber);
                 restaurant.setReviewCount(countReviewByRestaurantId(id));
+                restaurant.setLatitude(latitude);
+                restaurant.setLongitude(longitude);
                 return restaurant;
             }
             cursor.close();
@@ -210,5 +222,61 @@ public class RestaurantDBContext {
             e.printStackTrace();
         }
         return restaurants;
+    }
+
+    public boolean updateRestaurant(Restaurant restaurant) {
+        boolean result = false;
+        try {
+            SQLiteDatabase db = dbContext.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("Name", restaurant.getName());
+            values.put("Address", restaurant.getAddress());
+            values.put("Description", restaurant.getDescription());
+            values.put("ImageUrl", restaurant.getImage());
+            values.put("PriceRange", restaurant.getPriceRange());
+            values.put("Website", restaurant.getWebsite());
+            values.put("Category", restaurant.getCategory());
+            values.put("District", restaurant.getDistrict());
+            values.put("OpeningHours", restaurant.getOpeningHours());
+            values.put("PhoneNumber", restaurant.getPhoneNumber());
+            values.put("Latitude", restaurant.getLatitude());
+            values.put("Longitude", restaurant.getLongitude());
+            values.put("updatedAt", LocalDateTime.now().toString());
+            result = db.update("Restaurants", values, "Id = ?", new String[]{String.valueOf(restaurant.getId())}) > 0;
+            db.close();
+        } catch (Exception e) {
+            Log.d("Error", Objects.requireNonNull(e.getMessage()));
+        }
+        return result;
+    }
+
+    public boolean deleteRestaurant(Restaurant restaurant) {
+        boolean result = false;
+        try {
+            SQLiteDatabase db = dbContext.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("IsHidden", 1);
+            values.put("updatedAt", LocalDateTime.now().toString());
+            result = db.update("Restaurants", values, "Id = ?", new String[]{String.valueOf(restaurant.getId())}) > 0;
+            db.close();
+        } catch (Exception e) {
+            Log.d("Error", Objects.requireNonNull(e.getMessage()));
+        }
+        return result;
+    }
+
+    public boolean activeRestaurant(Restaurant restaurant) {
+        boolean result = false;
+        try {
+            SQLiteDatabase db = dbContext.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("IsHidden", 0);
+            values.put("updatedAt", LocalDateTime.now().toString());
+            result = db.update("Restaurants", values, "Id = ?", new String[]{String.valueOf(restaurant.getId())}) > 0;
+            db.close();
+        } catch (Exception e) {
+            Log.d("Error", Objects.requireNonNull(e.getMessage()));
+        }
+        return result;
     }
 }

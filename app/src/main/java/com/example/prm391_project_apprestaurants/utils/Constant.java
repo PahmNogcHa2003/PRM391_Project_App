@@ -8,7 +8,8 @@ public class Constant {
                 Password TEXT NOT NULL,
                 Email TEXT,
                 Role TEXT DEFAULT 'User', -- 'User' hoặc 'Admin'
-                CreatedAt TEXT DEFAULT CURRENT_TIMESTAMP
+                CreatedAt TEXT DEFAULT CURRENT_TIMESTAMP,
+                IsActive INTEGER DEFAULT 1
             );
             """;
     public static final String SQL_CREATE_TABLE_RESTAURANTS = """
@@ -115,5 +116,7 @@ public class Constant {
     public static final String SQL_DELETE_TABLE_USERS = """
             DELETE FROM Users IF EXISTS;            
             """;
+    public static final String SENDER_EMAIL = "daom28659@gmail.com";
+    public static final String SENDER_PASSWORD = "qjmi nqkd vdri jfsm";
 
 }

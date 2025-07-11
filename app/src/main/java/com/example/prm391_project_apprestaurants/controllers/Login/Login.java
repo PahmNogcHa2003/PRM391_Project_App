@@ -9,9 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.prm391_project_apprestaurants.R;
-import com.example.prm391_project_apprestaurants.controllers.admin.SideBarFragment;
 import com.example.prm391_project_apprestaurants.controllers.user.HomeUser;
-import com.example.prm391_project_apprestaurants.controllers.viewholders.BindingViewHolder;
 import com.example.prm391_project_apprestaurants.dal.UserDBContext;
 import com.example.prm391_project_apprestaurants.entities.User;
 import com.google.android.material.button.MaterialButton;
