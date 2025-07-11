@@ -32,4 +32,60 @@
     <string name="filter_select_price_range">Giá</string>
     <string name="filter_select_district">Huyện</string>
     <string name="filter_select_category">Loại món</string>
+
+    <!-- vinh-->
+    <string name="app_title">App Quán Ăn</string>
+    <string name="search_hint">Tìm tên quán ăn...</string>
+    <string name="filter_title">Bộ lọc tìm kiếm</string>
+    <string name="price_range">Mức giá</string>
+    <string name="address">Địa chỉ</string>
+    <string name="category">Loại món</string>
+    <string name="random_suggestion">Gợi ý ngẫu nhiên</string>
+    <string name="favorite_restaurants">Quán yêu thích</string>
+    <string name="restaurant_list_title">Danh sách quán ăn</string>
+    <string name="top_10_title">Top 10 quán ăn được yêu thích</string>
+    <string name="change_password">Đổi mật khẩu</string>
+    <string name="profile_settings">Cài đặt</string>
+    <string name="hello_user">Xin chào, User!</string>
+
+    <!-- Bổ sung cho contentDescription của icon -->
+    <string name="ic_user_desc">Ảnh đại diện người dùng</string>
+    <string name="ic_lock_desc">Biểu tượng khóa</string>
+    <string name="ic_settings_desc">Biểu tượng cài đặt</string>
+    <string name="ic_logout_desc">Biểu tượng đăng xuất</string>
+    <string name="ic_favorite_desc">Biểu tượng yêu thích</string>
+    <string name="ic_shuffle_desc">Biểu tượng ngẫu nhiên</string>
+    <string name="ic_trending_up_desc">Biểu tượng top 10</string>
+    <string name="detail_description_label">Mô tả</string>
+    <string name="detail_district_label">Quận/Huyện</string>
+    <string name="detail_price_label">Mức giá</string>
+    <string name="detail_category_label">Loại món</string>
+    <string name="detail_opening_hours_label">Giờ mở cửa</string>
+    <string name="detail_phone_label">Số điện thoại</string>
+    <string name="detail_website_label">Website</string>
+    <string name="detail_latlng_label">Vĩ độ, Kinh độ</string>
+    <string name="detail_favorite_button">Lưu vào yêu thích</string>
+    <string name="detail_unfavorite_button">Bỏ khỏi yêu thích</string>
+    <string name="detail_review_title">Đánh giá của khách</string>
+    <string name="ic_phone_desc">Biểu tượng điện thoại</string>
+    <string name="ic_website_desc">Biểu tượng website</string>
+    <string name="ic_location_desc">Biểu tượng vị trí</string>
+    <string name="ic_district_desc">Biểu tượng quận/huyện</string>
+    <string name="ic_price_desc">Biểu tượng mức giá</string>
+    <string name="ic_category_desc">Biểu tượng loại món</string>
+    <string name="ic_time_desc">Biểu tượng giờ mở cửa</string>
+    <string name="btn_call">Gọi điện thoại</string>
+    <string name="btn_view_map">Xem bản đồ</string>
+    <string name="no_restaurant_found">Không tìm thấy quán ăn nào</string>
+    <string name="no_favorite_found">Bạn chưa lưu quán ăn yêu thích nào</string>
+    <string name="no_review_found">Chưa có đánh giá nào</string>
+    <string name="loading">Đang tải dữ liệu...</string>
+    <string name="back">Quay lại</string>
+    <string name="close">Đóng</string>
+    <string name="confirm">Xác nhận</string>
+    <string name="cancel">Hủy</string>
+    <string name="suggestion">Gợi ý</string>
+    <string name="favorite">Yêu thích</string>
+    <string name="favorite_restaurants_list_title">Danh sách quán yêu thích</string>
+
 </resources>
