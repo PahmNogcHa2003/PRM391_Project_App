@@ -11,6 +11,9 @@
   </component>
   <component name="DBNavigator.Project.DatabaseAssistantManager">
     <assistants>
+      <assistant-state connection-id="7a37433c-9ba3-4c2c-a56f-af044b1086bd" default-profile-name="" selected-profile-name="" selected-model-name="" assistant-type="GENERIC" selected-action="SHOW_SQL" availability="UNAVAILABLE" acknowledgement="NONE">
+        <messages />
+      </assistant-state>
       <assistant-state connection-id="0c1475f4-ad5c-404e-aa83-d0c7431b817f" default-profile-name="" selected-profile-name="" selected-model-name="" assistant-type="GENERIC" selected-action="SHOW_SQL" availability="UNAVAILABLE" acknowledgement="NONE">
         <messages />
       </assistant-state>
@@ -27,7 +30,7 @@
       <console name="Connection" type="STANDARD" schema="" session="Main" />
     </connection>
     <connection id="7a37433c-9ba3-4c2c-a56f-af044b1086bd">
-      <console name="Connection 1" type="STANDARD" schema="" session="Main" />
+      <console name="Connection 1" type="STANDARD" schema="" session="Main"><![CDATA[select * from RestaurantCategory]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -48,6 +51,11 @@
     </filter-actions>
     <filter-actions connection-id="7a37433c-9ba3-4c2c-a56f-af044b1086bd" dataset="main.Restaurants" active-filter-id="d5e013c9-ead4-4150-aaa8-91a4dba1372d">
       <filter id="d5e013c9-ead4-4150-aaa8-91a4dba1372d" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="Id" operator="=" value="" active="true" />
+      </filter>
+    </filter-actions>
+    <filter-actions connection-id="7a37433c-9ba3-4c2c-a56f-af044b1086bd" dataset="main.Categories" active-filter-id="1da9ea83-81a1-4e84-a76f-ad4c34aae4cb">
+      <filter id="1da9ea83-81a1-4e84-a76f-ad4c34aae4cb" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="Id" operator="=" value="" active="true" />
       </filter>
     </filter-actions>
@@ -79,7 +87,7 @@
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
-          <database-version value="3.5" />
+          <database-version value="3.49" />
           <driver-source value="BUNDLED" />
           <driver-library value="" />
           <driver value="" />
@@ -183,7 +191,7 @@
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
-          <database-version value="3.5" />
+          <database-version value="3.49" />
           <driver-source value="BUNDLED" />
           <driver-library value="" />
           <driver value="" />
