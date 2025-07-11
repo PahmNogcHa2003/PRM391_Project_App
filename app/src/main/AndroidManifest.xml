@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -15,6 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
+
+        <!-- Các Activity admin và hệ thống khác -->
         <activity
             android:name=".controllers.admin.UpdateUserDashboardActivity"
             android:exported="false" />
@@ -50,11 +51,8 @@
             android:exported="false" />
         <activity
             android:name=".controllers.activities.ReviewActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".controllers.admin.RestaurantManagementActivity" -->
-        <!-- android:exported="false" -->
-        <!-- android:label="@string/title_activity_restaurant_management" -->
-        <!-- android:theme="@style/Theme.PRM391_Project_AppRestaurants" /> -->
+            android:exported="false" />
+
         <!-- Login activity - Launcher -->
         <activity
             android:name=".controllers.Login.Login"
@@ -80,7 +78,20 @@
             android:exported="false"
             android:label="@string/title_activity_restaurant_management"
             android:theme="@style/Theme.PRM391_Project_AppRestaurants" />
-        <activity android:name=".controllers.user.HomeUser" /> <!-- Metadata for fonts -->
+        <!-- Trang Home của user -->
+        <activity
+            android:name=".controllers.user.UserHomeActivity"
+            android:exported="false" />
+
+        <!-- Thêm 2 activity chuyển trang chi tiết và danh sách yêu thích -->
+        <activity
+            android:name=".controllers.detail.RestaurantDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controllers.favorite.FavoriteListActivity"
+            android:exported="false" />
+
+        <!-- Metadata for fonts -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

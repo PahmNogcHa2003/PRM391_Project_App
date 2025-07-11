@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_body">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <!-- Ảnh đại diện -->
+        <ImageView
+            android:id="@+id/ivDetailImage"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/restaurant"
+            android:background="@drawable/circle_background" />
+
+        <!-- Tên quán -->
+        <TextView
+            android:id="@+id/tvDetailName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên quán ăn"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_orange"
+            android:layout_marginTop="16dp" />
+
+        <!-- Mô tả -->
+        <TextView
+            android:id="@+id/tvDetailDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Mô tả chi tiết về quán"
+            android:textColor="#444"
+            android:textSize="16sp" />
+
+        <!-- Địa chỉ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/placeholder"
+                android:layout_marginEnd="6dp"/>
+            <TextView
+                android:id="@+id/tvDetailAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Địa chỉ"
+                android:textSize="16sp"
+                android:textColor="#333"/>
+        </LinearLayout>
+
+        <!-- Quận/Huyện -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/placeholder"
+                android:layout_marginEnd="6dp"/>
+            <TextView
+                android:id="@+id/tvDetailDistrict"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quận/Huyện"
+                android:textSize="16sp"
+                android:textColor="#333"/>
+        </LinearLayout>
+
+        <!-- Mức giá -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_price"
+
+                android:layout_marginEnd="6dp"/>
+            <TextView
+                android:id="@+id/tvDetailPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mức giá"
+                android:textSize="16sp"
+                android:textColor="#333"/>
+        </LinearLayout>
+
+        <!-- Loại món -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/cutlery"
+
+                android:layout_marginEnd="6dp"/>
+            <TextView
+                android:id="@+id/tvDetailCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loại món"
+                android:textSize="16sp"
+                android:textColor="#333"/>
+        </LinearLayout>
+
+        <!-- Giờ mở cửa -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_time"
+                android:layout_marginEnd="6dp"/>
+            <TextView
+                android:id="@+id/tvDetailOpeningHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giờ mở cửa"
+                android:textSize="16sp"
+                android:textColor="#333"/>
+        </LinearLayout>
+
+        <!-- Số điện thoại -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_phone"
+                android:layout_marginEnd="6dp"/>
+            <TextView
+                android:id="@+id/tvDetailPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Số điện thoại"
+                android:textSize="16sp"
+                android:textColor="#333"/>
+        </LinearLayout>
+
+        <!-- Website -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_website"
+                android:layout_marginEnd="6dp"/>
+            <TextView
+                android:id="@+id/tvDetailWebsite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Website"
+                android:autoLink="web"
+                android:textSize="16sp"
+                android:textColor="#333"/>
+        </LinearLayout>
+
+        <!-- Tọa độ GPS -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/placeholder"
+                android:layout_marginEnd="6dp"/>
+            <TextView
+                android:id="@+id/tvDetailLatLng"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vĩ độ, Kinh độ"
+                android:textSize="16sp"
+                android:textColor="#333"/>
+        </LinearLayout>
+
+        <!-- Nút yêu thích -->
+        <Button
+            android:id="@+id/btnFavoriteDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lưu vào yêu thích"
+            android:drawableStart="@drawable/ic_favorite"
+            android:background="@drawable/rounded_button"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:textStyle="bold"
+            android:drawablePadding="8dp"/>
+
+
+        <!-- (Tùy chọn) Hiển thị đánh giá -->
+        <TextView
+            android:id="@+id/tvReviewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đánh giá của khách"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_orange"
+            android:layout_marginTop="24dp"
+            android:visibility="gone"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvReviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"/>
+    </LinearLayout>
+</ScrollView>

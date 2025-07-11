@@ -9,7 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.prm391_project_apprestaurants.R;
-import com.example.prm391_project_apprestaurants.controllers.user.HomeUser;
+import com.example.prm391_project_apprestaurants.controllers.user.UserHomeActivity;
 import com.example.prm391_project_apprestaurants.dal.UserDBContext;
 import com.example.prm391_project_apprestaurants.entities.User;
 import com.google.android.material.button.MaterialButton;
@@ -50,7 +50,7 @@ public class Login extends AppCompatActivity {
                         Intent intent = new Intent(Login.this, RestaurantManagementActivity.class);
                         startActivity(intent);
                     } else if ("User".equalsIgnoreCase(user.getRole())) {
-                        Intent intent = new Intent(Login.this, HomeUser.class); // <- tên class activity cho User
+                        Intent intent = new Intent(Login.this, UserHomeActivity.class); // <- tên class activity cho User
                         startActivity(intent);
                     } else {
                         Toast.makeText(Login.this, "Role không hợp lệ", Toast.LENGTH_SHORT).show();

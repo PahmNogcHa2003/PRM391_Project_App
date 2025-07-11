@@ -105,16 +105,16 @@ public class Constant {
     (4, 10, 'Cafe trứng siêu ngon!', 5);
 """;
     public static final String SQL_DELETE_TABLE_REVIEWS = """
-            DELETE FROM Reviews IF EXISTS;            
+            DROP TABLE IF EXISTS Reviews;
             """;
     public static final String SQL_DELETE_TABLE_FAVORITES = """
-            DELETE FROM Favorites IF EXISTS;            
+            DROP TABLE IF EXISTS Favorites;            
             """;
     public static final String SQL_DELETE_TABLE_RESTAURANTS = """
-            DELETE FROM Restaurants IF EXISTS;            
+            DROP TABLE IF EXISTS Restaurants;            
             """;
     public static final String SQL_DELETE_TABLE_USERS = """
-            DELETE FROM Users IF EXISTS;            
+           DROP TABLE IF EXISTS Users;            
             """;
     public static final String SENDER_EMAIL = "daom28659@gmail.com";
     public static final String SENDER_PASSWORD = "qjmi nqkd vdri jfsm";

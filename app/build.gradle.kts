@@ -37,6 +37,14 @@ android {
         compose = true
         dataBinding = true
     }
+    packaging {
+        resources {
+            pickFirsts += listOf(
+                "META-INF/NOTICE.md",
+                "META-INF/LICENSE.md"
+            )
+        }
+    }
 }
 
 dependencies {
