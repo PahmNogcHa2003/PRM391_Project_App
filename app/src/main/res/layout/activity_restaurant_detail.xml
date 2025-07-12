@@ -220,30 +220,26 @@
             android:drawableStart="@drawable/ic_favorite"
             android:background="@drawable/rounded_button"
             android:textColor="@android:color/white"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="12dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:textStyle="bold"
             android:drawablePadding="8dp"/>
 
 
-        <!-- (Tùy chọn) Hiển thị đánh giá -->
-        <TextView
-            android:id="@+id/tvReviewTitle"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btnViewReviews"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đánh giá của khách"
-            android:textSize="18sp"
+            android:drawableStart="@drawable/baseline_comment_24"
+            android:text="Xem đánh giá quán"
+            android:background="@drawable/rounded_button"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="12dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
             android:textStyle="bold"
-            android:textColor="@color/primary_orange"
-            android:layout_marginTop="24dp"
-            android:visibility="gone"/>
+            android:drawablePadding="8dp"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvReviews"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"/>
     </LinearLayout>
 </ScrollView>
