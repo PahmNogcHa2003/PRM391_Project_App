@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.prm391_project_apprestaurants.R;
+import com.example.prm391_project_apprestaurants.controllers.activities.MenuActivity;
 import com.example.prm391_project_apprestaurants.entities.HomeRestaurant;
 import com.example.prm391_project_apprestaurants.dal.RestaurantDetailDBContext;
 import com.example.prm391_project_apprestaurants.dal.FavoriteDBContext;
@@ -24,7 +25,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             tvDetailWebsite, tvDetailLatLng;
     private Button btnFavoriteDetail;
     private Button btnViewReviews;
-
+    private Button btnViewMenus;
     private RestaurantDetailDBContext dbContext;
     private FavoriteDBContext favoriteDB;
     private HomeRestaurant restaurant;
@@ -48,7 +49,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         tvDetailLatLng = findViewById(R.id.tvDetailLatLng);
         btnFavoriteDetail = findViewById(R.id.btnFavoriteDetail);
         btnViewReviews = findViewById(R.id.btnViewReviews);
-
+        btnViewMenus = findViewById(R.id.btnViewMenus);
         SharedPreferences sharedPref = getSharedPreferences("AppPrefs", MODE_PRIVATE);
         userId = sharedPref.getInt("userId", -1);
         btnViewReviews.setOnClickListener(v -> {
@@ -60,6 +61,11 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             Intent reviewIntent = new Intent(this, com.example.prm391_project_apprestaurants.controllers.activities.ReviewActivity.class);
             reviewIntent.putExtra("restaurantId", restaurant.getId());
             startActivity(reviewIntent);
+        });
+        btnViewMenus.setOnClickListener(v -> {
+            Intent intent = new Intent(RestaurantDetailActivity.this, com.example.prm391_project_apprestaurants.controllers.activities.MenuActivity.class);
+            intent.putExtra("restaurantId", restaurant.getId());
+            startActivity(intent);
         });
 
         dbContext = new RestaurantDetailDBContext(this);
