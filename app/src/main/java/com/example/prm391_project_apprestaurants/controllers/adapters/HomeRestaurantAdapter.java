@@ -53,6 +53,7 @@ public class HomeRestaurantAdapter extends RecyclerView.Adapter<HomeRestaurantAd
         holder.textPrice.setText(restaurant.getPrice());
         holder.textReviewCount.setText(restaurant.getReviewCount() + " review(s)");
 
+
         // Load ảnh đại diện (nếu có link), nếu không thì dùng ảnh mặc định
         if (restaurant.getImageUrl() != null && !restaurant.getImageUrl().isEmpty()) {
             Glide.with(context)

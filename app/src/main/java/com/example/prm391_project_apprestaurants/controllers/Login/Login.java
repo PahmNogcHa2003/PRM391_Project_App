@@ -46,16 +46,24 @@ public class Login extends AppCompatActivity {
                 User user = db.login(username, password);
 
                 if (user != null) {
+                    // Lưu thông tin user vào SharedPreferences
+                    getSharedPreferences("AppPrefs", MODE_PRIVATE)
+                            .edit()
+                            .putInt("userId", user.getId())
+                            .putString("userName", user.getUsername())
+                            .apply();
+
                     if ("Admin".equalsIgnoreCase(user.getRole())) {
                         Intent intent = new Intent(Login.this, RestaurantManagementActivity.class);
                         startActivity(intent);
                     } else if ("User".equalsIgnoreCase(user.getRole())) {
-                        Intent intent = new Intent(Login.this, UserHomeActivity.class); // <- tên class activity cho User
+                        Intent intent = new Intent(Login.this, UserHomeActivity.class);
                         startActivity(intent);
                     } else {
                         Toast.makeText(Login.this, "Role không hợp lệ", Toast.LENGTH_SHORT).show();
                     }
-                } else {
+
+            } else {
                     Toast.makeText(Login.this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                 }
             }

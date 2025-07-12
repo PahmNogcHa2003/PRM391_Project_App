@@ -1,6 +1,7 @@
 package com.example.prm391_project_apprestaurants.controllers.favorite;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm391_project_apprestaurants.R;
+import com.example.prm391_project_apprestaurants.controllers.Login.Login;
 import com.example.prm391_project_apprestaurants.controllers.detail.RestaurantDetailActivity;
 import com.example.prm391_project_apprestaurants.entities.HomeRestaurant;
 import com.example.prm391_project_apprestaurants.controllers.adapters.FavoriteListAdapter;
@@ -26,7 +28,7 @@ public class FavoriteListActivity extends AppCompatActivity implements FavoriteL
     private List<HomeRestaurant> favoriteList = new ArrayList<>();
     private FavoriteDBContext favoriteDB;
     private RestaurantDetailDBContext restaurantDB;
-    private int userId = 2; // Giả sử userId đăng nhập là 2
+    private int userId = -1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +44,16 @@ public class FavoriteListActivity extends AppCompatActivity implements FavoriteL
         favoriteListAdapter = new FavoriteListAdapter(this, favoriteList, this);
         rvFavoriteRestaurants.setLayoutManager(new LinearLayoutManager(this));
         rvFavoriteRestaurants.setAdapter(favoriteListAdapter);
+        SharedPreferences sharedPref = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        userId = sharedPref.getInt("userId", -1);
 
+        // Nếu không có user -> quay về login
+        if (userId == -1) {
+            Toast.makeText(this, "Vui lòng đăng nhập lại.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
         // Lần đầu load dữ liệu
         loadFavoriteRestaurants();
         favoriteListAdapter.updateList(favoriteList);

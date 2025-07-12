@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.content.Intent;
 
 import com.example.prm391_project_apprestaurants.R;
 import com.example.prm391_project_apprestaurants.controllers.Login.Login;
+import com.example.prm391_project_apprestaurants.dal.ReviewDBContext;
 import com.example.prm391_project_apprestaurants.entities.HomeRestaurant;
 import com.example.prm391_project_apprestaurants.controllers.adapters.HomeRestaurantAdapter;
 import com.example.prm391_project_apprestaurants.dal.RestaurantDetailDBContext;
@@ -44,7 +46,9 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
     private List<HomeRestaurant> top10List = new ArrayList<>();
     private RestaurantDetailDBContext dbContext;
     private FavoriteDBContext favoriteDB;
-    private int userId = 2; // Giả sử userId đang đăng nhập là 2
+    private int userId = -1;
+    private String userName = "";
+
 
 
     @Override
@@ -69,13 +73,39 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
         rvTop10 = findViewById(R.id.rvTop10);
 
         btnFavoriteList = findViewById(R.id.btnFavoriteList);
+        // Lấy thông tin user đăng nhập
+        SharedPreferences sharedPref = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        userId = sharedPref.getInt("userId", -1);
+        userName = sharedPref.getString("userName", "Khách");
 
+        // ✅ Sau khi tvUserName đã được ánh xạ
+        tvUserName.setText(userName);
+
+        // Nếu không có user -> quay về login
+        if (userId == -1) {
+            Toast.makeText(this, "Vui lòng đăng nhập lại.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
         dbContext = new RestaurantDetailDBContext(this);
         favoriteDB = new FavoriteDBContext(this);
 
         // Lấy danh sách quán ăn từ DB
         restaurantList = dbContext.getAllRestaurants();
         top10List = dbContext.getTop10Restaurants();
+
+        ReviewDBContext reviewDB = new ReviewDBContext(this);
+
+        for (HomeRestaurant r : restaurantList) {
+            int count = reviewDB.getReviewCountByRestaurantId(r.getId());
+            r.setReviewCount(count);
+        }
+        for (HomeRestaurant r : top10List) {
+            int count = reviewDB.getReviewCountByRestaurantId(r.getId());
+            r.setReviewCount(count);
+        }
+
 
         // Log số lượng để debug
         Log.d("DEBUG", "Số lượng quán ăn: " + restaurantList.size());

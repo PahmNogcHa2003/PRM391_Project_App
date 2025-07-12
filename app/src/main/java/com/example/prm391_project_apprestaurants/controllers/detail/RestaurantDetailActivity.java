@@ -1,6 +1,7 @@
 package com.example.prm391_project_apprestaurants.controllers.detail;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             tvDetailPrice, tvDetailCategory, tvDetailOpeningHours, tvDetailPhone,
             tvDetailWebsite, tvDetailLatLng;
     private Button btnFavoriteDetail;
+    private Button btnViewReviews;
 
     private RestaurantDetailDBContext dbContext;
     private FavoriteDBContext favoriteDB;
@@ -45,6 +47,20 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         tvDetailWebsite = findViewById(R.id.tvDetailWebsite);
         tvDetailLatLng = findViewById(R.id.tvDetailLatLng);
         btnFavoriteDetail = findViewById(R.id.btnFavoriteDetail);
+        btnViewReviews = findViewById(R.id.btnViewReviews);
+
+        SharedPreferences sharedPref = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        userId = sharedPref.getInt("userId", -1);
+        btnViewReviews.setOnClickListener(v -> {
+            if (userId == -1) {
+                Toast.makeText(this, "Vui lòng đăng nhập để xem và gửi nhận xét.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Intent reviewIntent = new Intent(this, com.example.prm391_project_apprestaurants.controllers.activities.ReviewActivity.class);
+            reviewIntent.putExtra("restaurantId", restaurant.getId());
+            startActivity(reviewIntent);
+        });
 
         dbContext = new RestaurantDetailDBContext(this);
         favoriteDB = new FavoriteDBContext(this);
