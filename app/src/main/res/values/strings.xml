@@ -89,5 +89,6 @@
     <string name="suggestion">Gợi ý</string>
     <string name="favorite">Yêu thích</string>
     <string name="favorite_restaurants_list_title">Danh sách quán yêu thích</string>
+    <string name="manage_menus">Manage Menus</string>
 
 </resources>
