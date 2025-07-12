@@ -200,30 +200,33 @@
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <SearchView
-                android:id="@+id/searchView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:queryHint="@string/search_hint" />
-        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <!-- Buttons -->
+    <!-- Tìm kiếm + Gợi ý + Yêu thích: Cùng 1 hàng -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         android:layout_marginBottom="12dp"
-        android:layout_marginTop="4dp"
-        android:baselineAligned="false">
+        android:baselineAligned="false"
+        android:layout_marginTop="8dp">
 
+        <!-- SearchView: chiếm ~2 phần -->
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:queryHint="@string/search_hint"
+            android:iconifiedByDefault="false"
+            android:background="@drawable/searchview_background"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Gợi ý -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnRandom"
             android:layout_width="0dp"
@@ -232,26 +235,31 @@
             android:layout_marginEnd="8dp"
             android:text="@string/suggestion"
             android:textColor="@android:color/black"
-            android:background="@android:color/holo_orange_light"
             android:drawableStart="@android:drawable/ic_menu_rotate"
             android:drawablePadding="8dp"
             android:textAllCaps="false"
-            android:gravity="center_vertical" />
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:background="@drawable/random_bg"
+            android:paddingEnd="8dp" />
 
+        <!-- Yêu thích -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnFavoriteList"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:layout_marginStart="8dp"
             android:text="@string/favorite"
             android:textColor="@android:color/black"
-            android:background="@color/pink"
-            android:drawableStart="@drawable/ic_favorite"
+            android:drawableStart="@drawable/baseline_favorite_24"
             android:drawablePadding="8dp"
             android:textAllCaps="false"
-            android:gravity="center_vertical" />
+            android:gravity="center"
+            android:background="@drawable/fav_bg"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"/>
     </LinearLayout>
+
 
     <!-- Danh sách quán ăn -->
     <androidx.recyclerview.widget.RecyclerView

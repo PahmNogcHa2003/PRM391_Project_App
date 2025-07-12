@@ -26,6 +26,9 @@
         <activity
             android:name=".controllers.admin.UserManagementActivity"
             android:exported="false" />
+        <activity
+            android:name=".controllers.activities.MenuActivity"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 

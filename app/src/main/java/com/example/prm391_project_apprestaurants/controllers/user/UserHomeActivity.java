@@ -3,7 +3,7 @@ package com.example.prm391_project_apprestaurants.controllers.user;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
+import androidx.appcompat.widget.SearchView;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.SearchView;
 import android.widget.Button;
 import android.widget.Toast;
 import android.content.Intent;
@@ -62,7 +61,7 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
         btnLogout = findViewById(R.id.btn_logout);
         tvUserName = findViewById(R.id.tv_user_name);
 
-        searchView = findViewById(R.id.searchView);
+        SearchView searchView = findViewById(R.id.searchView);
 
         rvRestaurants = findViewById(R.id.rvRestaurants);
         rvTop10 = findViewById(R.id.rvTop10);
