@@ -1,5 +1,7 @@
 package com.example.prm391_project_apprestaurants.entities;
 
+import java.util.List;
+
 public class Review {
     private int id;
     private int userId;
@@ -8,6 +10,9 @@ public class Review {
     private int rating;
     private String createdAt;
     private String userName;
+
+    private List<String> mediaUrls;
+
     public Review() {}
 
     public Review(int id, int userId, int restaurantId, String content, int rating, String createdAt, String userName) {
@@ -38,6 +43,10 @@ public class Review {
 
     public String getCreatedAt() { return createdAt; }
     public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
-    public String getUserName() {return userName; }
-    public void setUserName(String userName) {this.userName = userName; }
+
+    public String getUserName() { return userName; }
+    public void setUserName(String userName) { this.userName = userName; }
+
+    public List<String> getMediaUrls() { return mediaUrls; }
+    public void setMediaUrls(List<String> mediaUrls) { this.mediaUrls = mediaUrls; }
 }
