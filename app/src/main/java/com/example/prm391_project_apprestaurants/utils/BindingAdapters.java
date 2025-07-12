@@ -25,6 +25,19 @@ public class BindingAdapters {
             view.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.placeholder));
         }
     }
+
+    @BindingAdapter("imageDishUrl")
+    public static void loadDishImage(ImageView view, String url) {
+        if (url != null && !url.isEmpty()) {
+            Glide.with(view.getContext())
+                    .load(url)
+                    .apply(RequestOptions.centerCropTransform())
+                    .error(ContextCompat.getDrawable(view.getContext(), R.drawable.cutlery))
+                    .into(view);
+        } else {
+            view.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.placeholder));
+        }
+    }
     @BindingAdapter("iconMapUrl")
     public static void loadIconMapUrl(ImageView view, Drawable url) {
         view.setImageDrawable(url);

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -15,8 +16,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
-
-        <!-- Các Activity admin và hệ thống khác -->
+        <activity
+            android:name=".controllers.admin.CreateRestaurantDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controllers.admin.CreateMenuDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controllers.admin.UpdateMenuDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controllers.admin.MenuDetailDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controllers.admin.MenuManagementActivity"
+            android:exported="false" /> <!-- Các Activity admin và hệ thống khác -->
         <activity
             android:name=".controllers.admin.UpdateUserDashboardActivity"
             android:exported="false" />
@@ -55,9 +69,7 @@
             android:exported="false" />
         <activity
             android:name=".controllers.activities.ReviewActivity"
-            android:exported="false" />
-
-        <!-- Login activity - Launcher -->
+            android:exported="false" /> <!-- Login activity - Launcher -->
         <activity
             android:name=".controllers.Login.Login"
             android:exported="true"
@@ -81,21 +93,16 @@
             android:name=".controllers.admin.RestaurantManagementActivity"
             android:exported="false"
             android:label="@string/title_activity_restaurant_management"
-            android:theme="@style/Theme.PRM391_Project_AppRestaurants" />
-        <!-- Trang Home của user -->
+            android:theme="@style/Theme.PRM391_Project_AppRestaurants" /> <!-- Trang Home của user -->
         <activity
             android:name=".controllers.user.UserHomeActivity"
-            android:exported="false" />
-
-        <!-- Thêm 2 activity chuyển trang chi tiết và danh sách yêu thích -->
+            android:exported="false" /> <!-- Thêm 2 activity chuyển trang chi tiết và danh sách yêu thích -->
         <activity
             android:name=".controllers.detail.RestaurantDetailActivity"
             android:exported="false" />
         <activity
             android:name=".controllers.favorite.FavoriteListActivity"
-            android:exported="false" />
-
-        <!-- Metadata for fonts -->
+            android:exported="false" /> <!-- Metadata for fonts -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

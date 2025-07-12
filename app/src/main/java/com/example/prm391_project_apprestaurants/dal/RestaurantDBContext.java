@@ -62,6 +62,44 @@ public class RestaurantDBContext {
         }
         return restaurants;
     }
+    public List<Restaurant> getAllRestaurants() {
+        List<Restaurant> restaurants = new ArrayList<>();
+        try {
+            SQLiteDatabase db = dbContext.getReadableDatabase();
+            String query = "SELECT * FROM Restaurants r";
+            Cursor cursor = db.rawQuery(query, null);
+            while (cursor.moveToNext()) {
+                int id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                String address = cursor.getString(3);
+                String description = cursor.getString(2);
+                String image = cursor.getString(10);
+                String priceRange = cursor.getString(5);
+                String website = cursor.getString(9);
+                String category = cursor.getString(6);
+                String district = cursor.getString(4);
+                Boolean isHidden = cursor.getInt(13) == 1;
+                Restaurant restaurant = new Restaurant();
+                restaurant.setId(id);
+                restaurant.setName(name);
+                restaurant.setAddress(address);
+                restaurant.setDescription(description);
+                restaurant.setImage(image);
+                restaurant.setPriceRange(priceRange);
+                restaurant.setWebsite(website);
+                restaurant.setCategory(category);
+                restaurant.setDistrict(district);
+                restaurant.setHidden(isHidden);
+                restaurant.setReviewCount(countReviewByRestaurantId(id));
+                restaurants.add(restaurant);
+            }
+            cursor.close();
+            db.close();
+        } catch (Exception e) {
+            Log.d("Error", Objects.requireNonNull(e.getMessage()));
+        }
+        return restaurants;
+    }
 
     StringBuilder buildSearchRestaurantQuery(SearchRestaurantRequest request, boolean isPagination, List<String> params, long totalElement) {
         StringBuilder query = new StringBuilder();
@@ -85,6 +123,36 @@ public class RestaurantDBContext {
         }
 
         return query;
+    }
+
+    public boolean createRestaurant(Restaurant restaurant, boolean isClose) {
+        try {
+            SQLiteDatabase db = dbContext.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("Name", restaurant.getName());
+            values.put("Address", restaurant.getAddress());
+            values.put("Description", restaurant.getDescription());
+            values.put("PriceRange", restaurant.getPriceRange());
+            values.put("Website", restaurant.getWebsite());
+            values.put("Category", restaurant.getCategory());
+            values.put("District", restaurant.getDistrict());
+            values.put("OpeningHours", restaurant.getOpeningHours());
+            values.put("PhoneNumber", restaurant.getPhoneNumber());
+            values.put("Latitude", restaurant.getLatitude());
+            values.put("Longitude", restaurant.getLongitude());
+            values.put("ImageUrl", restaurant.getImage());
+            long result = db.insert("Restaurants", null, values);
+            if(isClose){
+                db.close();
+            }
+            if(result > 0){
+                restaurant.setId((int) result);
+            }
+            return result > 0;
+        } catch (Exception e) {
+            Log.d("Error", Objects.requireNonNull(e.getMessage()));
+        }
+        return false;
     }
 
     public Restaurant findById(int id) {

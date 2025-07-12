@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 
 import com.example.prm391_project_apprestaurants.R;
 import com.example.prm391_project_apprestaurants.controllers.Login.Login;
+import com.example.prm391_project_apprestaurants.controllers.admin.MenuManagementActivity;
 import com.example.prm391_project_apprestaurants.controllers.admin.RestaurantManagementActivity;
 import com.example.prm391_project_apprestaurants.controllers.admin.StatisticDashboardActivity;
 import com.example.prm391_project_apprestaurants.controllers.admin.UserManagementActivity;
@@ -83,6 +84,7 @@ public class SideBarFragment extends Fragment {
         LinearLayout userManagementBar = view.findViewById(R.id.llManageUsers);
         LinearLayout restaurantManagementBar = view.findViewById(R.id.llManageRestaurants);
         LinearLayout logoutBar = view.findViewById(R.id.llLogout);
+        LinearLayout menuBar = view.findViewById(R.id.llManageMenus);
 
         statisticBar.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), StatisticDashboardActivity.class);
@@ -94,6 +96,10 @@ public class SideBarFragment extends Fragment {
         });
         restaurantManagementBar.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), RestaurantManagementActivity.class);
+            startActivity(intent);
+        });
+        menuBar.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), MenuManagementActivity.class);
             startActivity(intent);
         });
         logoutBar.setOnClickListener(v -> {

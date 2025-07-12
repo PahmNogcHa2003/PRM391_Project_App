@@ -93,11 +93,25 @@
                 android:backgroundTint="#4CAF50"
                 android:drawablePadding="6dp"
                 android:minWidth="90dp"
-                android:text="Search"
+                android:text="Tìm kiếm"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btnCreate"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginStart="12dp"
+            android:backgroundTint="#4CAF50"
+            android:drawablePadding="6dp"
+            android:minWidth="90dp"
+            android:text="Thêm"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="14sp" />
 
         <!--        <LinearLayout-->
         <!--            android:id="@+id/btnCreate"-->

@@ -26,6 +26,10 @@ public class RestaurantService {
         return restaurantDBContext.getAllRestaurantsWithFilter(priceRange, district, category, searchQuery);
     }
 
+    public boolean createRestaurant(Restaurant restaurant, boolean isClose) {
+        return restaurantDBContext.createRestaurant(restaurant, isClose);
+    }
+
     public boolean updateRestaurant(Restaurant restaurant) {
         return restaurantDBContext.updateRestaurant(restaurant);
     }
@@ -36,5 +40,9 @@ public class RestaurantService {
 
     public boolean activeRestaurant(Restaurant restaurant) {
         return restaurantDBContext.activeRestaurant(restaurant);
+    }
+
+    public List<Restaurant> getAllRestaurants() {
+        return restaurantDBContext.getAllRestaurants();
     }
 }
