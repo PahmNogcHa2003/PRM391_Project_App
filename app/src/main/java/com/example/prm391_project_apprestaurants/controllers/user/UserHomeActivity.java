@@ -11,13 +11,13 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.SearchView;
-import android.widget.Spinner;
 import android.widget.Button;
 import android.widget.Toast;
 import android.content.Intent;
 
 import com.example.prm391_project_apprestaurants.R;
 import com.example.prm391_project_apprestaurants.controllers.Login.Login;
+import com.example.prm391_project_apprestaurants.controllers.admin.FilterActivity;
 import com.example.prm391_project_apprestaurants.entities.HomeRestaurant;
 import com.example.prm391_project_apprestaurants.controllers.adapters.HomeRestaurantAdapter;
 import com.example.prm391_project_apprestaurants.dal.RestaurantDetailDBContext;
@@ -35,7 +35,6 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
     private LinearLayout btnChangePassword, btnProfileSettings, btnLogout;
     private TextView tvUserName;
     private SearchView searchView;
-    private Spinner spinnerPrice, spinnerDistrict, spinnerCategory;
     private RecyclerView rvRestaurants, rvTop10;
     private Button btnFavoriteList;
 
@@ -45,7 +44,6 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
     private RestaurantDetailDBContext dbContext;
     private FavoriteDBContext favoriteDB;
     private int userId = 2; // Giả sử userId đang đăng nhập là 2
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +59,6 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
         tvUserName = findViewById(R.id.tv_user_name);
 
         searchView = findViewById(R.id.searchView);
-        spinnerPrice = findViewById(R.id.spinnerPrice);
-        spinnerDistrict = findViewById(R.id.spinnerDistrict);
-        spinnerCategory = findViewById(R.id.spinnerCategory);
 
         rvRestaurants = findViewById(R.id.rvRestaurants);
         rvTop10 = findViewById(R.id.rvTop10);
@@ -125,11 +120,18 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
             startActivity(intent);
         });
 
+        // Thêm listener để chuyển ngay khi click vào SearchView**
+        searchView.setOnClickListener(v -> {
+            Intent intent = new Intent(UserHomeActivity.this, FilterActivity.class);
+            intent.putExtra("initialQuery", searchView.getQuery().toString());
+            startActivity(intent);
+        });
+
+        // Giữ filter theo text change nhưng không cần submit**
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                filterRestaurants(query);
-                return true;
+                return true; // Không cần xử lý submit nữa
             }
 
             @Override

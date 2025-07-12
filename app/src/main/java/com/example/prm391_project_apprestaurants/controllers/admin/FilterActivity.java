@@ -2,53 +2,75 @@ package com.example.prm391_project_apprestaurants.controllers.admin;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.prm391_project_apprestaurants.R;
-import com.example.prm391_project_apprestaurants.controllers.adapters.FilterRestaurantAdapter;
+import com.example.prm391_project_apprestaurants.controllers.adapters.HomeRestaurantAdapter;
+import com.example.prm391_project_apprestaurants.entities.HomeRestaurant;
 import com.example.prm391_project_apprestaurants.entities.Restaurant;
 import com.example.prm391_project_apprestaurants.services.RestaurantService;
-
+import java.util.ArrayList;
 import java.util.List;
-
 import androidx.appcompat.widget.SearchView;
 
 public class FilterActivity extends AppCompatActivity {
 
     private RestaurantService restaurantService;
-    private RecyclerView recyclerView;
-    private FilterRestaurantAdapter adapter;
-    private List<Restaurant> restaurants;
+    private RecyclerView rvRestaurants;
+    private HomeRestaurantAdapter adapter;
+    private List<HomeRestaurant> homeRestaurants = new ArrayList<>();
     private SearchView searchView;
     private Spinner spinnerPriceRange, spinnerDistrict, spinnerCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("FilterActivity", "onCreate started");
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_filter);
+        Log.d("FilterActivity", "Layout set");
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
         Initialize();
+        Log.d("FilterActivity", "onCreate finished");
     }
 
     private void Initialize() {
-        recyclerView = findViewById(R.id.recyclerViewRestaurants);
+        Log.d("FilterActivity", "Initialize started");
+        rvRestaurants = findViewById(R.id.rvRestaurants);
+        if (rvRestaurants == null) {
+            Log.e("FilterActivity", "rvRestaurants not found in layout");
+        }
         searchView = findViewById(R.id.searchView);
+        if (searchView == null) {
+            Log.e("FilterActivity", "searchView not found in layout");
+        } else {
+            searchView.setQueryHint("Tìm tên quán ăn");
+            Log.d("FilterActivity", "SearchView hint set to: " + searchView.getQueryHint());
+        }
         spinnerPriceRange = findViewById(R.id.spinnerPriceRange);
+        if (spinnerPriceRange == null) {
+            Log.e("FilterActivity", "spinnerPriceRange not found in layout");
+        }
         spinnerDistrict = findViewById(R.id.spinnerDistrict);
+        if (spinnerDistrict == null) {
+            Log.e("FilterActivity", "spinnerDistrict not found in layout");
+        }
         spinnerCategory = findViewById(R.id.spinnerCategory);
+        if (spinnerCategory == null) {
+            Log.e("FilterActivity", "spinnerCategory not found in layout");
+        }
 
         // Set up Spinners with options
         ArrayAdapter<String> priceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
@@ -71,11 +93,12 @@ public class FilterActivity extends AppCompatActivity {
 
         restaurantService = new RestaurantService(this);
         String initialQuery = getIntent().getStringExtra("initialQuery");
+        Log.d("FilterActivity", "Initial query: " + (initialQuery != null ? initialQuery : "null"));
         if (initialQuery != null) {
             searchView.setQuery(initialQuery, false);
         }
-        updateRestaurantList(null, null, null, initialQuery);
 
+        // Add SearchView listener
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -100,6 +123,7 @@ public class FilterActivity extends AppCompatActivity {
             }
         });
 
+        // Add Spinner listeners
         spinnerPriceRange.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
@@ -144,6 +168,21 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(android.widget.AdapterView<?> parent) {}
         });
+
+        updateRestaurantList(null, null, null, initialQuery); // Initial load
+        Log.d("FilterActivity", "Initialize finished");
+    }
+
+    public void resetFilters(View view) {
+        Log.d("FilterActivity", "Reset filters clicked");
+        // Reset spinners to default positions
+        spinnerPriceRange.setSelection(0); // "Giá"
+        spinnerDistrict.setSelection(0);   // "Huyện"
+        spinnerCategory.setSelection(0);   // "Loại món"
+        // Clear SearchView query
+        searchView.setQuery("", false);
+        // Refresh the list with default filters
+        updateRestaurantList(null, null, null, "");
     }
 
     private String getSelectedValue(Spinner spinner) {
@@ -152,14 +191,36 @@ public class FilterActivity extends AppCompatActivity {
     }
 
     private void updateRestaurantList(String priceRange, String district, String category, String searchQuery) {
-        restaurants = restaurantService.getAllRestaurantsWithFilter(priceRange, district, category, searchQuery);
+        Log.d("FilterActivity", "Updating list with - Price: " + priceRange + ", District: " + district + ", Category: " + category + ", Query: " + searchQuery);
+        List<Restaurant> restaurants = restaurantService.getAllRestaurantsWithFilter(priceRange, district, category, searchQuery);
         Log.d("FilterActivity", "Fetched " + (restaurants != null ? restaurants.size() : 0) + " restaurants");
+        homeRestaurants.clear();
+        for (Restaurant r : restaurants) {
+            HomeRestaurant hr = new HomeRestaurant();
+            hr.setId(r.getId());
+            hr.setName(r.getName());
+            hr.setAddress(r.getAddress());
+            hr.setDescription(r.getDescription());
+            hr.setImageUrl(r.getImage());
+            hr.setPrice(r.getPriceRange());
+            hr.setFavorite(false); // No favorite toggle for filter
+            String restaurantDistrict = r.getDistrict();
+            Log.d("FilterActivity", "Restaurant ID: " + r.getId() + ", District: " + (restaurantDistrict != null ? restaurantDistrict : "null"));
+            hr.setDistrict(restaurantDistrict);
+            homeRestaurants.add(hr);
+        }
         if (adapter == null) {
-            adapter = new FilterRestaurantAdapter(restaurants);
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
+            Log.d("FilterActivity", "Initializing adapter with " + homeRestaurants.size() + " items");
+            adapter = new HomeRestaurantAdapter(this, homeRestaurants, null); // No item click listener for now
+            if (rvRestaurants != null) {
+                rvRestaurants.setAdapter(adapter);
+                rvRestaurants.setLayoutManager(new LinearLayoutManager(this));
+            } else {
+                Log.e("FilterActivity", "rvRestaurants is null, cannot set adapter");
+            }
         } else {
-            adapter.updateRestaurants(restaurants);
+            Log.d("FilterActivity", "Updating adapter with " + homeRestaurants.size() + " items");
+            adapter.updateList(homeRestaurants);
         }
     }
 }

@@ -214,41 +214,6 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Bộ lọc -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:baselineAligned="false">
-
-        <Spinner
-            android:id="@+id/spinnerPrice"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:background="@drawable/spinner_background"
-            android:prompt="@string/price_range" />
-
-        <Spinner
-            android:id="@+id/spinnerDistrict"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:background="@drawable/spinner_background"
-            android:layout_marginStart="8dp"
-            android:prompt="@string/address" />
-
-        <Spinner
-            android:id="@+id/spinnerCategory"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:background="@drawable/spinner_background"
-            android:layout_marginStart="8dp"
-            android:prompt="@string/category" />
-    </LinearLayout>
-
     <!-- Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
