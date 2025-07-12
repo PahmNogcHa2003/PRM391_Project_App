@@ -38,6 +38,7 @@ public class RestaurantManagementActivity extends AppCompatActivity {
     private SideBarFragment sideBarFragment;
     private Spinner spinner;
     private Button searchButton;
+    private Button createButton;
     private EditText editTextKeyword;
     private SearchRestaurantRequest searchRestaurantRequest;
     private TextView textViewPage;
@@ -77,6 +78,7 @@ public class RestaurantManagementActivity extends AppCompatActivity {
         btnLast = findViewById(R.id.btnEnd);
         btnPrevious = findViewById(R.id.btnPrevious);
         btnNext = findViewById(R.id.btnNext);
+        createButton = findViewById(R.id.btnCreate);
         bindingPaginationData(searchRestaurantRequest);
         imageMenuButton.setOnClickListener(view -> {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -119,6 +121,10 @@ public class RestaurantManagementActivity extends AppCompatActivity {
         btnNext.setOnClickListener(view -> {
             if (searchRestaurantRequest.getPage() < searchRestaurantRequest.getTotalPage()) searchRestaurantRequest.setPage(searchRestaurantRequest.getPage() + 1);
             loadRestaurantData();
+        });
+        createButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, CreateRestaurantDashboardActivity.class);
+            startActivity(intent);
         });
     }
 

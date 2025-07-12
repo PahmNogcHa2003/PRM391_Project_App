@@ -66,6 +66,7 @@ public class Constant {
                     ImageUrl TEXT,
                     Description TEXT,
                     CreatedAt TEXT DEFAULT CURRENT_TIMESTAMP,
+                    IsHidden INTEGER DEFAULT 0,            -- 0: hiển thị, 1: bị ẩn (Admin kiểm soát)
                     FOREIGN KEY (RestaurantId) REFERENCES Restaurants(Id)
                 );
             """;

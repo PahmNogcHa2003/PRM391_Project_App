@@ -1,14 +1,18 @@
 package com.example.prm391_project_apprestaurants.entities;
 
-public class Menu {
+import java.io.Serializable;
+
+public class Menu implements Serializable {
     private int id;
     private int restaurantId;
     private String dishName;
     private String price;
-    private String imageUrl;
     private String description;
+    private String imageUrl;
     private String createdAt;
+    private Restaurant restaurant;
 
+    private boolean isHidden;
     // Constructor rỗng
     public Menu() {
     }
@@ -24,7 +28,6 @@ public class Menu {
         this.createdAt = createdAt;
     }
 
-    // Getter & Setter
     public int getId() {
         return id;
     }
@@ -57,20 +60,20 @@ public class Menu {
         this.price = price;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getCreatedAt() {
@@ -81,17 +84,19 @@ public class Menu {
         this.createdAt = createdAt;
     }
 
-    // Optional: toString() để debug
-    @Override
-    public String toString() {
-        return "Menu{" +
-                "id=" + id +
-                ", restaurantId=" + restaurantId +
-                ", dishName='" + dishName + '\'' +
-                ", price='" + price + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", description='" + description + '\'' +
-                ", createdAt='" + createdAt + '\'' +
-                '}';
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public boolean isHidden() {
+        return isHidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        isHidden = hidden;
     }
 }
