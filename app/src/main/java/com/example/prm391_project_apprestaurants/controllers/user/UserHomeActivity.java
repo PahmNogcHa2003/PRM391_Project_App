@@ -38,7 +38,7 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
     private SearchView searchView;
     private RecyclerView rvRestaurants, rvTop10;
     private Button btnFavoriteList;
-
+    private Button btnRandom;
     private HomeRestaurantAdapter restaurantAdapter, top10Adapter;
     private List<HomeRestaurant> restaurantList = new ArrayList<>();
     private List<HomeRestaurant> top10List = new ArrayList<>();
@@ -60,7 +60,7 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
         btnProfileSettings = findViewById(R.id.btn_profile_settings);
         btnLogout = findViewById(R.id.btn_logout);
         tvUserName = findViewById(R.id.tv_user_name);
-
+        btnRandom = findViewById(R.id.btnRandom);
         SearchView searchView = findViewById(R.id.searchView);
 
         rvRestaurants = findViewById(R.id.rvRestaurants);
@@ -132,6 +132,10 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
             } else {
                 userMenuDropdown.setVisibility(View.VISIBLE);
             }
+        });
+        btnRandom.setOnClickListener(v -> {
+            Intent intent = new Intent(UserHomeActivity.this, SuggestionActivity.class);
+            startActivity(intent);
         });
 
         btnChangePassword.setOnClickListener(v -> {
