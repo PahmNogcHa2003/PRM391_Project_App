@@ -103,7 +103,23 @@
             android:exported="false" />
         <activity
             android:name=".controllers.favorite.FavoriteListActivity"
-            android:exported="false" /> <!-- Metadata for fonts -->
+            android:exported="false"
+            android:theme="@style/Theme.PRM391_Project_AppRestaurants" />
+
+
+        <activity android:name=".controllers.Login.RegisterActivity"
+            android:theme="@style/Theme.PRM391_Project_AppRestaurants">
+        </activity>
+
+        <activity android:name=".controllers.Login.VerifyActivity"
+            android:theme="@style/Theme.PRM391_Project_AppRestaurants">
+        </activity>
+
+
+
+
+
+        <!-- Metadata for fonts -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

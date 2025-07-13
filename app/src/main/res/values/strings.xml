@@ -29,6 +29,32 @@
     <string name="login">Login</string>
     <string name="or_login_with">Or Login with</string>
     <string name="location_icon_desc">Location icon</string>
+
+
+    <!-- Thêm vào file strings.xml -->
+    <string name="register_title">Register</string>
+    <string name="create_account">Register New Account</string>
+    <string name="username_label">Username</string>
+    <string name="confirm_password_label">Confirm Password</string>
+    <string name="register">Register</string>
+    <string name="have_account">Already have an account? Login</string>
+
+    <string name="no_account">Don\'t have an account</string>
+    <string name="register_here">Register here</string>
+
+    <!-- Verify Email -->
+    <string name="verify_title">Vui lòng nhập mã xác thực đã gửi đến email của bạn</string>
+    <string name="verify_hint">Nhập mã xác thực</string>
+    <string name="verify_button">Xác nhận</string>
+    <string name="resend_code">Gửi lại mã xác thực</string>
+    <string name="resend_success">Mã xác thực mới đã được tạo</string>
+    <string name="resend_log">Mã xác thực mới: </string>
+    <string name="wrong_code">Sai mã xác thực</string>
+    <string name="empty_code">Vui lòng nhập mã xác thực</string>
+    <string name="invalid_code">Mã xác thực không hợp lệ</string>
+    <string name="verify_success">Xác thực thành công</string>
+    <string name="create_user_fail">Tài khoản đã tồn tại hoặc lỗi khi tạo</string>
+    <string name="code_resend_label">Mã mới đã gửi (giả lập): </string>
     <string name="filter_select_price_range">Giá</string>
     <string name="filter_select_district">Huyện</string>
     <string name="filter_select_category">Loại món</string>
