@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_suggestion_choice"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient"
+    android:padding="24dp"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_card"
+        android:padding="23dp"
+        android:elevation="8dp"
+        android:clipToPadding="false">
+
+        <!-- Tiêu đề -->
+        <TextView
+            android:id="@+id/tvSuggestionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hôm nay, bạn muốn chúng mình gợi ý món ăn gì nào?"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#333"
+            android:gravity="center"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Nhóm Radio -->
+        <RadioGroup
+            android:id="@+id/rgType"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rb0"
+                style="@style/StyledRadioButton"
+                android:padding="12dp"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
+                android:textStyle="bold"
+                android:text="🎲 Ngẫu nhiên" />
+
+            <RadioButton
+                android:id="@+id/rb1"
+                style="@style/StyledRadioButton"
+                android:padding="12dp"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
+                android:textStyle="bold"
+                android:text="🍽️ Theo bữa ăn" />
+
+            <RadioButton
+                android:id="@+id/rb2"
+                style="@style/StyledRadioButton"
+                android:padding="12dp"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
+                android:textStyle="bold"
+                android:text="⭐ Đánh giá cao" />
+
+            <RadioButton
+                android:id="@+id/rb3"
+                style="@style/StyledRadioButton"
+                android:padding="12dp"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
+                android:textStyle="bold"
+                android:text="📍 Gần bạn nhất" />
+        </RadioGroup>
+
+        <!-- Nút Gợi ý -->
+        <Button
+            android:id="@+id/btnSuggest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:text="GỢI Ý NGAY"
+            android:textAllCaps="true"
+            android:elevation="4dp"
+            android:drawableLeft="@drawable/ic_magic_wand"
+            android:drawablePadding="8dp" />
+    </LinearLayout>
+</LinearLayout>

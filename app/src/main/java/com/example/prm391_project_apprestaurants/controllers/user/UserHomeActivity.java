@@ -17,6 +17,7 @@ import android.content.Intent;
 
 import com.example.prm391_project_apprestaurants.R;
 import com.example.prm391_project_apprestaurants.controllers.Login.Login;
+import com.example.prm391_project_apprestaurants.controllers.activities.SuggestionActivity;
 import com.example.prm391_project_apprestaurants.controllers.admin.FilterActivity;
 import com.example.prm391_project_apprestaurants.dal.ReviewDBContext;
 import com.example.prm391_project_apprestaurants.entities.HomeRestaurant;
@@ -38,7 +39,7 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
     private SearchView searchView;
     private RecyclerView rvRestaurants, rvTop10;
     private Button btnFavoriteList;
-
+    private Button btnRandom;
     private HomeRestaurantAdapter restaurantAdapter, top10Adapter;
     private List<HomeRestaurant> restaurantList = new ArrayList<>();
     private List<HomeRestaurant> top10List = new ArrayList<>();
@@ -60,9 +61,12 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
         btnProfileSettings = findViewById(R.id.btn_profile_settings);
         btnLogout = findViewById(R.id.btn_logout);
         tvUserName = findViewById(R.id.tv_user_name);
-
+        btnRandom = findViewById(R.id.btnRandom);
         SearchView searchView = findViewById(R.id.searchView);
-
+        btnRandom.setOnClickListener(v -> {
+            Intent intent = new Intent(UserHomeActivity.this, SuggestionActivity.class);
+            startActivity(intent);
+        });
         rvRestaurants = findViewById(R.id.rvRestaurants);
         rvTop10 = findViewById(R.id.rvTop10);
 
@@ -72,7 +76,7 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
         userId = sharedPref.getInt("userId", -1);
         userName = sharedPref.getString("userName", "Khách");
 
-        // ✅ Sau khi tvUserName đã được ánh xạ
+
         tvUserName.setText(userName);
 
         // Nếu không có user -> quay về login
