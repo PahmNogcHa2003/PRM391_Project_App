@@ -133,10 +133,10 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
                 userMenuDropdown.setVisibility(View.VISIBLE);
             }
         });
-        btnRandom.setOnClickListener(v -> {
-            Intent intent = new Intent(UserHomeActivity.this, SuggestionActivity.class);
-            startActivity(intent);
-        });
+//        btnRandom.setOnClickListener(v -> {
+//            Intent intent = new Intent(UserHomeActivity.this, SuggestionActivity.class);
+//            startActivity(intent);
+//        });
 
         btnChangePassword.setOnClickListener(v -> {
             Toast.makeText(this, "Đổi mật khẩu", Toast.LENGTH_SHORT).show();
