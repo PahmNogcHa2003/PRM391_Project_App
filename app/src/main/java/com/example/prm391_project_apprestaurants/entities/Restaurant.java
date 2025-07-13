@@ -21,6 +21,7 @@ public class Restaurant implements Serializable {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private int reviewCount;
+    private String mealTime;
 
     public int getId() {
         return id;
@@ -156,5 +157,12 @@ public class Restaurant implements Serializable {
 
     public void setReviewCount(int reviewCount) {
         this.reviewCount = reviewCount;
+    }
+    public String getMealTime() {
+        return mealTime;
+    }
+
+    public void setMealTime(String mealTime) {
+        this.mealTime = mealTime;
     }
 }

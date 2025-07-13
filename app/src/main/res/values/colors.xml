@@ -37,4 +37,5 @@
     <color name="text_primary">#333333</color>
 <!--    <color name="text_secondary">#666666</color>-->
     <color name="card_background">#FFFFFF</color>
+    <color name="colorPrimary">#FF5722</color>
 </resources>

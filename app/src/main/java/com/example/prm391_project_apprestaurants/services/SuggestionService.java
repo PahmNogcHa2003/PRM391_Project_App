@@ -1,41 +1,42 @@
-//package com.example.prm391_project_apprestaurants.services;
-//
-//import android.content.Context;
-//
-//import com.example.prm391_project_apprestaurants.dal.SuggestionDbContext;
-//import com.example.prm391_project_apprestaurants.entities.Restaurant;
-//
-//import java.util.List;
-//
-//public class SuggestionService {
-//    private final SuggestionDbContext suggestionDbContext;
-//
-//    public SuggestionService(Context context) {
-//        suggestionDbContext = new SuggestionDbContext(context);
-//    }
-//
-//    // 1. Gợi ý ngẫu nhiên
-//    public Restaurant getRandomSuggestion() {
-//        return suggestionDbContext.getRandomRestaurant();
-//    }
-//
-//    // 2. Gợi ý theo vị trí
-//    public Restaurant getClosestSuggestion(double lat, double lng) {
-//        return suggestionDbContext.getClosestRestaurant(lat, lng);
-//    }
-//
-//    // 3. Gợi ý theo đánh giá cao nhất
-//    public Restaurant getTopRatedSuggestion() {
-//        return suggestionDbContext.getTopRatedRestaurant();
-//    }
-//
-//    // 4. Gợi ý theo bữa ăn
-//    public List<Restaurant> getSuggestionsByMealTime(String mealTime) {
-//        return suggestionDbContext.getRestaurantsByMealTime(mealTime);
-//    }
-//
-//    // Tất cả quán được hiển thị
-//    public List<Restaurant> getAllVisible() {
-//        return suggestionDbContext.getAllVisibleRestaurants();
-//    }
-//}
+package com.example.prm391_project_apprestaurants.services;
+
+import android.content.Context;
+import com.example.prm391_project_apprestaurants.dal.SuggestionDBContext;
+import com.example.prm391_project_apprestaurants.entities.Restaurant;
+import java.util.List;
+import java.util.Random;
+
+public class SuggestionService {
+    private final SuggestionDBContext db;
+    private final Random random = new Random();
+
+    public SuggestionService(Context ctx) {
+        db = new SuggestionDBContext(ctx);
+    }
+
+    public Restaurant getRandom() {
+        return db.getRandomRestaurant();
+    }
+
+    public Restaurant getByMealTime() {
+        return db.getSuggestedByMealTime();
+    }
+
+    public Restaurant getByRating() {
+        return db.getHighestRatedRestaurant();
+    }
+
+    public Restaurant getByGPS(double lat, double lng) {
+        return db.getNearestRestaurant(lat, lng);
+    }
+
+    public Restaurant getByType(int type, double lat, double lng) {
+        switch (type) {
+            case 0: return getRandom();
+            case 1: return getByMealTime();
+            case 2: return getByRating();
+            case 3: return getByGPS(lat, lng);
+            default: return null;
+        }
+    }
+}
