@@ -17,7 +17,9 @@ import com.example.prm391_project_apprestaurants.controllers.admin.RestaurantMan
 import com.example.prm391_project_apprestaurants.controllers.admin.UpdateRestaurantDashboardActivity;
 import com.example.prm391_project_apprestaurants.controllers.viewholders.BindingViewHolder;
 import com.example.prm391_project_apprestaurants.databinding.ViewholderRestaurantItemBinding;
+import com.example.prm391_project_apprestaurants.entities.Category;
 import com.example.prm391_project_apprestaurants.entities.Restaurant;
+import com.example.prm391_project_apprestaurants.services.CategoryService;
 import com.example.prm391_project_apprestaurants.services.RestaurantService;
 import com.example.prm391_project_apprestaurants.utils.UtilHelper;
 
@@ -30,19 +32,31 @@ public class RestaurantManagementAdapter extends RecyclerView.Adapter<BindingVie
     }
     public RestaurantService restaurantService;
 
+    public CategoryService categoryService;
+
     @NonNull
     @Override
     public BindingViewHolder<com.example.prm391_project_apprestaurants.databinding.ViewholderRestaurantItemBinding> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         ViewholderRestaurantItemBinding binding = ViewholderRestaurantItemBinding.inflate(inflater);
         restaurantService = new RestaurantService(parent.getContext());
+        categoryService = new CategoryService(parent.getContext());
         return new BindingViewHolder<>(binding.getRoot());
     }
 
     @Override
     public void onBindViewHolder(@NonNull BindingViewHolder<com.example.prm391_project_apprestaurants.databinding.ViewholderRestaurantItemBinding> holder, int position) {
         Restaurant restaurant = restaurants.get(position);
+        List<Category> categories = categoryService.getCategoriesByRestaurantId(restaurant.getId());
         holder.getBinding().setViewHolder(restaurant);
+        StringBuilder categoryNames = new StringBuilder();
+        for (int i = 0; i < categories.size(); i++) {
+            categoryNames.append(categories.get(i).getName());
+            if (i < categories.size() - 1) {
+                categoryNames.append(", ");
+            }
+        }
+        holder.getBinding().textCategory.setText(categoryNames.toString());
         registerEvents(holder.getBinding(), position);
         holder.getBinding().executePendingBindings();
     }

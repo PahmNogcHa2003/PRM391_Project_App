@@ -1,7 +1,11 @@
 package com.example.prm391_project_apprestaurants.controllers.admin;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ScrollView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.prm391_project_apprestaurants.R;
 import com.example.prm391_project_apprestaurants.controllers.adapters.ReviewDashboardAdapter;
+import com.example.prm391_project_apprestaurants.controllers.fragments.MapsRestaurantDashboardFragmentV2;
 import com.example.prm391_project_apprestaurants.databinding.ActivityRestaurantDetailDashboardBinding;
 import com.example.prm391_project_apprestaurants.entities.Restaurant;
 import com.example.prm391_project_apprestaurants.entities.Review;
@@ -25,18 +30,16 @@ public class RestaurantDetailDashboardActivity extends AppCompatActivity {
     private RestaurantService restaurantService;
     private ReviewService reviewService;
 
+    private Restaurant findRestaurant;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        try {
-            super.onCreate(savedInstanceState);
-            EdgeToEdge.enable(this);
-            binding = DataBindingUtil.setContentView(this, R.layout.activity_restaurant_detail_dashboard);
-
-            Initialize();
-            bindingData();
-        }catch (Exception e){
-            Log.d("Errorss", Objects.requireNonNull(e.getMessage()));
-        }
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_restaurant_detail_dashboard);
+        Initialize();
+        bindingData();
+        RegisterEvents();
     }
 
     private void Initialize() {
@@ -46,13 +49,42 @@ public class RestaurantDetailDashboardActivity extends AppCompatActivity {
     }
 
     private void bindingData() {
-        // Binding object Restaurant vào XML
-        Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
-        binding.setViewHolder(restaurant);
+        findRestaurant = restaurantService.getRestaurantById(restaurantId);
+        binding.setViewHolder(findRestaurant);
         // Setup review RecyclerView
         List<Review> reviews = reviewService.getReviews(restaurantId);
         ReviewDashboardAdapter reviewAdapter = new ReviewDashboardAdapter(reviews);
         binding.recyclerViewReview.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerViewReview.setAdapter(reviewAdapter);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void RegisterEvents() {
+        binding.buttonBack.setOnClickListener(v -> finish());
+        ScrollView scrollView = findViewById(R.id.scrollDetail);
+        View overlay = binding.recyclerViewReviewTouchOverlay;
+
+        overlay.setOnTouchListener((v, event) -> {
+            try {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                    case MotionEvent.ACTION_MOVE:
+                        scrollView.requestDisallowInterceptTouchEvent(true);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        scrollView.requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+                return false;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        });
+    }
+
+    public Restaurant getFindRestaurant() {
+        return findRestaurant;
     }
 }

@@ -40,6 +40,7 @@ public class RestaurantDBContext {
                 String website = cursor.getString(9);
                 String category = cursor.getString(6);
                 String district = cursor.getString(4);
+                String openingHours = cursor.getString(7);
                 Boolean isHidden = cursor.getInt(13) == 1;
                 Restaurant restaurant = new Restaurant();
                 restaurant.setId(id);
@@ -52,6 +53,7 @@ public class RestaurantDBContext {
                 restaurant.setCategory(category);
                 restaurant.setDistrict(district);
                 restaurant.setHidden(isHidden);
+                restaurant.setOpeningHours(openingHours);
                 restaurant.setReviewCount(countReviewByRestaurantId(id));
                 restaurants.add(restaurant);
             }
@@ -127,7 +129,7 @@ public class RestaurantDBContext {
 
     public boolean createRestaurant(Restaurant restaurant, boolean isClose) {
         try {
-            SQLiteDatabase db = dbContext.getWritableDatabase();
+            SQLiteDatabase db = dbContext.getDb() != null ? dbContext.getDb() : dbContext.getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put("Name", restaurant.getName());
             values.put("Address", restaurant.getAddress());
@@ -292,10 +294,10 @@ public class RestaurantDBContext {
         return restaurants;
     }
 
-    public boolean updateRestaurant(Restaurant restaurant) {
+    public boolean updateRestaurant(Restaurant restaurant, boolean isClose) {
         boolean result = false;
         try {
-            SQLiteDatabase db = dbContext.getWritableDatabase();
+            SQLiteDatabase db = dbContext.getDb() != null ? dbContext.getDb() : dbContext.getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put("Name", restaurant.getName());
             values.put("Address", restaurant.getAddress());
@@ -311,7 +313,9 @@ public class RestaurantDBContext {
             values.put("Longitude", restaurant.getLongitude());
             values.put("updatedAt", LocalDateTime.now().toString());
             result = db.update("Restaurants", values, "Id = ?", new String[]{String.valueOf(restaurant.getId())}) > 0;
-            db.close();
+            if(isClose) {
+                db.close();
+            }
         } catch (Exception e) {
             Log.d("Error", Objects.requireNonNull(e.getMessage()));
         }

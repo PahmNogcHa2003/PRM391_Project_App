@@ -1,6 +1,7 @@
 package com.example.prm391_project_apprestaurants.controllers.admin;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import com.example.prm391_project_apprestaurants.R;
 import com.example.prm391_project_apprestaurants.controllers.adapters.CategoryAdapter;
 import com.example.prm391_project_apprestaurants.controllers.fragments.MapsRestaurantDashboardFragmentV2;
 import com.example.prm391_project_apprestaurants.databinding.ActivityCreateRestaurantDashboardBinding;
+import com.example.prm391_project_apprestaurants.entities.Category;
 import com.example.prm391_project_apprestaurants.entities.Restaurant;
 import com.example.prm391_project_apprestaurants.services.CategoryService;
 import com.example.prm391_project_apprestaurants.services.RestaurantCategoryService;
@@ -27,16 +29,15 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CreateRestaurantDashboardActivity extends AppCompatActivity {
     private ActivityCreateRestaurantDashboardBinding binding;
     private CategoryService categoryService;
     private CategoryAdapter categoryAdapter;
     private RestaurantService restaurantService;
-
     private RestaurantCategoryService restaurantCategoryService;
     private MapsRestaurantDashboardFragmentV2 mapsRestaurantDashboardFragmentV2;
-
     private DatabaseTransactionManagement databaseTransactionManagement;
 
     @Override
@@ -69,11 +70,13 @@ public class CreateRestaurantDashboardActivity extends AppCompatActivity {
     }
 
     private void createRestaurant(View v) {
-        databaseTransactionManagement.beginTransaction();
+        databaseTransactionManagement.beginTransaction(false);
         boolean isTransactionSuccessful = true;
         try {
             LatLng lastPos = mapsRestaurantDashboardFragmentV2.getLastPos();
-            List<Integer> selectedCategoryIds = categoryAdapter.getSelectedCategoryIds();
+            List<Category> selectedCategories = categoryAdapter.getCategories().stream().
+                    filter(Category::isSelected)
+                    .collect(Collectors.toList());
             Restaurant restaurant = new Restaurant();
             restaurant.setName(binding.editName.getText().toString());
             restaurant.setAddress(binding.editAddress.getText().toString());
@@ -93,9 +96,9 @@ public class CreateRestaurantDashboardActivity extends AppCompatActivity {
             if (!result) {
                 throw new Exception("Failed to create restaurant");
             }
-            for (int i = 0; i < selectedCategoryIds.size(); i++) {
-                boolean result1 = restaurantCategoryService.addRestaurantCategory(restaurant.getId(), selectedCategoryIds.get(i), false);
-                if (!result1){
+            for (Category category : selectedCategories) {
+                boolean result1 = restaurantCategoryService.addRestaurantCategory(restaurant.getId(),  category.getId(), false);
+                if (!result1) {
                     throw new Exception("Failed to create restaurant");
                 }
             }

@@ -16,4 +16,7 @@ public class CategoryService {
     public List<Category> getAllCategories(){
         return categoryDBContext.getAllCategories();
     }
+    public List<Category> getCategoriesByRestaurantId(int restaurantId){
+        return categoryDBContext.getAllCategoriesByRestaurantId(restaurantId);
+    }
 }

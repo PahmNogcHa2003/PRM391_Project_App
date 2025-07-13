@@ -33,7 +33,7 @@
       <console name="Connection" type="STANDARD" schema="" session="Main" />
     </connection>
     <connection id="7a37433c-9ba3-4c2c-a56f-af044b1086bd">
-      <console name="Connection 1" type="STANDARD" schema="" session="Main"><![CDATA[select * from RestaurantCategory]]></console>
+      <console name="Connection 1" type="STANDARD" schema="" session="Main" />
     </connection>
     <connection id="566a8a81-7c9b-46c3-a247-1a845939113e">
       <console name="Connection 2" type="STANDARD" schema="" session="Main" />

@@ -9,7 +9,7 @@ public class Constant {
                 Email TEXT,
                 Role TEXT DEFAULT 'User', -- 'User' hoặc 'Admin'
                 CreatedAt TEXT DEFAULT CURRENT_TIMESTAMP,
-                IsActive INTEGER DEFAULT 1
+                IsActive INTEGER DEFAULT 0
             );
             """;
     public static final String SQL_CREATE_TABLE_RESTAURANTS = """
@@ -100,13 +100,13 @@ public class Constant {
 
 
     public static final String SQL_INSERT_TABLE_USERS = """ 
-            INSERT INTO Users (Username, Password, Email, Role) VALUES
-            ('admin', 'adminpass', 'admin@gmail.com', 'Admin'),
-            ('user1', 'userpass1', 'user1@gmail.com', 'User'),
-            ('user2', 'userpass2', 'user2@gmail.com', 'User'),
-            ('user3', 'userpass3', 'user3@gmail.com', 'User'),
-            ('user4', 'userpass4', 'user4@gmail.com', 'User'),
-            ('user5', 'userpass5', 'user5@gmail.com', 'User');
+            INSERT INTO Users (Username, Password, Email, Role,IsActive) VALUES
+            ('admin', 'adminpass', 'admin@gmail.com', 'Admin',1),
+            ('user1', 'userpass1', 'user1@gmail.com', 'User',1),
+            ('user2', 'userpass2', 'user2@gmail.com', 'User',1),
+            ('user3', 'userpass3', 'user3@gmail.com', 'User',0),
+            ('user4', 'userpass4', 'user4@gmail.com', 'User',0),
+            ('user5', 'userpass5', 'user5@gmail.com', 'User',0);
             
             """;
     public static final String SQL_INSERT_TABLE_RESTAURANTS = """

@@ -34,4 +34,7 @@ public class MenuService {
     public boolean updateStatusMenu(int menuId, int status){
         return menuDBContext.updateStatusMenu(menuId, status);
     }
+    public long countTotalMenus(SearchMenuRequest request) {
+        return menuDBContext.countTotalMenus(request);
+    }
 }

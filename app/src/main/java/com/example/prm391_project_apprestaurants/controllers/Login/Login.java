@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,7 @@ public class Login extends AppCompatActivity {
     private EditText edtUsername, edtPassword;
     private MaterialButton btnLogin;
     private UserDBContext userDBContext;
+    private TextView txtGoToRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class Login extends AppCompatActivity {
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        txtGoToRegister = findViewById(R.id.txtGoToRegister); // ánh xạ text đăng ký
 
         // Xử lý sự kiện login
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +79,14 @@ public class Login extends AppCompatActivity {
             } else {
                     Toast.makeText(Login.this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        // Xử lý chuyển sang RegisterActivity khi người dùng chưa có tài khoản
+        txtGoToRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, RegisterActivity.class); // <- tên Activity đăng ký
+                startActivity(intent);
             }
         });
     }

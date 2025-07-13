@@ -30,8 +30,8 @@ public class RestaurantService {
         return restaurantDBContext.createRestaurant(restaurant, isClose);
     }
 
-    public boolean updateRestaurant(Restaurant restaurant) {
-        return restaurantDBContext.updateRestaurant(restaurant);
+    public boolean updateRestaurant(Restaurant restaurant, boolean isClose) {
+        return restaurantDBContext.updateRestaurant(restaurant, isClose);
     }
 
     public boolean deleteRestaurant(Restaurant restaurant) {
@@ -40,6 +40,10 @@ public class RestaurantService {
 
     public boolean activeRestaurant(Restaurant restaurant) {
         return restaurantDBContext.activeRestaurant(restaurant);
+    }
+
+    public long countTotalRestaurants() {
+        return restaurantDBContext.countTotalRestaurants(new SearchRestaurantRequest());
     }
 
     public List<Restaurant> getAllRestaurants() {

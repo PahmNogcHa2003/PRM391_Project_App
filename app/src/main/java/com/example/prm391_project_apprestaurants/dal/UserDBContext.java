@@ -1,5 +1,6 @@
 package com.example.prm391_project_apprestaurants.dal;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,6 +15,7 @@ import java.util.Objects;
 
 public class UserDBContext {
     private final DbContext dbContext;
+    private static final int DATABASE_VERSION = 2;
 
     public UserDBContext(Context context) {
         dbContext = DbContext.getInstance(context);
@@ -21,7 +23,7 @@ public class UserDBContext {
 
     public User login(String username, String password) {
         SQLiteDatabase db = dbContext.getReadableDatabase();
-        String query = "SELECT * FROM Users WHERE username = ? AND password = ?";
+        String query = "SELECT * FROM Users WHERE username = ? AND password = ? AND IsActive = 1";
         Cursor cursor = db.rawQuery(query, new String[]{username, password});
 
         User user = null;
@@ -146,5 +148,61 @@ public class UserDBContext {
             Log.d("Error", Objects.requireNonNull(e.getMessage()));
         }
         return false;
+    }
+    public boolean insertUser(String username, String email, String password) {
+        SQLiteDatabase db = dbContext.getWritableDatabase();
+
+        // Kiểm tra đã tồn tại
+        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE username=?", new String[]{username});
+        if (cursor.getCount() > 0) {
+            cursor.close();
+            return false; // đã tồn tại
+        }
+        cursor.close();
+
+        ContentValues values = new ContentValues();
+        values.put("username", username);
+        values.put("email", email);       // nếu có cột email
+        values.put("password", password);
+        values.put("IsActive", 1); // đã xác thực
+
+        long result = db.insert("users", null, values);
+        return result != -1;
+    }
+    // Kiểm tra username đã tồn tại chưa
+ /*   public boolean checkUserExists(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE username = ?", new String[]{username});
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        return exists;
+    }*/
+    public boolean insertUserWithInactiveStatus(String username, String email, String password) {
+        SQLiteDatabase db = dbContext.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE username=?", new String[]{username});
+        if (cursor.getCount() > 0) {
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+
+        ContentValues values = new ContentValues();
+        values.put("username", username);
+        values.put("email", email);
+        values.put("password", password);
+        values.put("role", "User"); // Gán mặc định
+        values.put("IsActive", 0);  // Tạm thời chưa kích hoạt
+
+        long result = db.insert("users", null, values);
+        return result != -1;
+    }
+
+    public boolean activateUserByUsername(String username) {
+        SQLiteDatabase db = dbContext.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("IsActive", 1);
+        int rows = db.update("users", values, "username=?", new String[]{username});
+        return rows > 0;
     }
 }
