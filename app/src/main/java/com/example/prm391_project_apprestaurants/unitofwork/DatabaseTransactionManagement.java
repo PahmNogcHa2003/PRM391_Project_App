@@ -10,24 +10,28 @@ import java.util.Objects;
 
 public class DatabaseTransactionManagement {
     private final DbContext dbContext;
-    private SQLiteDatabase db;
 
     public DatabaseTransactionManagement(Context context) {
         dbContext = DbContext.getInstance(context);
-        db = dbContext.getWritableDatabase();
     }
-    public void beginTransaction() {
+
+    public void beginTransaction(boolean readOnly) {
+        SQLiteDatabase db = dbContext.getDb();
         if (db == null || !db.isOpen()) {
-            db = dbContext.getWritableDatabase();
+            db = readOnly ? dbContext.getReadableDatabase() : dbContext.getWritableDatabase();
+            dbContext.setDb(db);
         }
         db.beginTransaction();
     }
 
     public void setTransactionSuccessful() {
-        db.setTransactionSuccessful();
+        dbContext.getDb().setTransactionSuccessful();
     }
 
     public void endTransaction() {
-        db.endTransaction();
+        dbContext.getDb().endTransaction();
+        if (dbContext.getDb() != null && dbContext.getDb().isOpen()) {
+            dbContext.getDb().close();
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.example.prm391_project_apprestaurants.services;
 import android.content.Context;
 import com.example.prm391_project_apprestaurants.dal.ReviewDBContext;
 import com.example.prm391_project_apprestaurants.dal.ReviewMediaDBContext;
+import com.example.prm391_project_apprestaurants.entities.AppStatistic;
 import com.example.prm391_project_apprestaurants.entities.Review;
 
 import java.util.List;
@@ -51,5 +52,17 @@ public class ReviewService {
 
     public void deleteReview(int reviewId) {
         reviewDBContext.deleteReview(reviewId);
+    }
+
+    public long countTotalReviews() {
+        return reviewDBContext.countTotalReviews();
+    }
+
+    public List<AppStatistic> getReviewStatistics() {
+        return reviewDBContext.getReviewStatistics();
+    }
+
+    public float getAverageRating() {
+        return reviewDBContext.getAverageRating();
     }
 }

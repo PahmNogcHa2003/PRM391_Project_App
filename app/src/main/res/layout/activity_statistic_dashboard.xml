@@ -1,10 +1,618 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".controllers.admin.StatisticDashboardActivity">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="java.util.List" />
+        <variable
+            name="numOfRestaurant"
+            type="Long" />
+        <variable
+            name="numOfUser"
+            type="Long" />
+        <variable
+            name="numOfMenu"
+            type="Long" />
+        <variable
+            name="numOfReview"
+            type="Long" />
+        <variable
+            name="reviewAverage"
+            type="Float" />
+        <variable
+            name="listReviewStatistic"
+            type="List&lt;com.example.prm391_project_apprestaurants.entities.AppStatistic&gt;" />
+    </data>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".controllers.admin.StatisticDashboardActivity">
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="20dp" />
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background_color"
+            tools:context=".activities.StatisticsActivity">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                >
+
+                <!-- App Bar với gradient -->
+                <com.google.android.material.appbar.AppBarLayout
+                    android:id="@+id/appBarLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gradient_primary">
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        app:navigationIcon="@drawable/menu"
+                        app:title="Thống Kê"
+                        app:titleTextColor="@android:color/white" />
+
+                </com.google.android.material.appbar.AppBarLayout>
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <!-- Header với tổng quan -->
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            app:cardBackgroundColor="@android:color/white"
+                            app:cardCornerRadius="16dp"
+                            app:cardElevation="8dp"></androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:orientation="vertical">
+
+                            <!-- Hàng 1: Nhà hàng và Món ăn -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="16dp"
+                                android:orientation="horizontal">
+
+                                <!-- Thẻ Nhà hàng -->
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="0dp"
+                                    android:layout_height="140dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_weight="1"
+                                    app:cardBackgroundColor="@android:color/white"
+                                    app:cardCornerRadius="16dp"
+                                    app:cardElevation="6dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@drawable/gradient_restaurant_card"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:padding="16dp">
+
+                                        <ImageView
+                                            android:layout_width="48dp"
+                                            android:layout_height="48dp"
+                                            android:layout_marginBottom="8dp"
+                                            android:src="@drawable/restaurant" />
+
+                                        <TextView
+                                            android:id="@+id/tvRestaurantCount"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="4dp"
+                                            android:text="@{String.valueOf(numOfRestaurant)}"
+                                            android:textColor="@android:color/white"
+                                            android:textSize="24sp"
+                                            android:textStyle="bold"
+                                            tools:text="1,247" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Nhà Hàng"
+                                            android:textColor="#E8F5E8"
+                                            android:textSize="14sp"
+                                            android:textStyle="bold" />
+
+                                    </LinearLayout>
+
+                                </androidx.cardview.widget.CardView>
+
+                                <!-- Thẻ Món ăn -->
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="0dp"
+                                    android:layout_height="140dp"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_weight="1"
+                                    app:cardBackgroundColor="@android:color/white"
+                                    app:cardCornerRadius="16dp"
+                                    app:cardElevation="6dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@drawable/gradient_food_card"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:padding="16dp">
+
+                                        <ImageView
+                                            android:layout_width="48dp"
+                                            android:layout_height="48dp"
+                                            android:layout_marginBottom="8dp"
+                                            android:src="@drawable/cutlery" />
+
+                                        <TextView
+                                            android:id="@+id/tvFoodCount"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="4dp"
+                                            android:text="@{String.valueOf(numOfMenu)}"
+                                            android:textColor="@android:color/white"
+                                            android:textSize="24sp"
+                                            android:textStyle="bold"
+                                            tools:text="3,456" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Món Ăn"
+                                            android:textColor="#FFE0B2"
+                                            android:textSize="14sp"
+                                            android:textStyle="bold" />
+
+                                    </LinearLayout>
+
+                                </androidx.cardview.widget.CardView>
+
+                            </LinearLayout>
+
+                            <!-- Hàng 2: Review và User -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <!-- Thẻ Review -->
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="0dp"
+                                    android:layout_height="140dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_weight="1"
+                                    app:cardBackgroundColor="@android:color/white"
+                                    app:cardCornerRadius="16dp"
+                                    app:cardElevation="6dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="#5CB8EF"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:padding="16dp">
+
+                                        <ImageView
+                                            android:layout_width="48dp"
+                                            android:layout_height="48dp"
+                                            android:layout_marginBottom="8dp"
+                                            android:src="@drawable/review" />
+
+                                        <TextView
+                                            android:id="@+id/tvReviewCount"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="4dp"
+                                            android:text="@{String.valueOf(numOfReview)}"
+                                            android:textColor="@android:color/white"
+                                            android:textSize="24sp"
+                                            android:textStyle="bold"
+                                            tools:text="12,890" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Đánh Giá"
+                                            android:textColor="#E1F5FE"
+                                            android:textSize="14sp"
+                                            android:textStyle="bold" />
+
+                                    </LinearLayout>
+
+                                </androidx.cardview.widget.CardView>
+
+                                <!-- Thẻ User -->
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="0dp"
+                                    android:layout_height="140dp"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_weight="1"
+                                    app:cardBackgroundColor="@android:color/white"
+                                    app:cardCornerRadius="16dp"
+                                    app:cardElevation="6dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@drawable/gradient_user_card"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:padding="16dp">
+
+                                        <ImageView
+                                            android:layout_width="48dp"
+                                            android:layout_height="48dp"
+                                            android:layout_marginBottom="8dp"
+                                            android:src="@drawable/user" />
+
+                                        <TextView
+                                            android:id="@+id/tvUserCount"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="4dp"
+                                            android:text="@{String.valueOf(numOfUser)}"
+                                            android:textColor="@android:color/white"
+                                            android:textSize="24sp"
+                                            android:textStyle="bold"
+                                            tools:text="2,156" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Người Dùng"
+                                            android:textColor="#F3E5F5"
+                                            android:textSize="14sp"
+                                            android:textStyle="bold" />
+
+                                    </LinearLayout>
+
+                                </androidx.cardview.widget.CardView>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- Biểu đồ Rating trung bình -->
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            app:cardBackgroundColor="@android:color/white"
+                            app:cardCornerRadius="16dp"
+                            app:cardElevation="6dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="20dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="16dp"
+                                    android:drawablePadding="12dp"
+                                    android:drawableTint="#FF9800"
+                                    android:text="Đánh Giá Trung Bình"
+                                    android:textColor="#333333"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
+                                        <!-- 5 sao -->
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="8dp"
+                                            android:gravity="center_vertical"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:layout_width="20dp"
+                                                android:layout_height="wrap_content"
+                                                android:text="5"
+                                                android:textColor="#666666"
+                                                android:textSize="14sp" />
+
+                                            <ImageView
+                                                android:layout_width="16dp"
+                                                android:layout_height="16dp"
+                                                android:layout_marginStart="4dp"
+                                                android:layout_marginEnd="8dp"
+                                                android:src="@drawable/star"
+                                                app:tint="#FFD700" />
+
+                                            <ProgressBar
+                                                style="?android:attr/progressBarStyleHorizontal"
+                                                android:layout_width="0dp"
+                                                android:layout_height="8dp"
+                                                android:layout_weight="1"
+                                                app:progressFromRatingList="@{listReviewStatistic}"
+                                                app:progressFromRatingValue="@{5}"
+                                                android:progressBackgroundTint="#E0E0E0"
+                                                android:progressTint="#4CAF50" />
+
+                                            <TextView
+                                                android:layout_width="40dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginStart="8dp"
+                                                android:gravity="end"
+                                                app:percentageFromRatingList="@{listReviewStatistic}"
+                                                app:percentageFromRatingValue="@{5}"
+                                                android:textColor="#666666"
+                                                android:textSize="12sp" />
+
+                                        </LinearLayout>
+
+                                        <!-- 4 sao -->
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="8dp"
+                                            android:gravity="center_vertical"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:layout_width="20dp"
+                                                android:layout_height="wrap_content"
+                                                android:text="4"
+                                                android:textColor="#666666"
+                                                android:textSize="14sp" />
+
+                                            <ImageView
+                                                android:layout_width="16dp"
+                                                android:layout_height="16dp"
+                                                android:layout_marginStart="4dp"
+                                                android:layout_marginEnd="8dp"
+                                                android:src="@drawable/star"
+                                                app:tint="#FFD700" />
+
+                                            <ProgressBar
+                                                style="?android:attr/progressBarStyleHorizontal"
+                                                android:layout_width="0dp"
+                                                android:layout_height="8dp"
+                                                android:layout_weight="1"
+                                                app:progressFromRatingList="@{listReviewStatistic}"
+                                                app:progressFromRatingValue="@{4}"
+                                                android:progressBackgroundTint="#E0E0E0"
+                                                android:progressTint="#8BC34A" />
+
+                                            <TextView
+                                                android:layout_width="40dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginStart="8dp"
+                                                android:gravity="end"
+                                                app:percentageFromRatingList="@{listReviewStatistic}"
+                                                app:percentageFromRatingValue="@{4}"
+                                                android:textColor="#666666"
+                                                android:textSize="12sp" />
+
+                                        </LinearLayout>
+
+                                        <!-- 3 sao -->
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="8dp"
+                                            android:gravity="center_vertical"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:layout_width="20dp"
+                                                android:layout_height="wrap_content"
+                                                android:text="3"
+                                                android:textColor="#666666"
+                                                android:textSize="14sp" />
+
+                                            <ImageView
+                                                android:layout_width="16dp"
+                                                android:layout_height="16dp"
+                                                android:layout_marginStart="4dp"
+                                                android:layout_marginEnd="8dp"
+                                                android:src="@drawable/star"
+                                                app:tint="#FFD700" />
+
+                                            <ProgressBar
+                                                style="?android:attr/progressBarStyleHorizontal"
+                                                android:layout_width="0dp"
+                                                android:layout_height="8dp"
+                                                android:layout_weight="1"
+                                                app:progressFromRatingList="@{listReviewStatistic}"
+                                                app:progressFromRatingValue="@{3}"
+                                                android:progressBackgroundTint="#E0E0E0"
+                                                android:progressTint="#FFC107" />
+
+                                            <TextView
+                                                android:layout_width="40dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginStart="8dp"
+                                                android:gravity="end"
+                                                app:percentageFromRatingList="@{listReviewStatistic}"
+                                                app:percentageFromRatingValue="@{3}"
+                                                android:textColor="#666666"
+                                                android:textSize="12sp" />
+
+                                        </LinearLayout>
+
+                                        <!-- 2 sao -->
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="8dp"
+                                            android:gravity="center_vertical"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:layout_width="20dp"
+                                                android:layout_height="wrap_content"
+                                                android:text="2"
+                                                android:textColor="#666666"
+                                                android:textSize="14sp" />
+
+                                            <ImageView
+                                                android:layout_width="16dp"
+                                                android:layout_height="16dp"
+                                                android:layout_marginStart="4dp"
+                                                android:layout_marginEnd="8dp"
+                                                android:src="@drawable/star"
+                                                app:tint="#FFD700" />
+
+                                            <ProgressBar
+                                                style="?android:attr/progressBarStyleHorizontal"
+                                                android:layout_width="0dp"
+                                                android:layout_height="8dp"
+                                                android:layout_weight="1"
+                                                app:progressFromRatingList="@{listReviewStatistic}"
+                                                app:progressFromRatingValue="@{2}"
+                                                android:progressBackgroundTint="#E0E0E0"
+                                                android:progressTint="#FF9800" />
+
+                                            <TextView
+                                                android:layout_width="40dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginStart="8dp"
+                                                android:gravity="end"
+                                                app:percentageFromRatingList="@{listReviewStatistic}"
+                                                app:percentageFromRatingValue="@{2}"
+                                                android:textColor="#666666"
+                                                android:textSize="12sp" />
+
+                                        </LinearLayout>
+
+                                        <!-- 1 sao -->
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center_vertical"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:layout_width="20dp"
+                                                android:layout_height="wrap_content"
+                                                android:text="1"
+                                                android:textColor="#666666"
+                                                android:textSize="14sp" />
+
+                                            <ImageView
+                                                android:layout_width="16dp"
+                                                android:layout_height="16dp"
+                                                android:layout_marginStart="4dp"
+                                                android:layout_marginEnd="8dp"
+                                                android:src="@drawable/star"
+                                                app:tint="#FFD700" />
+
+                                            <ProgressBar
+                                                style="?android:attr/progressBarStyleHorizontal"
+                                                android:layout_width="0dp"
+                                                android:layout_height="8dp"
+                                                android:layout_weight="1"
+                                                app:progressFromRatingList="@{listReviewStatistic}"
+                                                app:progressFromRatingValue="@{1}"
+                                                android:progressBackgroundTint="#E0E0E0"
+                                                android:progressTint="#F44336" />
+
+                                            <TextView
+                                                android:layout_width="40dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginStart="8dp"
+                                                android:gravity="end"
+                                                app:percentageFromRatingList="@{listReviewStatistic}"
+                                                app:percentageFromRatingValue="@{1}"
+                                                android:textColor="#666666"
+                                                android:textSize="12sp" />
+
+                                        </LinearLayout>
+
+                                    </LinearLayout>
+
+                                    <!-- Rating tổng kết -->
+                                    <LinearLayout
+                                        android:layout_width="120dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="24dp"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/tvAverageRating"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="4dp"
+                                            android:text="@{String.valueOf(reviewAverage)}"
+                                            android:textColor="#4CAF50"
+                                            android:textSize="36sp"
+                                            android:textStyle="bold"
+                                            tools:text="@{String.valueOf(reviewAverage)}" />
+
+                                        <LinearLayout
+                                            android:layout_width="200dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="4dp"
+                                            android:gravity="center_horizontal"
+                                            android:orientation="horizontal">
+
+                                            <RatingBar
+                                                android:id="@+id/rating"
+                                                style="?android:attr/ratingBarStyleSmall"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:isIndicator="true"
+                                                android:numStars="5"
+                                                android:stepSize="0.1"
+                                                tools:rating="@{reviewAverage}"/>
+                                        </LinearLayout>
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Trung bình"
+                                            android:textColor="#666666"
+                                            android:textSize="12sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                </androidx.core.widget.NestedScrollView>
+            </LinearLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

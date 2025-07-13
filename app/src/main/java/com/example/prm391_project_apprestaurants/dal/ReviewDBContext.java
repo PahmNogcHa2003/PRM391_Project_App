@@ -3,11 +3,15 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import com.example.prm391_project_apprestaurants.entities.AppStatistic;
 import com.example.prm391_project_apprestaurants.entities.Review;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 public class ReviewDBContext {
     private final DbContext dbContext;
     private final Context context;
@@ -119,4 +123,71 @@ public class ReviewDBContext {
         return id;
     }
 
+    public long countTotalReviews() {
+        long count = 0;
+        try {
+            SQLiteDatabase db = dbContext.getReadableDatabase();
+            String query = "SELECT COUNT(*) FROM Reviews";
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                count = cursor.getLong(0);
+            }
+            cursor.close();
+            db.close();
+        } catch (Exception e) {
+            Log.d("Error", Objects.requireNonNull(e.getMessage()));
+        }
+        return count;
+    }
+
+    public List<AppStatistic> getReviewStatistics() {
+        List<AppStatistic> statistics = new ArrayList<>();
+        try {
+            SQLiteDatabase db = dbContext.getReadableDatabase();
+            String query = "SELECT \n" +
+                           "    r.Rating,\n" +
+                           "    COUNT(r.Rating) AS TotalRating,\n" +
+                           "    ROUND(COUNT(r.Rating) * 100.0 / (SELECT COUNT(*) FROM Reviews), 2) AS Percent\n" +
+                           "FROM \n" +
+                           "    Reviews r\n" +
+                           "GROUP BY \n" +
+                           "    r.Rating\n" +
+                           "ORDER BY \n" +
+                           "    r.Rating;";
+            Cursor cursor = db.rawQuery(query, null);
+            while (cursor.moveToNext()) {
+                int rating = cursor.getInt(0);
+                int count = cursor.getInt(1);
+                float percent = cursor.getFloat(2);
+                AppStatistic statistic = new AppStatistic();
+                statistic.setRating(rating);
+                statistic.setQuantity(count);
+                statistic.setPercentage(percent);
+                statistics.add(statistic);
+            }
+            cursor.close();
+            db.close();
+        } catch (Exception e) {
+            Log.d("Error", Objects.requireNonNull(e.getMessage()));
+        }
+        return statistics;
+    }
+
+    public float getAverageRating() {
+        float average = 0;
+        try {
+            SQLiteDatabase db = dbContext.getReadableDatabase();
+            String query = "SELECT ROUND(SUM(r.Rating) * 1.0 / (SELECT COUNT(*) FROM Reviews), 2) AS AverageRating\n" +
+                           "FROM Reviews r;\n";
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                average = cursor.getFloat(0);
+            }
+            cursor.close();
+            db.close();
+        } catch (Exception e) {
+            Log.d("Error", Objects.requireNonNull(e.getMessage()));
+        }
+        return average;
+    }
 }

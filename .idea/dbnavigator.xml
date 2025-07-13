@@ -36,7 +36,26 @@
       <console name="Connection 1" type="STANDARD" schema="" session="Main"><![CDATA[select * from RestaurantCategory]]></console>
     </connection>
     <connection id="566a8a81-7c9b-46c3-a247-1a845939113e">
-      <console name="Connection 2" type="STANDARD" schema="" session="Main" />
+      <console name="Connection 2" type="STANDARD" schema="" session="Main"><![CDATA[select c.Id, c.Name from Restaurants r join RestaurantCategory rc on r.Id = rc.RestaurantId
+join Categories c on rc.CategoryId = c.Id where r.Id = ?
+
+SELECT * FROM Restaurants r
+
+SELECT 
+    r.Rating,
+    COUNT(r.Rating) AS TotalRating,
+    ROUND(COUNT(r.Rating) * 100.0 / (SELECT COUNT(*) FROM Reviews), 2) AS Percent
+FROM 
+    Reviews r
+GROUP BY 
+    r.Rating
+ORDER BY 
+    r.Rating;
+
+SELECT ROUND(SUM(r.Rating) * 1.0 / (SELECT COUNT(*) FROM Reviews), 2) AS AverageRating
+FROM Reviews r;
+
+SELECT AVG(Rating) FROM Reviews]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">

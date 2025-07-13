@@ -27,4 +27,8 @@ public class UserService {
     public boolean updateUser(User user) {
         return userDBContext.updateUser(user);
     }
+
+    public long countTotalUsers(SearchUserRequest request) {
+        return userDBContext.countTotalUsers(request);
+    }
 }

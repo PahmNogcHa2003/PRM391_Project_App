@@ -13,12 +13,22 @@ public class DbContext extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static DbContext INSTANCE = null;
     private final String SCRIPT_DATABASE = "";
+    private SQLiteDatabase db;
     public static synchronized DbContext getInstance(Context context) {
         if (INSTANCE == null) {
             INSTANCE = new DbContext(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
         return INSTANCE;
     }
+
+    public SQLiteDatabase getDb() {
+        return db;
+    }
+
+    public void setDb(SQLiteDatabase db) {
+        this.db = db;
+    }
+
     private DbContext(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }

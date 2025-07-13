@@ -15,16 +15,12 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<BindingViewHolder<ViewholderCategoryItemBinding>> {
     private final List<Category> categories;
-
-    private List<Integer> selectedCategoryIds;
-
     public CategoryAdapter(List<Category> categories) {
         this.categories = categories;
-        selectedCategoryIds = new ArrayList<>();
     }
 
-    public List<Integer> getSelectedCategoryIds() {
-        return selectedCategoryIds;
+    public List<Category> getCategories() {
+        return categories;
     }
 
     @NonNull
@@ -43,10 +39,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<BindingViewHolder<View
         holder.getBinding().checkBox.setChecked(category.isSelected());
         holder.getBinding().checkBox.setOnClickListener(v -> {
             if (holder.getBinding().checkBox.isChecked()) {
-                selectedCategoryIds.add(category.getId());
                 category.setSelected(true);
             } else {
-                selectedCategoryIds.remove(Integer.valueOf(category.getId()));
                 category.setSelected(false);
             }
         });

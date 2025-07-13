@@ -2,6 +2,8 @@ package com.example.prm391_project_apprestaurants.utils;
 
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
@@ -11,6 +13,9 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.prm391_project_apprestaurants.R;
+import com.example.prm391_project_apprestaurants.entities.AppStatistic;
+
+import java.util.List;
 
 public class BindingAdapters {
     @BindingAdapter("imageUrl")
@@ -49,5 +54,31 @@ public class BindingAdapters {
                 .load(url)
                 .transform(new CenterCrop(), new RoundedCorners(24))
                 .into(view);
+    }
+
+    @BindingAdapter(value = {"progressFromRatingList", "progressFromRatingValue"})
+    public static void setProgressFromRating(ProgressBar progressBar, List<AppStatistic> list, int rating) {
+        if (list != null) {
+            for (AppStatistic rs : list) {
+                if (rs.getRating() == rating) {
+                    progressBar.setProgress((int) rs.getPercentage());
+                    return;
+                }
+            }
+        }
+        progressBar.setProgress(0);
+    }
+
+    @BindingAdapter(value = {"percentageFromRatingList", "percentageFromRatingValue"})
+    public static void setPercentFromRating(TextView percentage, List<AppStatistic> list, int rating) {
+        if (list != null) {
+            for (AppStatistic rs : list) {
+                if (rs.getRating() == rating) {
+                    percentage.setText(rs.getPercentage() + "%");
+                    return;
+                }
+            }
+        }
+        percentage.setText("0%");
     }
 }
