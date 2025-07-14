@@ -28,7 +28,7 @@ public class Constant {
                 Latitude REAL,                         -- Tọa độ GPS (nếu dùng Google Maps)
                 Longitude REAL,                        -- Tọa độ GPS
                 IsHidden INTEGER DEFAULT 0,            -- 0: hiển thị, 1: bị ẩn (Admin kiểm soát)
-                MealTime TEXT DEFAULT 'all'            -- Giá trị: 'breakfast', 'lunch', 'dinner', 'all'
+                MealTime TEXT DEFAULT 'all',           -- Giá trị: 'breakfast', 'lunch', 'dinner', 'all'
                 CreatedAt TEXT DEFAULT CURRENT_TIMESTAMP,
                 UpdatedAt TEXT DEFAULT CURRENT_TIMESTAMP
             );
