@@ -78,6 +78,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -93,6 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     EditText edtUsername, edtEmail, edtPassword, edtConfirmPassword;
     MaterialButton btnRegister;
+    private TextView tvAlreadyHaveAccount;
 
     // Gmail gửi mã xác thực
     private final String systemEmail = "dungthptquelam@gmail.com";         // TODO: Thay bằng Gmail bạn
@@ -109,6 +111,9 @@ public class RegisterActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtRegisterPassword);
         edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
         btnRegister = findViewById(R.id.btnRegister);
+        tvAlreadyHaveAccount = findViewById(R.id.tvAlreadyHaveAccount);
+
+
 
         btnRegister.setOnClickListener(view -> {
             String username = edtUsername.getText().toString().trim();
@@ -171,6 +176,10 @@ public class RegisterActivity extends AppCompatActivity {
                     );
                 }
             }).start();
+        });
+        tvAlreadyHaveAccount.setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterActivity.this, Login.class);
+            startActivity(intent);
         });
     }
 }
