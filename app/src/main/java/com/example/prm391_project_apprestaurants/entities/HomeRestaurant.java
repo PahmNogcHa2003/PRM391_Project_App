@@ -2,6 +2,8 @@ package com.example.prm391_project_apprestaurants.entities;
 
 /**
  * Mô hình dữ liệu cho Nhà hàng (Restaurant)
+ * Đã bổ sung trường favoriteCount để hỗ trợ top 10 yêu thích,
+ * đồng bộ với các truy vấn lấy top theo số lượt yêu thích và rating trung bình.
  */
 public class HomeRestaurant {
     private int id;                     // ID nhà hàng
@@ -17,6 +19,7 @@ public class HomeRestaurant {
     private String district;            // Quận/Huyện
     private double rating;              // Điểm đánh giá trung bình
     private int reviewCount;            // Số lượng đánh giá
+    private int favoriteCount;          // Số lượt yêu thích (bổ sung)
     private String imageUrl;            // Ảnh đại diện nhà hàng
     private double latitude;            // Vĩ độ (tọa độ bản đồ)
     private double longitude;           // Kinh độ (tọa độ bản đồ)
@@ -30,7 +33,7 @@ public class HomeRestaurant {
     // Constructor đầy đủ trường
     public HomeRestaurant(int id, String name, String address, String phone, String email, String website,
                           String description, String openingHours, String category, String price, String district,
-                          double rating, int reviewCount, String imageUrl, double latitude, double longitude,
+                          double rating, int reviewCount, int favoriteCount, String imageUrl, double latitude, double longitude,
                           boolean isFavorite, boolean isSaved) {
         this.id = id;
         this.name = name;
@@ -45,6 +48,7 @@ public class HomeRestaurant {
         this.district = district;
         this.rating = rating;
         this.reviewCount = reviewCount;
+        this.favoriteCount = favoriteCount;
         this.imageUrl = imageUrl;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -156,6 +160,14 @@ public class HomeRestaurant {
 
     public void setReviewCount(int reviewCount) {
         this.reviewCount = reviewCount;
+    }
+
+    public int getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public void setFavoriteCount(int favoriteCount) {
+        this.favoriteCount = favoriteCount;
     }
 
     public String getImageUrl() {

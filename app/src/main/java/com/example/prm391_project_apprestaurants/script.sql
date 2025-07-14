@@ -55,7 +55,7 @@
             ('user4', 'userpass4', 'user4@gmail.com', 'User'),
             ('user5', 'userpass5', 'user5@gmail.com', 'User');
 
-            INSERT INTO Restaurants\s
+            INSERT INTO Restaurants
             (Name, Description, Address, District, PriceRange, Category, OpeningHours, PhoneNumber, Website, ImageUrl, Latitude, Longitude)
             VALUES
             ('Bún Chả Hương Liên', 'Nơi Tổng thống Obama từng ăn', '24 Lê Văn Hưu', 'Hai Bà Trưng', '30-50k', 'Bún', '9:00 - 21:00', '0241234567', 'https://huonglien.vn', 'https://i.imgur.com/buncha.jpg', 21.0156, 105.8529),

@@ -37,5 +37,14 @@
     <color name="text_primary">#333333</color>
 <!--    <color name="text_secondary">#666666</color>-->
     <color name="card_background">#FFFFFF</color>
-    <color name="colorPrimary">#FF5722</color>
+
+     <!-- Màu xanh nút chính -->
+    <color name="colorPrimaryDark">#2D3A4A</color>     <!-- Màu tiêu đề, chữ đậm -->
+    <color name="colorAccent">#F6F8FB</color>          <!-- Màu nền nhẹ -->
+    <color name="colorInputBg">#FFFFFF</color>         <!-- Nền ô nhập liệu -->
+    <color name="colorInputBorder">#E5E7EB</color>     <!-- Viền ô nhập liệu -->
+    <color name="colorInputIcon">#9CA3AF</color>       <!-- Icon nhập liệu -->
+    <color name="colorButtonText">#FFFFFF</color>      <!-- Chữ trên nút -->
+    <color name="colorPrimary">#4F8EFF</color>
+
 </resources>

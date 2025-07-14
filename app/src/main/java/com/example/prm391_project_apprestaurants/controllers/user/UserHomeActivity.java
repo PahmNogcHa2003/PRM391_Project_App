@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.widget.SearchView;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -38,8 +37,7 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
     private TextView tvUserName;
     private SearchView searchView;
     private RecyclerView rvRestaurants, rvTop10;
-    private Button btnFavoriteList;
-    private Button btnRandom;
+    private Button btnFavoriteList, btnRandom;
     private HomeRestaurantAdapter restaurantAdapter, top10Adapter;
     private List<HomeRestaurant> restaurantList = new ArrayList<>();
     private List<HomeRestaurant> top10List = new ArrayList<>();
@@ -48,13 +46,12 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
     private int userId = -1;
     private String userName = "";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
 
-        // Ánh xạ view đúng với XML
+        // Ánh xạ view từ layout
         userProfileContainer = findViewById(R.id.user_profile_container);
         userMenuDropdown = findViewById(R.id.user_menu_dropdown);
         btnChangePassword = findViewById(R.id.btn_change_password);
@@ -62,21 +59,15 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
         btnLogout = findViewById(R.id.btn_logout);
         tvUserName = findViewById(R.id.tv_user_name);
         btnRandom = findViewById(R.id.btnRandom);
-        SearchView searchView = findViewById(R.id.searchView);
-        btnRandom.setOnClickListener(v -> {
-            Intent intent = new Intent(UserHomeActivity.this, SuggestionActivity.class);
-            startActivity(intent);
-        });
+        searchView = findViewById(R.id.searchView);
         rvRestaurants = findViewById(R.id.rvRestaurants);
         rvTop10 = findViewById(R.id.rvTop10);
-
         btnFavoriteList = findViewById(R.id.btnFavoriteList);
+
         // Lấy thông tin user đăng nhập
         SharedPreferences sharedPref = getSharedPreferences("AppPrefs", MODE_PRIVATE);
         userId = sharedPref.getInt("userId", -1);
         userName = sharedPref.getString("userName", "Khách");
-
-
         tvUserName.setText(userName);
 
         // Nếu không có user -> quay về login
@@ -85,16 +76,92 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
             Intent intent = new Intent(this, Login.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            finish();
+            return;
         }
+
         dbContext = new RestaurantDetailDBContext(this);
         favoriteDB = new FavoriteDBContext(this);
 
-        // Lấy danh sách quán ăn từ DB
+        // Lấy dữ liệu khi vào màn hình
+        loadData();
+
+        // Xử lý mở/tắt menu user khi bấm avatar
+        userProfileContainer.setOnClickListener(v -> {
+            userMenuDropdown.setVisibility(
+                    userMenuDropdown.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE
+            );
+        });
+
+        // Đổi mật khẩu
+        btnChangePassword.setOnClickListener(v -> {
+            Intent intent = new Intent(UserHomeActivity.this, ChangePasswordActivity.class);
+            intent.putExtra("userId", userId);
+            startActivity(intent);
+        });
+
+        // Cài đặt hồ sơ
+        btnProfileSettings.setOnClickListener(v -> {
+            Toast.makeText(this, "Cài đặt", Toast.LENGTH_SHORT).show();
+        });
+
+        // Đăng xuất
+        btnLogout.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            Toast.makeText(this, "Đăng xuất", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
+            finish();
+        });
+
+        // Gợi ý ngẫu nhiên
+        btnRandom.setOnClickListener(v -> {
+            Intent intent = new Intent(UserHomeActivity.this, SuggestionActivity.class);
+            startActivity(intent);
+        });
+
+        // Chuyển sang màn hình lọc khi click vào SearchView
+        searchView.setOnClickListener(v -> {
+            Intent intent = new Intent(UserHomeActivity.this, FilterActivity.class);
+            intent.putExtra("initialQuery", searchView.getQuery().toString());
+            startActivity(intent);
+        });
+
+        // Lọc danh sách khi gõ từ khóa
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterRestaurants(newText);
+                return true;
+            }
+        });
+
+        // Danh sách yêu thích
+        btnFavoriteList.setOnClickListener(v -> {
+            Intent intent = new Intent(this, FavoriteListActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    // Tải lại dữ liệu danh sách và top 10 mỗi khi màn hình resume
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadData();
+    }
+
+    // Hàm tải lại dữ liệu cho cả danh sách và top 10
+    private void loadData() {
         restaurantList = dbContext.getAllRestaurants();
-        top10List = dbContext.getTop10Restaurants();
+        top10List = dbContext.getTop10FavoriteRestaurantsByRating();
 
         ReviewDBContext reviewDB = new ReviewDBContext(this);
 
+        // Gán số lượng review cho mỗi nhà hàng
         for (HomeRestaurant r : restaurantList) {
             int count = reviewDB.getReviewCountByRestaurantId(r.getId());
             r.setReviewCount(count);
@@ -103,11 +170,6 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
             int count = reviewDB.getReviewCountByRestaurantId(r.getId());
             r.setReviewCount(count);
         }
-
-
-        // Log số lượng để debug
-        Log.d("DEBUG", "Số lượng quán ăn: " + restaurantList.size());
-        Toast.makeText(this, "Số lượng quán ăn: " + restaurantList.size(), Toast.LENGTH_SHORT).show();
 
         // Đánh dấu quán yêu thích
         List<Integer> favoriteIds = favoriteDB.getFavoriteRestaurantIds(userId);
@@ -118,66 +180,23 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
             r.setFavorite(favoriteIds.contains(r.getId()));
         }
 
-        // Thiết lập RecyclerView danh sách quán ăn
-        restaurantAdapter = new HomeRestaurantAdapter(this, restaurantList, this);
-        rvRestaurants.setLayoutManager(new LinearLayoutManager(this));
-        rvRestaurants.setAdapter(restaurantAdapter);
+        // Cập nhật adapter
+        if (restaurantAdapter == null) {
+            restaurantAdapter = new HomeRestaurantAdapter(this, restaurantList, this);
+            rvRestaurants.setLayoutManager(new LinearLayoutManager(this));
+            rvRestaurants.setAdapter(restaurantAdapter);
+        } else {
+            restaurantAdapter.updateList(restaurantList);
+        }
 
-        // Thiết lập RecyclerView top 10 (ngang)
-        top10Adapter = new HomeRestaurantAdapter(this, top10List, this);
-        LinearLayoutManager top10LayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        rvTop10.setLayoutManager(top10LayoutManager);
-        rvTop10.setAdapter(top10Adapter);
-
-        // Xử lý mở/tắt menu user khi bấm avatar
-        userProfileContainer.setOnClickListener(v -> {
-            if (userMenuDropdown.getVisibility() == View.VISIBLE) {
-                userMenuDropdown.setVisibility(View.GONE);
-            } else {
-                userMenuDropdown.setVisibility(View.VISIBLE);
-            }
-        });
-
-        btnChangePassword.setOnClickListener(v -> {
-            Toast.makeText(this, "Đổi mật khẩu", Toast.LENGTH_SHORT).show();
-        });
-
-        btnProfileSettings.setOnClickListener(v -> {
-            Toast.makeText(this, "Cài đặt", Toast.LENGTH_SHORT).show();
-        });
-
-        btnLogout.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Login.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            Toast.makeText(this, "Đăng xuất", Toast.LENGTH_SHORT).show();
-            startActivity(intent);
-        });
-
-        // Thêm listener để chuyển ngay khi click vào SearchView**
-        searchView.setOnClickListener(v -> {
-            Intent intent = new Intent(UserHomeActivity.this, FilterActivity.class);
-            intent.putExtra("initialQuery", searchView.getQuery().toString());
-            startActivity(intent);
-        });
-
-        // Giữ filter theo text change nhưng không cần submit**
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return true; // Không cần xử lý submit nữa
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filterRestaurants(newText);
-                return true;
-            }
-        });
-
-        btnFavoriteList.setOnClickListener(v -> {
-            Intent intent = new Intent(this, FavoriteListActivity.class);
-            startActivity(intent);
-        });
+        if (top10Adapter == null) {
+            top10Adapter = new HomeRestaurantAdapter(this, top10List, this);
+            LinearLayoutManager top10LayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            rvTop10.setLayoutManager(top10LayoutManager);
+            rvTop10.setAdapter(top10Adapter);
+        } else {
+            top10Adapter.updateList(top10List);
+        }
     }
 
     // Lọc danh sách quán ăn theo từ khóa
@@ -212,7 +231,7 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
             Toast.makeText(this, "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show();
             restaurant.setFavorite(true);
         }
-        restaurantAdapter.notifyDataSetChanged();
-        top10Adapter.notifyDataSetChanged();
+        // Sau khi thay đổi, reload lại top 10 để cập nhật vị trí nếu có thay đổi
+        loadData();
     }
 }
