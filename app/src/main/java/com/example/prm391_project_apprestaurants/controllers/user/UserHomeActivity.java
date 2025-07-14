@@ -165,10 +165,14 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
         for (HomeRestaurant r : restaurantList) {
             int count = reviewDB.getReviewCountByRestaurantId(r.getId());
             r.setReviewCount(count);
+            // Lấy số lượt yêu thích và rating trung bình cho danh sách chính
+            r.setFavoriteCount(favoriteDB.getFavoriteCountForRestaurant(r.getId()));
+            // Nếu cần rating trung bình cho danh sách chính, đảm bảo truy vấn trả về trường này
         }
         for (HomeRestaurant r : top10List) {
             int count = reviewDB.getReviewCountByRestaurantId(r.getId());
             r.setReviewCount(count);
+            // Lấy số lượt yêu thích đã có từ truy vấn top10, không cần set lại
         }
 
         // Đánh dấu quán yêu thích

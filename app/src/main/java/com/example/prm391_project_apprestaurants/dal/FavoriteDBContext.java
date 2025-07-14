@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Quản lý chức năng Yêu thích (Favorites) cho người dùng.
@@ -69,6 +71,46 @@ public class FavoriteDBContext {
         if (cursor.moveToFirst()) {
             do {
                 result.add(cursor.getInt(cursor.getColumnIndexOrThrow("RestaurantId")));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return result;
+    }
+
+    /**
+     * Đếm số lượt yêu thích của một nhà hàng.
+     */
+    public int getFavoriteCountForRestaurant(int restaurantId) {
+        int count = 0;
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT COUNT(*) FROM Favorites WHERE RestaurantId=?",
+                new String[]{String.valueOf(restaurantId)}
+        );
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+        return count;
+    }
+
+    /**
+     * Lấy map số lượt yêu thích cho tất cả nhà hàng (restaurantId -> favoriteCount).
+     */
+    public Map<Integer, Integer> getAllFavoriteCounts() {
+        Map<Integer, Integer> result = new HashMap<>();
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT RestaurantId, COUNT(*) as favoriteCount FROM Favorites GROUP BY RestaurantId",
+                null
+        );
+        if (cursor.moveToFirst()) {
+            do {
+                int restaurantId = cursor.getInt(cursor.getColumnIndexOrThrow("RestaurantId"));
+                int count = cursor.getInt(cursor.getColumnIndexOrThrow("favoriteCount"));
+                result.put(restaurantId, count);
             } while (cursor.moveToNext());
         }
         cursor.close();

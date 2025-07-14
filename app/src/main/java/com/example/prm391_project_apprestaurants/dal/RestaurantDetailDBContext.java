@@ -20,7 +20,7 @@ public class RestaurantDetailDBContext {
     }
 
     /**
-     * Lấy tất cả nhà hàng (không ẩn)
+     * Lấy tất cả nhà hàng (không ẩn), kèm rating, favoriteCount, reviewCount
      */
     public List<HomeRestaurant> getAllRestaurants() {
         List<HomeRestaurant> list = new ArrayList<>();
@@ -29,6 +29,9 @@ public class RestaurantDetailDBContext {
         if (cursor.moveToFirst()) {
             do {
                 HomeRestaurant restaurant = cursorToRestaurant(cursor);
+                restaurant.setRating(getAverageRatingForRestaurant(restaurant.getId()));
+                restaurant.setFavoriteCount(getFavoriteCountForRestaurant(restaurant.getId()));
+                restaurant.setReviewCount(getReviewCountForRestaurant(restaurant.getId()));
                 list.add(restaurant);
             } while (cursor.moveToNext());
         }
@@ -38,7 +41,7 @@ public class RestaurantDetailDBContext {
     }
 
     /**
-     * Lấy top 10 quán ăn mới nhất (không ẩn)
+     * Lấy top 10 quán ăn mới nhất (không ẩn), kèm rating, favoriteCount, reviewCount
      */
     public List<HomeRestaurant> getTop10Restaurants() {
         List<HomeRestaurant> list = new ArrayList<>();
@@ -48,6 +51,9 @@ public class RestaurantDetailDBContext {
         if (cursor.moveToFirst()) {
             do {
                 HomeRestaurant restaurant = cursorToRestaurant(cursor);
+                restaurant.setRating(getAverageRatingForRestaurant(restaurant.getId()));
+                restaurant.setFavoriteCount(getFavoriteCountForRestaurant(restaurant.getId()));
+                restaurant.setReviewCount(getReviewCountForRestaurant(restaurant.getId()));
                 list.add(restaurant);
             } while (cursor.moveToNext());
         }
@@ -92,7 +98,7 @@ public class RestaurantDetailDBContext {
     }
 
     /**
-     * Lấy chi tiết một quán ăn theo id
+     * Lấy chi tiết một quán ăn theo id, kèm rating, favoriteCount, reviewCount
      */
     public HomeRestaurant getRestaurantById(int id) {
         SQLiteDatabase db = dbContext.getReadableDatabase();
@@ -100,6 +106,9 @@ public class RestaurantDetailDBContext {
         HomeRestaurant restaurant = null;
         if (cursor.moveToFirst()) {
             restaurant = cursorToRestaurant(cursor);
+            restaurant.setRating(getAverageRatingForRestaurant(restaurant.getId()));
+            restaurant.setFavoriteCount(getFavoriteCountForRestaurant(restaurant.getId()));
+            restaurant.setReviewCount(getReviewCountForRestaurant(restaurant.getId()));
         }
         cursor.close();
         db.close();
@@ -107,10 +116,64 @@ public class RestaurantDetailDBContext {
     }
 
     /**
+     * Lấy rating trung bình của một nhà hàng.
+     */
+    private double getAverageRatingForRestaurant(int restaurantId) {
+        double rating = 0.0;
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT AVG(Rating) FROM Reviews WHERE RestaurantId=?",
+                new String[]{String.valueOf(restaurantId)}
+        );
+        if (cursor.moveToFirst()) {
+            rating = cursor.isNull(0) ? 0.0 : cursor.getDouble(0);
+        }
+        cursor.close();
+        db.close();
+        return rating;
+    }
+
+    /**
+     * Lấy số lượt yêu thích của một nhà hàng.
+     */
+    private int getFavoriteCountForRestaurant(int restaurantId) {
+        int count = 0;
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT COUNT(*) FROM Favorites WHERE RestaurantId=?",
+                new String[]{String.valueOf(restaurantId)}
+        );
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+        return count;
+    }
+
+    /**
+     * Lấy số lượt đánh giá của một nhà hàng.
+     */
+    private int getReviewCountForRestaurant(int restaurantId) {
+        int count = 0;
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT COUNT(*) FROM Reviews WHERE RestaurantId=?",
+                new String[]{String.valueOf(restaurantId)}
+        );
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+        return count;
+    }
+
+    /**
      * Chuyển dữ liệu từ Cursor thành đối tượng HomeRestaurant
      */
     private HomeRestaurant cursorToRestaurant(Cursor cursor) {
-        HomeRestaurant restaurant = new HomeRestaurant(
+        return new HomeRestaurant(
                 cursor.getInt(cursor.getColumnIndexOrThrow("Id")), // id
                 cursor.getString(cursor.getColumnIndexOrThrow("Name")), // name
                 cursor.getString(cursor.getColumnIndexOrThrow("Address")), // address
@@ -122,15 +185,14 @@ public class RestaurantDetailDBContext {
                 cursor.getString(cursor.getColumnIndexOrThrow("Category")), // category
                 cursor.getString(cursor.getColumnIndexOrThrow("PriceRange")), // price
                 cursor.getString(cursor.getColumnIndexOrThrow("District")), // district
-                0.0, // rating (sẽ gán sau nếu có)
-                0,   // reviewCount (sẽ gán sau nếu có)
-                0,   // favoriteCount (sẽ gán sau nếu có)
+                0.0, // rating (sẽ gán sau)
+                0,   // reviewCount (sẽ gán sau)
+                0,   // favoriteCount (sẽ gán sau)
                 cursor.getString(cursor.getColumnIndexOrThrow("ImageUrl")), // imageUrl
                 cursor.getDouble(cursor.getColumnIndexOrThrow("Latitude")), // latitude
                 cursor.getDouble(cursor.getColumnIndexOrThrow("Longitude")), // longitude
                 false, // isFavorite (không có trong DB)
                 false  // isSaved (không có trong DB)
         );
-        return restaurant;
     }
 }

@@ -57,20 +57,22 @@
                 android:textSize="13sp"
                 android:layout_marginBottom="4dp" />
 
+            <TextView
+                android:id="@+id/textPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giá"
+                android:textColor="#BB0000"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="4dp">
 
-                <TextView
-                    android:id="@+id/textPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Giá"
-                    android:textColor="#BB0000"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:layout_marginEnd="16dp" />
 
                 <TextView
                     android:id="@+id/textReviewCount"
@@ -79,7 +81,40 @@
                     android:text="0 review(s)"
                     android:textColor="#FFCC66"
                     android:textSize="13sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginEnd="16dp" />
+
+                <!-- Thêm rating trung bình -->
+                <TextView
+                    android:id="@+id/textRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rating: 0.0"
+                    android:textColor="#FFA000"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="16dp"/>
+
+                <!-- Thêm số lượt yêu thích -->
+                <TextView
+                    android:id="@+id/textFavoriteCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 lượt thích"
+                    android:textColor="#E91E63"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp"/>
+
+                <!-- Icon yêu thích (trái tim) -->
+                <ImageView
+                    android:id="@+id/imageFavorite"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/baseline_favorite_24"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="4dp"
+                    android:contentDescription="@string/favorite"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
