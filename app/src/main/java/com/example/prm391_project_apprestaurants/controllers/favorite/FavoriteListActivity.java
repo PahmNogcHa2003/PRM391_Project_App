@@ -40,10 +40,7 @@ public class FavoriteListActivity extends AppCompatActivity implements FavoriteL
         favoriteDB = new FavoriteDBContext(this);
         restaurantDB = new RestaurantDetailDBContext(this);
 
-        // Khởi tạo adapter và set cho RecyclerView (chỉ cần làm 1 lần ở onCreate)
-        favoriteListAdapter = new FavoriteListAdapter(this, favoriteList, this);
-        rvFavoriteRestaurants.setLayoutManager(new LinearLayoutManager(this));
-        rvFavoriteRestaurants.setAdapter(favoriteListAdapter);
+        // Lấy userId từ SharedPreferences
         SharedPreferences sharedPref = getSharedPreferences("AppPrefs", MODE_PRIVATE);
         userId = sharedPref.getInt("userId", -1);
 
@@ -53,7 +50,15 @@ public class FavoriteListActivity extends AppCompatActivity implements FavoriteL
             Intent intent = new Intent(this, Login.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            finish();
+            return;
         }
+
+        // Khởi tạo adapter và set cho RecyclerView (chỉ làm 1 lần)
+        favoriteListAdapter = new FavoriteListAdapter(this, favoriteList, this);
+        rvFavoriteRestaurants.setLayoutManager(new LinearLayoutManager(this));
+        rvFavoriteRestaurants.setAdapter(favoriteListAdapter);
+
         // Lần đầu load dữ liệu
         loadFavoriteRestaurants();
         favoriteListAdapter.updateList(favoriteList);
@@ -74,6 +79,9 @@ public class FavoriteListActivity extends AppCompatActivity implements FavoriteL
             HomeRestaurant restaurant = restaurantDB.getRestaurantById(id);
             if (restaurant != null) {
                 restaurant.setFavorite(true);
+                // Nếu muốn hiển thị số lượt yêu thích và rating:
+                restaurant.setFavoriteCount(favoriteDB.getFavoriteCountForRestaurant(id));
+                // Nếu cần rating trung bình, đảm bảo RestaurantDetailDBContext.getRestaurantById trả về trường này
                 favoriteList.add(restaurant);
             }
         }
@@ -90,6 +98,8 @@ public class FavoriteListActivity extends AppCompatActivity implements FavoriteL
     public void onFavoriteClick(HomeRestaurant restaurant) {
         favoriteDB.removeFavorite(userId, restaurant.getId());
         Toast.makeText(this, "Đã bỏ khỏi yêu thích", Toast.LENGTH_SHORT).show();
-        // Không cần gọi lại load/update ở đây vì onResume sẽ tự động reload khi quay lại
+        // Reload lại danh sách để cập nhật UI ngay lập tức
+        loadFavoriteRestaurants();
+        favoriteListAdapter.updateList(favoriteList);
     }
 }

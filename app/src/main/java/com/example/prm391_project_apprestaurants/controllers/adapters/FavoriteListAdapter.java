@@ -25,7 +25,6 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
     // Interface cho sự kiện click item
     public interface OnItemClickListener {
         void onItemClick(HomeRestaurant restaurant);
-
         void onFavoriteClick(HomeRestaurant restaurant);
     }
 
@@ -51,6 +50,8 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
         holder.textAddress.setText(restaurant.getAddress() + " - " + restaurant.getDistrict());
         holder.textPrice.setText(restaurant.getPrice());
         holder.textReviewCount.setText(restaurant.getReviewCount() + " review(s)");
+        holder.textFavoriteCount.setText(restaurant.getFavoriteCount() + " lượt thích");
+        holder.textRating.setText("Rating: " + String.format("%.1f", restaurant.getRating()));
 
         // Load ảnh đại diện (nếu có link), nếu không thì dùng ảnh mặc định
         if (restaurant.getImageUrl() != null && !restaurant.getImageUrl().isEmpty()) {
@@ -62,10 +63,24 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
             holder.imageRestaurant.setImageResource(R.drawable.restaurant);
         }
 
+        // Hiển thị icon yêu thích đúng trạng thái
+        if (restaurant.isFavorite()) {
+            holder.imageFavorite.setImageResource(R.drawable.ic_favorite_filled);
+        } else {
+            holder.imageFavorite.setImageResource(R.drawable.ic_favorite_border);
+        }
+
         // Click vào item để xem chi tiết
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onItemClick(restaurant);
+            }
+        });
+
+        // Click vào icon yêu thích để thêm/bỏ yêu thích
+        holder.imageFavorite.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onFavoriteClick(restaurant);
             }
         });
     }
@@ -81,17 +96,20 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageRestaurant;
-        TextView textName, textDescription, textAddress, textPrice, textReviewCount;
+        ImageView imageRestaurant, imageFavorite;
+        TextView textName, textDescription, textAddress, textPrice, textReviewCount, textFavoriteCount, textRating;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageRestaurant = itemView.findViewById(R.id.imageRestaurant);
+            imageFavorite = itemView.findViewById(R.id.imageFavorite);
             textName = itemView.findViewById(R.id.textName);
             textDescription = itemView.findViewById(R.id.textDescription);
             textAddress = itemView.findViewById(R.id.textAddress);
             textPrice = itemView.findViewById(R.id.textPrice);
             textReviewCount = itemView.findViewById(R.id.textReviewCount);
+            textFavoriteCount = itemView.findViewById(R.id.textFavoriteCount);
+            textRating = itemView.findViewById(R.id.textRating);
         }
     }
 }

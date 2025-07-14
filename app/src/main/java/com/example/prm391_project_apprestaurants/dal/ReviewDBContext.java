@@ -140,6 +140,7 @@ public class ReviewDBContext {
         return count;
     }
 
+
     public List<AppStatistic> getReviewStatistics() {
         List<AppStatistic> statistics = new ArrayList<>();
         try {
