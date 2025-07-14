@@ -24,35 +24,35 @@ public class FavoriteDBContext {
      * Thêm một quán ăn vào danh sách yêu thích của user.
      */
     public void addFavorite(int userId, int restaurantId) {
-        SQLiteDatabase sqLiteDatabase = dbContext.getReadableDatabase();
+        SQLiteDatabase db = dbContext.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("UserId", userId);
         values.put("RestaurantId", restaurantId);
-        sqLiteDatabase.insert("Favorites", null, values);
-        sqLiteDatabase.close();
+        db.insert("Favorites", null, values);
+        db.close();
     }
 
     /**
      * Xóa một quán ăn khỏi danh sách yêu thích của user.
      */
     public void removeFavorite(int userId, int restaurantId) {
-        SQLiteDatabase sqLiteDatabase = dbContext.getReadableDatabase();
-        sqLiteDatabase.delete("Favorites", "UserId=? AND RestaurantId=?", new String[]{String.valueOf(userId), String.valueOf(restaurantId)});
-        sqLiteDatabase.close();
+        SQLiteDatabase db = dbContext.getWritableDatabase();
+        db.delete("Favorites", "UserId=? AND RestaurantId=?", new String[]{String.valueOf(userId), String.valueOf(restaurantId)});
+        db.close();
     }
 
     /**
      * Kiểm tra một quán ăn có trong danh sách yêu thích của user không.
      */
     public boolean isFavorite(int userId, int restaurantId) {
-        SQLiteDatabase sqLiteDatabase = dbContext.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery(
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
                 "SELECT 1 FROM Favorites WHERE UserId=? AND RestaurantId=?",
                 new String[]{String.valueOf(userId), String.valueOf(restaurantId)}
         );
         boolean exists = cursor.moveToFirst();
         cursor.close();
-        sqLiteDatabase.close();
+        db.close();
         return exists;
     }
 
@@ -61,9 +61,9 @@ public class FavoriteDBContext {
      */
     public List<Integer> getFavoriteRestaurantIds(int userId) {
         List<Integer> result = new ArrayList<>();
-        SQLiteDatabase sqLiteDatabase = dbContext.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery(
-                "SELECT *  FROM Favorites WHERE UserId=?",
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT RestaurantId FROM Favorites WHERE UserId=?",
                 new String[]{String.valueOf(userId)}
         );
         if (cursor.moveToFirst()) {
@@ -72,7 +72,7 @@ public class FavoriteDBContext {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        sqLiteDatabase.close();
+        db.close();
         return result;
     }
 }

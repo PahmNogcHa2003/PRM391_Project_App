@@ -83,42 +83,8 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
         dbContext = new RestaurantDetailDBContext(this);
         favoriteDB = new FavoriteDBContext(this);
 
-        // Lấy danh sách quán ăn và top 10 yêu thích nhất (theo số lượt yêu thích)
-        restaurantList = dbContext.getAllRestaurants();
-        top10List = dbContext.getTop10FavoriteRestaurantsByRating();
-        // Đã sửa: lấy top 10 theo favorites
-
-        ReviewDBContext reviewDB = new ReviewDBContext(this);
-
-        // Gán số lượng review cho mỗi nhà hàng
-        for (HomeRestaurant r : restaurantList) {
-            int count = reviewDB.getReviewCountByRestaurantId(r.getId());
-            r.setReviewCount(count);
-        }
-        for (HomeRestaurant r : top10List) {
-            int count = reviewDB.getReviewCountByRestaurantId(r.getId());
-            r.setReviewCount(count);
-        }
-
-        // Đánh dấu quán yêu thích
-        List<Integer> favoriteIds = favoriteDB.getFavoriteRestaurantIds(userId);
-        for (HomeRestaurant r : restaurantList) {
-            r.setFavorite(favoriteIds.contains(r.getId()));
-        }
-        for (HomeRestaurant r : top10List) {
-            r.setFavorite(favoriteIds.contains(r.getId()));
-        }
-
-        // Thiết lập RecyclerView danh sách quán ăn
-        restaurantAdapter = new HomeRestaurantAdapter(this, restaurantList, this);
-        rvRestaurants.setLayoutManager(new LinearLayoutManager(this));
-        rvRestaurants.setAdapter(restaurantAdapter);
-
-        // Thiết lập RecyclerView top 10 (ngang)
-        top10Adapter = new HomeRestaurantAdapter(this, top10List, this);
-        LinearLayoutManager top10LayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        rvTop10.setLayoutManager(top10LayoutManager);
-        rvTop10.setAdapter(top10Adapter);
+        // Lấy dữ liệu khi vào màn hình
+        loadData();
 
         // Xử lý mở/tắt menu user khi bấm avatar
         userProfileContainer.setOnClickListener(v -> {
@@ -181,6 +147,58 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
         });
     }
 
+    // Tải lại dữ liệu danh sách và top 10 mỗi khi màn hình resume
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadData();
+    }
+
+    // Hàm tải lại dữ liệu cho cả danh sách và top 10
+    private void loadData() {
+        restaurantList = dbContext.getAllRestaurants();
+        top10List = dbContext.getTop10FavoriteRestaurantsByRating();
+
+        ReviewDBContext reviewDB = new ReviewDBContext(this);
+
+        // Gán số lượng review cho mỗi nhà hàng
+        for (HomeRestaurant r : restaurantList) {
+            int count = reviewDB.getReviewCountByRestaurantId(r.getId());
+            r.setReviewCount(count);
+        }
+        for (HomeRestaurant r : top10List) {
+            int count = reviewDB.getReviewCountByRestaurantId(r.getId());
+            r.setReviewCount(count);
+        }
+
+        // Đánh dấu quán yêu thích
+        List<Integer> favoriteIds = favoriteDB.getFavoriteRestaurantIds(userId);
+        for (HomeRestaurant r : restaurantList) {
+            r.setFavorite(favoriteIds.contains(r.getId()));
+        }
+        for (HomeRestaurant r : top10List) {
+            r.setFavorite(favoriteIds.contains(r.getId()));
+        }
+
+        // Cập nhật adapter
+        if (restaurantAdapter == null) {
+            restaurantAdapter = new HomeRestaurantAdapter(this, restaurantList, this);
+            rvRestaurants.setLayoutManager(new LinearLayoutManager(this));
+            rvRestaurants.setAdapter(restaurantAdapter);
+        } else {
+            restaurantAdapter.updateList(restaurantList);
+        }
+
+        if (top10Adapter == null) {
+            top10Adapter = new HomeRestaurantAdapter(this, top10List, this);
+            LinearLayoutManager top10LayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            rvTop10.setLayoutManager(top10LayoutManager);
+            rvTop10.setAdapter(top10Adapter);
+        } else {
+            top10Adapter.updateList(top10List);
+        }
+    }
+
     // Lọc danh sách quán ăn theo từ khóa
     private void filterRestaurants(String keyword) {
         List<HomeRestaurant> filteredList = new ArrayList<>();
@@ -213,7 +231,7 @@ public class UserHomeActivity extends AppCompatActivity implements HomeRestauran
             Toast.makeText(this, "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show();
             restaurant.setFavorite(true);
         }
-        restaurantAdapter.notifyDataSetChanged();
-        top10Adapter.notifyDataSetChanged();
+        // Sau khi thay đổi, reload lại top 10 để cập nhật vị trí nếu có thay đổi
+        loadData();
     }
 }
