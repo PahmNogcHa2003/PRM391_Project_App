@@ -72,6 +72,11 @@
             android:name=".controllers.user.ChangePasswordActivity"
             android:exported="false"
             android:theme="@style/Theme.PRM391_Project_AppRestaurants" />
+        <activity android:name=".controllers.Login.ForgotPasswordActivity"
+            android:theme="@style/Theme.PRM391_Project_AppRestaurants">
+        </activity>
+
+
 
         <!-- Google Maps API Key -->
         <meta-data

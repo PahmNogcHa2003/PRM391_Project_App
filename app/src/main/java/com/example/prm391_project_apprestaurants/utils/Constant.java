@@ -104,9 +104,9 @@ public class Constant {
             ('admin', 'adminpass', 'admin@gmail.com', 'Admin',1),
             ('user1', 'userpass1', 'user1@gmail.com', 'User',1),
             ('user2', 'userpass2', 'user2@gmail.com', 'User',1),
-            ('user3', 'userpass3', 'user3@gmail.com', 'User',0),
-            ('user4', 'userpass4', 'user4@gmail.com', 'User',0),
-            ('user5', 'userpass5', 'user5@gmail.com', 'User',0);
+            ('user3', 'userpass3', 'user3@gmail.com', 'User'),
+            ('user4', 'userpass4', 'user4@gmail.com', 'User'),
+            ('user5', 'userpass5', 'user5@gmail.com', 'User');
             
             """;
     public static final String SQL_INSERT_TABLE_RESTAURANTS = """

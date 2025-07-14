@@ -15,6 +15,7 @@ import java.util.Objects;
 
 public class UserDBContext {
     private final DbContext dbContext;
+    private static final int DATABASE_VERSION = 3;
 
     public UserDBContext(Context context) {
         dbContext = DbContext.getInstance(context);
@@ -51,7 +52,7 @@ public class UserDBContext {
     // Kiểm tra username đã tồn tại chưa
     public boolean checkUserExists(String username) {
         SQLiteDatabase db = dbContext.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE Username = ?", new String[]{username});
+        Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE username = ?", new String[]{username});
         boolean exists = cursor.moveToFirst();
         cursor.close();
         return exists;
@@ -82,19 +83,24 @@ public class UserDBContext {
         return result != -1;
     }
 
-    // Đăng ký tài khoản (chưa kích hoạt)
     public boolean insertUserWithInactiveStatus(String username, String email, String password) {
-        if (checkUserExists(username) || checkEmailExists(email)) {
+        SQLiteDatabase db = dbContext.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE username=?", new String[]{username});
+        if (cursor.getCount() > 0) {
+            cursor.close();
             return false;
         }
-        SQLiteDatabase db = dbContext.getWritableDatabase();
+        cursor.close();
+
         ContentValues values = new ContentValues();
-        values.put("Username", username);
-        values.put("Email", email);
-        values.put("Password", password);
-        values.put("Role", "User");
-        values.put("IsActive", 0);
-        long result = db.insert("Users", null, values);
+        values.put("username", username);
+        values.put("email", email);
+        values.put("password", password);
+        values.put("role", "User"); // Gán mặc định
+        values.put("IsActive", 0);  // Tạm thời chưa kích hoạt
+
+        long result = db.insert("users", null, values);
         return result != -1;
     }
 
@@ -237,4 +243,35 @@ public class UserDBContext {
         user.setActive(cursor.getColumnIndex("IsActive") != -1 && cursor.getInt(cursor.getColumnIndexOrThrow("IsActive")) == 1);
         return user;
     }
+
+    public boolean updatePasswordByEmail(String email, String newPassword) {
+        SQLiteDatabase db = dbContext.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Password", newPassword);
+        int rows = db.update("Users", values, "Email = ?", new String[]{email});
+        return rows > 0;
+    }
+    public boolean checkUsernameEmailMatch(String username, String email) {
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE username = ? AND email = ?", new String[]{username, email});
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        db.close();
+        return exists;
+    }
+    public boolean updatePasswordByUsernameAndEmail(String username, String email, String newPassword) {
+        SQLiteDatabase db = dbContext.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Password", newPassword);
+        int rows = db.update("Users", values, "username = ? AND email = ?", new String[]{username, email});
+        db.close();
+        return rows > 0;
+    }
+
+   /* public void updatePasswordByEmail(String email, String newPassword) {
+        SQLiteDatabase db = dbContext.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Password", newPassword);
+        db.update("Users", values, "Email = ?", new String[]{email});
+    }*/
 }

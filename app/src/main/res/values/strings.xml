@@ -3,8 +3,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="restaurant_dashboard">Restaurant Dashboard</string>
-    <string name="logout">Logout</string>
-    <string name="manage_restaurants">Manage Restaurants</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="manage_restaurants">Quản lý nhà hàng</string>
     <string name="title_activity_restaurant_management">RestaurantManagement</string>
     <string name="start">Start</string>
     <string name="previous">Previous</string>
@@ -20,27 +20,27 @@
         <item>50</item>
     </string-array>
     <string name="login_name">ResMap</string>
-    <string name="welcome">Welcome</string>
-    <string name="login_instruction">Please login with your information</string>
-    <string name="email_label">Email Address</string>
-    <string name="password_label">Password</string>
+    <string name="welcome">HELOO GUYS</string>
+    <string name="login_instruction">Nhập đầy đủ thông tin của bạn</string>
+    <string name="email_label">Email </string>
+    <string name="password_label">Mật khẩu</string>
     <string name="remember_me">Remember me</string>
-    <string name="forgot_password">I forgot my password</string>
-    <string name="login">Login</string>
-    <string name="or_login_with">Or Login with</string>
+    <string name="forgot_password">Tôi đã quên mật khẩu</string>
+    <string name="login">Đăng nhập</string>
+    <string name="or_login_with">Đăng nhập với</string>
     <string name="location_icon_desc">Location icon</string>
 
 
-    <!-- Thêm vào file strings.xml -->
-    <string name="register_title">Register</string>
-    <string name="create_account">Register New Account</string>
-    <string name="username_label">Username</string>
-    <string name="confirm_password_label">Confirm Password</string>
-    <string name="register">Register</string>
-    <string name="have_account">Already have an account? Login</string>
+    <!-- Register -->
+    <string name="register_title">Đăng ký</string>
+    <string name="create_account">ĐĂNG KÝ TÀI KHOẢN MỚI</string>
+    <string name="username_label"> Tên User</string>
+    <string name="confirm_password_label">Xác nhận mật khẩu</string>
+    <string name="register">Đăng ký</string>
+    <string name="have_account">Đã có tài khoản ? Đăng nhập</string>
 
-    <string name="no_account">Don\'t have an account</string>
-    <string name="register_here">Register here</string>
+    <string name="no_account">Chưa có tài khoản</string>
+    <string name="register_here">Đăng ký</string>
 
     <!-- Verify Email -->
     <string name="verify_title">Vui lòng nhập mã xác thực đã gửi đến email của bạn</string>
@@ -126,5 +126,11 @@
     <string name="password_length_error">Mật khẩu mới phải từ 6 ký tự</string>
     <string name="password_change_success">Đổi mật khẩu thành công</string>
     <string name="password_change_fail">Mật khẩu cũ không đúng</string>
+
+
+    <!-- Forgot Password -->
+    <string name="forgot_title">Quên mật khẩu</string>
+    <string name="forgot_account"> TẠO LẠI MẬT KHẨU</string>
+    <string name="forgot_here">Đổi mật khẩu</string>
 
 </resources>

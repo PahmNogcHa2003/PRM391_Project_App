@@ -46,48 +46,42 @@ public class Login extends AppCompatActivity {
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
-        txtGoToRegister = findViewById(R.id.txtGoToRegister); // ánh xạ text đăng ký
+        txtGoToRegister = findViewById(R.id.txtGoToRegister);
+        TextView txtForgotPasswordLogin = findViewById(R.id.txtForgotPasswordLogin);
 
-        // Xử lý sự kiện login
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = edtUsername.getText().toString();
-                String password = edtPassword.getText().toString();
+        btnLogin.setOnClickListener(v -> {
+            String username = edtUsername.getText().toString().trim();
+            String password = edtPassword.getText().toString().trim();
 
-                UserDBContext db = new UserDBContext(Login.this);
-                User user = db.login(username, password);
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(Login.this, "Vui lòng nhập đầy đủ tài khoản và mật khẩu", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                if (user != null) {
-                    // Lưu thông tin user vào SharedPreferences
-                    getSharedPreferences("AppPrefs", MODE_PRIVATE)
-                            .edit()
-                            .putInt("userId", user.getId())
-                            .putString("userName", user.getUsername())
-                            .apply();
+            User user = userDBContext.login(username, password);
 
-                    if ("Admin".equalsIgnoreCase(user.getRole())) {
-                        Intent intent = new Intent(Login.this, RestaurantManagementActivity.class);
-                        startActivity(intent);
-                    } else if ("User".equalsIgnoreCase(user.getRole())) {
-                        Intent intent = new Intent(Login.this, UserHomeActivity.class);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(Login.this, "Role không hợp lệ", Toast.LENGTH_SHORT).show();
-                    }
-
-            } else {
-                    Toast.makeText(Login.this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
+            if (user != null) {
+                // Kiểm tra role
+                if ("Admin".equalsIgnoreCase(user.getRole())) {
+                    startActivity(new Intent(Login.this, RestaurantManagementActivity.class));
+                } else if ("User".equalsIgnoreCase(user.getRole())) {
+                    startActivity(new Intent(Login.this, UserHomeActivity.class));
+                } else {
+                    Toast.makeText(Login.this, "Quyền người dùng không hợp lệ", Toast.LENGTH_SHORT).show();
                 }
+            } else {
+                // Không tìm thấy user hoặc chưa xác thực
+                Toast.makeText(Login.this, "Sai tài khoản, mật khẩu hoặc tài khoản chưa được xác thực", Toast.LENGTH_LONG).show();
             }
         });
-        // Xử lý chuyển sang RegisterActivity khi người dùng chưa có tài khoản
-        txtGoToRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Login.this, RegisterActivity.class); // <- tên Activity đăng ký
-                startActivity(intent);
-            }
+
+        txtGoToRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(Login.this, RegisterActivity.class);
+            startActivity(intent);
+        });
+        txtForgotPasswordLogin.setOnClickListener(view -> {
+            Intent intent = new Intent(Login.this, ForgotPasswordActivity.class);
+            startActivity(intent);
         });
     }
 

@@ -128,10 +128,10 @@ public class RegisterActivity extends AppCompatActivity {
 
           // Kiểm tra trùng username
             UserDBContext db = new UserDBContext(this);
-           /*   if (db.checkUserExists(username)) {
+              if (db.checkUserExists(username)) {
                 Toast.makeText(this, "Tên người dùng đã tồn tại", Toast.LENGTH_SHORT).show();
                 return;
-            }*/
+            }
 
             // Insert user với IsActive = 0
             boolean insertSuccess = db.insertUserWithInactiveStatus(username, email, password);
