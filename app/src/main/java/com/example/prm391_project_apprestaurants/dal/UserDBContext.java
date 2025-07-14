@@ -15,82 +15,173 @@ import java.util.Objects;
 
 public class UserDBContext {
     private final DbContext dbContext;
-    private static final int DATABASE_VERSION = 2;
 
     public UserDBContext(Context context) {
         dbContext = DbContext.getInstance(context);
     }
 
+    // Đăng nhập
     public User login(String username, String password) {
         SQLiteDatabase db = dbContext.getReadableDatabase();
-        String query = "SELECT * FROM Users WHERE username = ? AND password = ? AND IsActive = 1";
+        String query = "SELECT * FROM Users WHERE Username = ? AND Password = ? AND IsActive = 1";
         Cursor cursor = db.rawQuery(query, new String[]{username, password});
-
         User user = null;
         if (cursor.moveToFirst()) {
-            user = new User();
-            user.setId(cursor.getInt(cursor.getColumnIndexOrThrow("Id")));
-            user.setUsername(cursor.getString(cursor.getColumnIndexOrThrow("Username")));
-            user.setPassword(cursor.getString(cursor.getColumnIndexOrThrow("Password")));
-            user.setEmail(cursor.getString(cursor.getColumnIndexOrThrow("Email")));
-            user.setRole(cursor.getString(cursor.getColumnIndexOrThrow("Role")));
+            user = cursorToUser(cursor);
         }
-
         cursor.close();
-        db.close();
         return user;
     }
 
+    // Đổi mật khẩu (cần nhập đúng mật khẩu cũ)
+    public boolean changePassword(int userId, String oldPass, String newPass) {
+        SQLiteDatabase db = dbContext.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE Id = ? AND Password = ?", new String[]{String.valueOf(userId), oldPass});
+        boolean result = false;
+        if (cursor.moveToFirst()) {
+            ContentValues values = new ContentValues();
+            values.put("Password", newPass);
+            int rows = db.update("Users", values, "Id = ?", new String[]{String.valueOf(userId)});
+            result = rows > 0;
+        }
+        cursor.close();
+        return result;
+    }
+
+    // Kiểm tra username đã tồn tại chưa
+    public boolean checkUserExists(String username) {
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE Username = ?", new String[]{username});
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        return exists;
+    }
+
+    // Kiểm tra email đã tồn tại chưa
+    public boolean checkEmailExists(String email) {
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE Email = ?", new String[]{email});
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        return exists;
+    }
+
+    // Đăng ký tài khoản (kích hoạt ngay)
+    public boolean insertUser(String username, String email, String password) {
+        if (checkUserExists(username) || checkEmailExists(email)) {
+            return false; // đã tồn tại
+        }
+        SQLiteDatabase db = dbContext.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Username", username);
+        values.put("Email", email);
+        values.put("Password", password);
+        values.put("Role", "User");
+        values.put("IsActive", 1);
+        long result = db.insert("Users", null, values);
+        return result != -1;
+    }
+
+    // Đăng ký tài khoản (chưa kích hoạt)
+    public boolean insertUserWithInactiveStatus(String username, String email, String password) {
+        if (checkUserExists(username) || checkEmailExists(email)) {
+            return false;
+        }
+        SQLiteDatabase db = dbContext.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Username", username);
+        values.put("Email", email);
+        values.put("Password", password);
+        values.put("Role", "User");
+        values.put("IsActive", 0);
+        long result = db.insert("Users", null, values);
+        return result != -1;
+    }
+
+    // Kích hoạt tài khoản theo username
+    public boolean activateUserByUsername(String username) {
+        SQLiteDatabase db = dbContext.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("IsActive", 1);
+        int rows = db.update("Users", values, "Username=?", new String[]{username});
+        return rows > 0;
+    }
+
+    // Vô hiệu hóa tài khoản theo userId
+    public boolean deactivateUserById(int userId) {
+        SQLiteDatabase db = dbContext.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("IsActive", 0);
+        int rows = db.update("Users", values, "Id=?", new String[]{String.valueOf(userId)});
+        return rows > 0;
+    }
+
+    // Xóa user theo Id
+    public boolean deleteUser(int userId) {
+        SQLiteDatabase db = dbContext.getWritableDatabase();
+        int rows = db.delete("Users", "Id = ?", new String[]{String.valueOf(userId)});
+        return rows > 0;
+    }
+
+    // Lấy user theo Id
+    public User getUserById(int id) {
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE Id = ?", new String[]{String.valueOf(id)});
+        User user = null;
+        if (cursor.moveToFirst()) {
+            user = cursorToUser(cursor);
+        }
+        cursor.close();
+        return user;
+    }
+
+    // Lấy user theo username
+    public User getUserByUsername(String username) {
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE Username = ?", new String[]{username});
+        User user = null;
+        if (cursor.moveToFirst()) {
+            user = cursorToUser(cursor);
+        }
+        cursor.close();
+        return user;
+    }
+
+    // Lấy tất cả user (có phân trang, tìm kiếm)
     public List<User> getAllUsers(SearchUserRequest request) {
         List<User> users = new ArrayList<>();
         long totalElement = countTotalUsers(request);
-        try {
-            SQLiteDatabase db = dbContext.getReadableDatabase();
-            String query = "SELECT * FROM Users u";
-            List<String> params = new ArrayList<>();
-            query += buildSearchUserQuery(request, true, params, totalElement).toString();
-            Cursor cursor = db.rawQuery(query, params.toArray(new String[0]));
-            while (cursor.moveToNext()) {
-                User user = new User();
-                user.setId(cursor.getInt(0));
-                user.setUsername(cursor.getString(1));
-                user.setPassword(cursor.getString(2));
-                user.setEmail(cursor.getString(3));
-                user.setRole(cursor.getString(4));
-                user.setActive(cursor.getInt(6) == 1);
-                users.add(user);
-            }
-            cursor.close();
-            db.close();
-        } catch (Exception e) {
-            Log.d("Error", Objects.requireNonNull(e.getMessage()));
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        String query = "SELECT * FROM Users u";
+        List<String> params = new ArrayList<>();
+        query += buildSearchUserQuery(request, true, params, totalElement).toString();
+        Cursor cursor = db.rawQuery(query, params.toArray(new String[0]));
+        while (cursor.moveToNext()) {
+            users.add(cursorToUser(cursor));
         }
+        cursor.close();
         return users;
     }
 
+    // Đếm tổng số user (phục vụ phân trang)
     public long countTotalUsers(SearchUserRequest request) {
         long count = 0;
-        try {
-            SQLiteDatabase db = dbContext.getReadableDatabase();
-            String query = "SELECT COUNT(u.id) FROM Users u";
-            List<String> params = new ArrayList<>();
-            query += buildSearchUserQuery(request, false, params, 0).toString();
-            Cursor cursor = db.rawQuery(query, params.toArray(new String[0]));
-            if (cursor.moveToFirst()) {
-                count = cursor.getLong(0);
-            }
-            cursor.close();
-            db.close();
-        } catch (Exception e) {
-            Log.d("Error", Objects.requireNonNull(e.getMessage()));
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        String query = "SELECT COUNT(u.id) FROM Users u";
+        List<String> params = new ArrayList<>();
+        query += buildSearchUserQuery(request, false, params, 0).toString();
+        Cursor cursor = db.rawQuery(query, params.toArray(new String[0]));
+        if (cursor.moveToFirst()) {
+            count = cursor.getLong(0);
         }
+        cursor.close();
         return count;
     }
 
+    // Xây dựng query tìm kiếm/phân trang
     StringBuilder buildSearchUserQuery(SearchUserRequest request, boolean isPagination, List<String> params, long totalElement) {
         StringBuilder query = new StringBuilder();
         query.append(" WHERE 1=1 ");
-
         if (request.getKeyword() != null && !request.getKeyword().isEmpty()) {
             query.append(" AND (u.Username LIKE ? OR u.Email LIKE ?) ");
             String keyword = "%" + request.getKeyword() + "%";
@@ -113,96 +204,37 @@ public class UserDBContext {
         return query;
     }
 
-    public User getUserById(int id) {
-        User user = null;
-        try {
-            SQLiteDatabase db = dbContext.getReadableDatabase();
-            String query = "SELECT * FROM Users WHERE Id = ?";
-            Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)}); // id
-            if (cursor.moveToFirst()) {
-                user = new User();
-                user.setId(cursor.getInt(0));
-                user.setUsername(cursor.getString(1));
-                user.setPassword(cursor.getString(2));
-                user.setEmail(cursor.getString(3));
-                user.setRole(cursor.getString(4));
-                user.setActive(cursor.getInt(6) == 1);
-                user.setCreatedAt(cursor.getString(5));
-            }
-            cursor.close();
-            db.close();
-        } catch (Exception e) {
-            Log.d("Error", Objects.requireNonNull(e.getMessage()));
-        }
-        return user;
-    }
-
+    // Cập nhật thông tin user (trừ mật khẩu)
     public boolean updateUser(User user) {
-        try {
-            SQLiteDatabase db = dbContext.getWritableDatabase();
-            String query = "UPDATE Users SET Username = ?, Password = ?, Email = ?, Role = ? WHERE Id = ?";
-            db.execSQL(query, new String[]{user.getUsername(), user.getPassword(), user.getEmail(), user.getRole(), String.valueOf(user.getId())});
-            db.close();
-            return true;
-        } catch (Exception e) {
-            Log.d("Error", Objects.requireNonNull(e.getMessage()));
-        }
-        return false;
-    }
-    public boolean insertUser(String username, String email, String password) {
-        SQLiteDatabase db = dbContext.getWritableDatabase();
-
-        // Kiểm tra đã tồn tại
-        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE username=?", new String[]{username});
-        if (cursor.getCount() > 0) {
-            cursor.close();
-            return false; // đã tồn tại
-        }
-        cursor.close();
-
-        ContentValues values = new ContentValues();
-        values.put("username", username);
-        values.put("email", email);       // nếu có cột email
-        values.put("password", password);
-        values.put("IsActive", 1); // đã xác thực
-
-        long result = db.insert("users", null, values);
-        return result != -1;
-    }
-    // Kiểm tra username đã tồn tại chưa
- /*   public boolean checkUserExists(String username) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE username = ?", new String[]{username});
-        boolean exists = cursor.moveToFirst();
-        cursor.close();
-        return exists;
-    }*/
-    public boolean insertUserWithInactiveStatus(String username, String email, String password) {
-        SQLiteDatabase db = dbContext.getWritableDatabase();
-
-        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE username=?", new String[]{username});
-        if (cursor.getCount() > 0) {
-            cursor.close();
-            return false;
-        }
-        cursor.close();
-
-        ContentValues values = new ContentValues();
-        values.put("username", username);
-        values.put("email", email);
-        values.put("password", password);
-        values.put("role", "User"); // Gán mặc định
-        values.put("IsActive", 0);  // Tạm thời chưa kích hoạt
-
-        long result = db.insert("users", null, values);
-        return result != -1;
-    }
-
-    public boolean activateUserByUsername(String username) {
         SQLiteDatabase db = dbContext.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("IsActive", 1);
-        int rows = db.update("users", values, "username=?", new String[]{username});
+        values.put("Username", user.getUsername());
+        values.put("Email", user.getEmail());
+        values.put("Role", user.getRole());
+        values.put("IsActive", user.isActive() ? 1 : 0);
+        int rows = db.update("Users", values, "Id = ?", new String[]{String.valueOf(user.getId())});
         return rows > 0;
+    }
+
+    // Cập nhật mật khẩu user (không kiểm tra mật khẩu cũ)
+    public boolean updatePassword(int userId, String newPass) {
+        SQLiteDatabase db = dbContext.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Password", newPass);
+        int rows = db.update("Users", values, "Id = ?", new String[]{String.valueOf(userId)});
+        return rows > 0;
+    }
+
+    // Chuyển Cursor thành User
+    private User cursorToUser(Cursor cursor) {
+        User user = new User();
+        user.setId(cursor.getInt(cursor.getColumnIndexOrThrow("Id")));
+        user.setUsername(cursor.getString(cursor.getColumnIndexOrThrow("Username")));
+        user.setPassword(cursor.getString(cursor.getColumnIndexOrThrow("Password")));
+        user.setEmail(cursor.getString(cursor.getColumnIndexOrThrow("Email")));
+        user.setRole(cursor.getString(cursor.getColumnIndexOrThrow("Role")));
+        user.setCreatedAt(cursor.getColumnIndex("CreatedAt") != -1 ? cursor.getString(cursor.getColumnIndexOrThrow("CreatedAt")) : null);
+        user.setActive(cursor.getColumnIndex("IsActive") != -1 && cursor.getInt(cursor.getColumnIndexOrThrow("IsActive")) == 1);
+        return user;
     }
 }

@@ -116,5 +116,15 @@
     <string name="favorite">Yêu thích</string>
     <string name="favorite_restaurants_list_title">Danh sách quán yêu thích</string>
     <string name="manage_menus">Manage Menus</string>
+    <string name="change_password_title">Đổi mật khẩu</string>
+    <string name="old_password_hint">Mật khẩu cũ</string>
+    <string name="new_password_hint">Mật khẩu mới</string>
+    <string name="confirm_password_hint">Xác nhận mật khẩu mới</string>
+    <string name="change_password_button">Đổi mật khẩu</string>
+    <string name="password_empty_error">Vui lòng nhập đủ thông tin</string>
+    <string name="password_not_match_error">Mật khẩu xác nhận không khớp</string>
+    <string name="password_length_error">Mật khẩu mới phải từ 6 ký tự</string>
+    <string name="password_change_success">Đổi mật khẩu thành công</string>
+    <string name="password_change_fail">Mật khẩu cũ không đúng</string>
 
 </resources>
