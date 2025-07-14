@@ -118,7 +118,7 @@ public class RestaurantDetailDBContext {
     /**
      * Lấy rating trung bình của một nhà hàng.
      */
-    private double getAverageRatingForRestaurant(int restaurantId) {
+    public double getAverageRatingForRestaurant(int restaurantId) {
         double rating = 0.0;
         SQLiteDatabase db = dbContext.getReadableDatabase();
         Cursor cursor = db.rawQuery(
@@ -136,7 +136,7 @@ public class RestaurantDetailDBContext {
     /**
      * Lấy số lượt yêu thích của một nhà hàng.
      */
-    private int getFavoriteCountForRestaurant(int restaurantId) {
+    public int getFavoriteCountForRestaurant(int restaurantId) {
         int count = 0;
         SQLiteDatabase db = dbContext.getReadableDatabase();
         Cursor cursor = db.rawQuery(
@@ -154,7 +154,7 @@ public class RestaurantDetailDBContext {
     /**
      * Lấy số lượt đánh giá của một nhà hàng.
      */
-    private int getReviewCountForRestaurant(int restaurantId) {
+    public int getReviewCountForRestaurant(int restaurantId) {
         int count = 0;
         SQLiteDatabase db = dbContext.getReadableDatabase();
         Cursor cursor = db.rawQuery(

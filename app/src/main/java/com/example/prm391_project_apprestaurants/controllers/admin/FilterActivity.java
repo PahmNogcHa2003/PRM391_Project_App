@@ -1,5 +1,6 @@
 package com.example.prm391_project_apprestaurants.controllers.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,13 +18,16 @@ import com.example.prm391_project_apprestaurants.controllers.adapters.HomeRestau
 import com.example.prm391_project_apprestaurants.entities.HomeRestaurant;
 import com.example.prm391_project_apprestaurants.entities.Restaurant;
 import com.example.prm391_project_apprestaurants.services.RestaurantService;
+import com.example.prm391_project_apprestaurants.controllers.detail.RestaurantDetailActivity;
+import com.example.prm391_project_apprestaurants.dal.RestaurantDetailDBContext;
 import java.util.ArrayList;
 import java.util.List;
 import androidx.appcompat.widget.SearchView;
 
-public class FilterActivity extends AppCompatActivity {
+public class FilterActivity extends AppCompatActivity implements HomeRestaurantAdapter.OnItemClickListener {
 
     private RestaurantService restaurantService;
+    private RestaurantDetailDBContext dbContext; // Updated to use RestaurantDetailDBContext
     private RecyclerView rvRestaurants;
     private HomeRestaurantAdapter adapter;
     private List<HomeRestaurant> homeRestaurants = new ArrayList<>();
@@ -92,6 +96,7 @@ public class FilterActivity extends AppCompatActivity {
         spinnerCategory.setSelection(0);
 
         restaurantService = new RestaurantService(this);
+        dbContext = new RestaurantDetailDBContext(this); // Updated to RestaurantDetailDBContext
         String initialQuery = getIntent().getStringExtra("initialQuery");
         Log.d("FilterActivity", "Initial query: " + (initialQuery != null ? initialQuery : "null"));
         if (initialQuery != null) {
@@ -169,6 +174,11 @@ public class FilterActivity extends AppCompatActivity {
             public void onNothingSelected(android.widget.AdapterView<?> parent) {}
         });
 
+        // Initialize RecyclerView with click listener
+        adapter = new HomeRestaurantAdapter(this, homeRestaurants, this);
+        rvRestaurants.setLayoutManager(new LinearLayoutManager(this));
+        rvRestaurants.setAdapter(adapter);
+
         updateRestaurantList(null, null, null, initialQuery); // Initial load
         Log.d("FilterActivity", "Initialize finished");
     }
@@ -203,24 +213,35 @@ public class FilterActivity extends AppCompatActivity {
             hr.setDescription(r.getDescription());
             hr.setImageUrl(r.getImage());
             hr.setPrice(r.getPriceRange());
-            hr.setFavorite(false); // No favorite toggle for filter
+            hr.setFavorite(false);
             String restaurantDistrict = r.getDistrict();
-            Log.d("FilterActivity", "Restaurant ID: " + r.getId() + ", District: " + (restaurantDistrict != null ? restaurantDistrict : "null"));
             hr.setDistrict(restaurantDistrict);
+            // Fetch and set review count, rating, and favorite count using RestaurantDetailDBContext
+            hr.setReviewCount(dbContext.getReviewCountForRestaurant(hr.getId()));
+            hr.setRating((float) dbContext.getAverageRatingForRestaurant(hr.getId()));
+            hr.setFavoriteCount(dbContext.getFavoriteCountForRestaurant(hr.getId()));
             homeRestaurants.add(hr);
         }
         if (adapter == null) {
             Log.d("FilterActivity", "Initializing adapter with " + homeRestaurants.size() + " items");
-            adapter = new HomeRestaurantAdapter(this, homeRestaurants, null); // No item click listener for now
-            if (rvRestaurants != null) {
-                rvRestaurants.setAdapter(adapter);
-                rvRestaurants.setLayoutManager(new LinearLayoutManager(this));
-            } else {
-                Log.e("FilterActivity", "rvRestaurants is null, cannot set adapter");
-            }
+            adapter = new HomeRestaurantAdapter(this, homeRestaurants, this);
+            rvRestaurants.setAdapter(adapter);
+            rvRestaurants.setLayoutManager(new LinearLayoutManager(this));
         } else {
             Log.d("FilterActivity", "Updating adapter with " + homeRestaurants.size() + " items");
             adapter.updateList(homeRestaurants);
         }
+    }
+
+    @Override
+    public void onItemClick(HomeRestaurant restaurant) {
+        Intent intent = new Intent(this, RestaurantDetailActivity.class);
+        intent.putExtra("RESTAURANT_ID", restaurant.getId());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onFavoriteClick(HomeRestaurant restaurant) {
+        // Optional: Implement if you want favorite toggling in FilterActivity
     }
 }
