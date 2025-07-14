@@ -2,7 +2,9 @@ package com.example.prm391_project_apprestaurants.controllers.Login;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -61,11 +63,18 @@ public class Login extends AppCompatActivity {
             User user = userDBContext.login(username, password);
 
             if (user != null) {
+                SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("userName", user.getUsername());
+                editor.putInt("userId", user.getId());
+                editor.apply();
                 // Kiểm tra role
                 if ("Admin".equalsIgnoreCase(user.getRole())) {
                     startActivity(new Intent(Login.this, RestaurantManagementActivity.class));
+                    finish();
                 } else if ("User".equalsIgnoreCase(user.getRole())) {
                     startActivity(new Intent(Login.this, UserHomeActivity.class));
+                    finish();
                 } else {
                     Toast.makeText(Login.this, "Quyền người dùng không hợp lệ", Toast.LENGTH_SHORT).show();
                 }

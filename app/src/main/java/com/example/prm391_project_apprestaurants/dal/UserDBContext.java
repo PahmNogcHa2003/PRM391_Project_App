@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import com.example.prm391_project_apprestaurants.entities.User;
@@ -252,12 +253,17 @@ public class UserDBContext {
         return rows > 0;
     }
     public boolean checkUsernameEmailMatch(String username, String email) {
-        SQLiteDatabase db = dbContext.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE username = ? AND email = ?", new String[]{username, email});
-        boolean exists = cursor.moveToFirst();
-        cursor.close();
-        db.close();
-        return exists;
+        try {
+            SQLiteDatabase db = dbContext.getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE username = ? AND email = ?", new String[]{username, email});
+            boolean exists = cursor.moveToFirst();
+            cursor.close();
+            db.close();
+            return exists;
+        }catch (SQLiteException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
     public boolean updatePasswordByUsernameAndEmail(String username, String email, String newPassword) {
         SQLiteDatabase db = dbContext.getWritableDatabase();
