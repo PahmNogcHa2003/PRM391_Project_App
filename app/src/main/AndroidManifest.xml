@@ -44,6 +44,10 @@
             android:theme="@style/Theme.PRM391_Project_AppRestaurants">
         </activity>
 
+        <activity android:name=".controllers.Login.ForgotPasswordActivity"
+            android:theme="@style/Theme.PRM391_Project_AppRestaurants">
+        </activity>
+
 
 
 

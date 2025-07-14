@@ -113,6 +113,7 @@ public class Login extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
         txtGoToRegister = findViewById(R.id.txtGoToRegister);
+        TextView txtForgotPasswordLogin = findViewById(R.id.txtForgotPasswordLogin);
 
         btnLogin.setOnClickListener(v -> {
             String username = edtUsername.getText().toString().trim();
@@ -142,6 +143,10 @@ public class Login extends AppCompatActivity {
 
         txtGoToRegister.setOnClickListener(v -> {
             Intent intent = new Intent(Login.this, RegisterActivity.class);
+            startActivity(intent);
+        });
+        txtForgotPasswordLogin.setOnClickListener(view -> {
+            Intent intent = new Intent(Login.this, ForgotPasswordActivity.class);
             startActivity(intent);
         });
     }

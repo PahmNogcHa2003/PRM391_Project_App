@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 public class DbContext extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Restaurants.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static DbContext INSTANCE = null;
     private final String SCRIPT_DATABASE = "";
     public static synchronized DbContext getInstance(Context context) {
@@ -39,8 +39,11 @@ public class DbContext extends SQLiteOpenHelper {
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 2) {
-            db.execSQL("ALTER TABLE Users ADD COLUMN IsActive INTEGER DEFAULT 0");
+        if (oldVersion < 3) {
+           /* db.execSQL("ALTER TABLE Users ADD COLUMN IsActive INTEGER DEFAULT 0");*/
+            db.execSQL("UPDATE Users SET IsActive = 1 WHERE Username = 'admin'");
+            db.execSQL("UPDATE Users SET IsActive = 1 WHERE Username = 'user1'");
+            db.execSQL("UPDATE Users SET IsActive = 1 WHERE Username = 'user2'");
         }
     }
 }
