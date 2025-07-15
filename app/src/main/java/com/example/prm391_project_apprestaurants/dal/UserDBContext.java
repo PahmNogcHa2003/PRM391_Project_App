@@ -24,15 +24,20 @@ public class UserDBContext {
 
     // Đăng nhập
     public User login(String username, String password) {
-        SQLiteDatabase db = dbContext.getReadableDatabase();
-        String query = "SELECT * FROM Users WHERE Username = ? AND Password = ? AND IsActive = 1";
-        Cursor cursor = db.rawQuery(query, new String[]{username, password});
-        User user = null;
-        if (cursor.moveToFirst()) {
-            user = cursorToUser(cursor);
+        try {
+            SQLiteDatabase db = dbContext.getReadableDatabase();
+            String query = "SELECT * FROM Users WHERE Username = ? AND Password = ? AND IsActive = 1";
+            Cursor cursor = db.rawQuery(query, new String[]{username, password});
+            User user = null;
+            if (cursor.moveToFirst()) {
+                user = cursorToUser(cursor);
+            }
+            cursor.close();
+            return user;
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        cursor.close();
-        return user;
     }
 
     // Đổi mật khẩu (cần nhập đúng mật khẩu cũ)

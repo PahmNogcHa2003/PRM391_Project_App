@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="android.view.View" />
@@ -7,7 +8,7 @@
             name="viewHolder"
             type="com.example.prm391_project_apprestaurants.entities.Menu" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp">
@@ -120,15 +121,15 @@
                             android:textSize="14sp" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_width="25dp"
+                            android:layout_height="15dp"
                             android:layout_marginBottom="10dp"
                             android:orientation="horizontal">
 
                             <ImageView
                                 android:id="@+id/imageView8"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_marginEnd="10dp"
                                 android:src="@drawable/placeholder" />
 
