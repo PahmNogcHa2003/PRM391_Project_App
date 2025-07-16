@@ -197,7 +197,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_time2"
+                            android:src="@drawable/ic_time"
                             app:tint="@color/primary_orange" />
 
                         <TextView
@@ -243,7 +243,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_phone"
+                            android:src="@drawable/ic_phone2"
                             app:tint="@color/primary_orange" />
 
                         <TextView
@@ -266,7 +266,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_website2"
+                            android:src="@drawable/ic_website"
                             app:tint="@color/primary_orange" />
 
                         <TextView
