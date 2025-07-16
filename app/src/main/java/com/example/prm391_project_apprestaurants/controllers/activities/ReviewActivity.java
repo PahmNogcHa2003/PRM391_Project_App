@@ -74,7 +74,7 @@ public class ReviewActivity extends AppCompatActivity {
         reviewDBContext = new ReviewDBContext(this);
         reviewMediaDBContext = new ReviewMediaDBContext(this);
         reviewService = new ReviewService(this);
-        restaurantId = getIntent().getIntExtra("restaurantId", -1);
+        restaurantId = getIntent().getIntExtra("RESTAURANT_ID", -1);
 
         initViews();
         initImagePickers();

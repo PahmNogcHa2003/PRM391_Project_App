@@ -12,12 +12,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Header với ảnh và tên quán -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- Ảnh đại diện với hiệu ứng parallax -->
+            <!-- Ảnh đại diện -->
             <ImageView
                 android:id="@+id/ivDetailImage"
                 android:layout_width="match_parent"
@@ -45,33 +44,22 @@
                 android:contentDescription="@string/back_button"
                 app:tint="@android:color/white" />
 
-            <!-- Nút favorite nổi -->
-            <ImageButton
+            <!-- Nút favorite nổi - Đã sửa kích thước lớn hơn -->
+            <Button
                 android:id="@+id/btnFavoriteDetail"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="16dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:elevation="4dp"
+                android:padding="12dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/ic_favorite_border"
                 android:contentDescription="@string/favorite_button"
                 app:tint="@android:color/white" />
 
-            <!-- Tên quán -->
-            <TextView
-                android:id="@+id/tvDetailName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/ivDetailImage"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="16dp"
-                android:elevation="4dp"
-                android:text="Tên quán ăn"
-                android:textColor="@android:color/white"
-                android:textSize="28sp"
-                android:textStyle="bold" />
+
         </RelativeLayout>
 
         <!-- Thông tin cơ bản -->
@@ -79,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="-40dp"
+            android:layout_marginTop="-24dp"
             android:layout_marginEnd="16dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="8dp"
@@ -90,7 +78,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="24dp">
-
+                <!-- Tên quán - Đã điều chỉnh margin để không bị card che -->
+                <TextView
+                    android:id="@+id/tvDetailName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:elevation="6dp"
+                    android:text="Tên quán ăn"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
                 <!-- Rating và category -->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -198,7 +197,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_time"
+                            android:src="@drawable/ic_time2"
                             app:tint="@color/primary_orange" />
 
                         <TextView
@@ -221,7 +220,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_price"
+                            android:src="@drawable/ic_price2"
                             app:tint="@color/primary_orange" />
 
                         <TextView
@@ -267,7 +266,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_website"
+                            android:src="@drawable/ic_website2"
                             app:tint="@color/primary_orange" />
 
                         <TextView
@@ -658,7 +657,7 @@
                             android:textStyle="bold" />
 
                         <RatingBar
-                            android:id="@+id/rating"
+                            android:id="@+id/ratingBar2"
                             style="?android:attr/ratingBarStyleSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -667,7 +666,9 @@
                             android:rating="4.5"
                             android:stepSize="0.1" />
 
+                        <!-- Hiển thị số lượng đánh giá chính xác -->
                         <TextView
+                            android:id="@+id/tvReviewCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -685,16 +686,6 @@
                     android:layout_height="48dp"
                     android:layout_marginTop="16dp"
                     android:text="Xem tất cả đánh giá"
-                    android:textColor="@color/primary_orange" />
-
-                <!-- Nút thêm đánh giá -->
-                <Button
-                    android:id="@+id/btnAddReview"
-                    style="@style/TextButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Thêm đánh giá của bạn"
                     android:textColor="@color/primary_orange" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -714,7 +705,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvFeaturedMenu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
