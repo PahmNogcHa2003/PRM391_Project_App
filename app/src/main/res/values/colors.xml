@@ -37,6 +37,7 @@
     <color name="text_primary">#333333</color>
 <!--    <color name="text_secondary">#666666</color>-->
     <color name="card_background">#FFFFFF</color>
+    <color name="colorPrimary">#FF9800</color>
     <color name="colorPrimaryDark">#2D3A4A</color>     <!-- Màu tiêu đề, chữ đậm -->
     <color name="colorAccent">#F6F8FB</color>          <!-- Màu nền nhẹ -->
     <color name="colorInputBg">#FFFFFF</color>         <!-- Nền ô nhập liệu -->

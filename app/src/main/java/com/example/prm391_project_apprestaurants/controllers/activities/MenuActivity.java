@@ -44,7 +44,7 @@ public class MenuActivity extends AppCompatActivity {
         btnNextPage = findViewById(R.id.btnNextPage);
 
         // Nhận restaurantId từ Intent
-        restaurantId = getIntent().getIntExtra("restaurantId", -1);
+        restaurantId = getIntent().getIntExtra("RESTAURANT_ID", -1);
 
         // Lấy dữ liệu từ service
         menuService = new MenuService(this);

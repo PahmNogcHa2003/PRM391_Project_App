@@ -27,7 +27,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
     private TextView tvDetailName, tvDetailDescription, tvDetailAddress, tvDetailDistrict,
             tvDetailPrice, tvDetailCategory, tvDetailOpeningHours, tvDetailPhone,
             tvDetailWebsite, tvAverageRating;
-    private Button btnFavoriteDetail, btnViewReviews, btnViewMenus, btnAddReview;
+    private Button btnFavoriteDetail, btnViewReviews, btnViewMenus;
     private CardView cvCall, cvDirection, cvShare;
     private RestaurantDetailDBContext dbContext;
     private FavoriteDBContext favoriteDB;
@@ -78,7 +78,6 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         btnFavoriteDetail = findViewById(R.id.btnFavoriteDetail);
         btnViewReviews = findViewById(R.id.btnViewReviews);
         btnViewMenus = findViewById(R.id.btnViewMenus);
-        btnAddReview = findViewById(R.id.btnAddReview);
 
         cvCall = findViewById(R.id.cvCall);
         cvDirection = findViewById(R.id.cvDirection);
@@ -100,13 +99,8 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             openMenuActivity();
         });
 
-        btnAddReview.setOnClickListener(v -> {
-            if (userId == -1) {
-                showLoginRequiredToast();
-                return;
-            }
-            openReviewActivity();
-        });
+
+
 
         btnFavoriteDetail.setOnClickListener(v -> toggleFavorite());
 
@@ -142,7 +136,6 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         }
 
         boolean isFav = favoriteDB.isFavorite(userId, restaurant.getId());
-        btnFavoriteDetail.setText(isFav ? "Bỏ yêu thích" : "Thêm yêu thích");
         btnFavoriteDetail.setCompoundDrawablesWithIntrinsicBounds(
                 isFav ? R.drawable.ic_favorite_filled : R.drawable.ic_favorite_border,
                 0, 0, 0);
@@ -167,14 +160,14 @@ public class RestaurantDetailActivity extends AppCompatActivity {
 
     private void openReviewActivity() {
         Intent intent = new Intent(this, ReviewActivity.class);
-        intent.putExtra("restaurantId", restaurant.getId());
+        intent.putExtra("RESTAURANT_ID", restaurant.getId());
         startActivity(intent);
     }
 
 
     private void openMenuActivity() {
         Intent intent = new Intent(this, MenuActivity.class);
-        intent.putExtra("restaurantId", restaurant.getId());
+        intent.putExtra("RESTAURANT_ID", restaurant.getId());
         startActivity(intent);
     }
 
