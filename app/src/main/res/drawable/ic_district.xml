@@ -1,0 +1,21 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Nền hình tròn -->
+    <path
+        android:fillColor="#FF6B35"
+        android:pathData="M12,12m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0"/>
+
+    <!-- Biểu tượng tòa nhà -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M17,11V5h-2v6h-2V7h-2v4H9V9H7v6h10v-4zM6,19v-2h12v2H6z"/>
+
+    <!-- Dấu hiệu phân khu (thêm chi tiết) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,6a1,1 0,1 0,0 -2a1,1 0,1 0,0 2z"/>
+</vector>

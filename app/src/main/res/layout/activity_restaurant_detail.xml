@@ -233,7 +233,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_price2"
+                            android:src="@drawable/ic_price"
                             app:tint="@color/primary_orange" />
 
                         <TextView
@@ -256,7 +256,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_phone2"
+                            android:src="@drawable/ic_phone"
                             app:tint="@color/primary_orange" />
 
                         <TextView
