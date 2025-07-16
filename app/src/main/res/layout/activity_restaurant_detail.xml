@@ -25,12 +25,7 @@
                 android:src="@drawable/restaurant"
                 android:contentDescription="@string/restaurant_image" />
 
-            <!-- Gradient overlay -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_alignBottom="@id/ivDetailImage"
-                android:background="@drawable/bottom_gradient" />
+
 
             <!-- Nút back -->
             <ImageButton
@@ -42,21 +37,6 @@
                 android:elevation="4dp"
                 android:src="@drawable/ic_arrow_back_white"
                 android:contentDescription="@string/back_button"
-                app:tint="@android:color/white" />
-
-            <!-- Nút favorite nổi - Đã sửa kích thước lớn hơn -->
-            <Button
-                android:id="@+id/btnFavoriteDetail"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="16dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:elevation="4dp"
-                android:padding="12dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_favorite_border"
-                android:contentDescription="@string/favorite_button"
                 app:tint="@android:color/white" />
 
 
@@ -73,23 +53,44 @@
             app:cardElevation="8dp"
             app:cardPreventCornerOverlap="true">
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="24dp">
                 <!-- Tên quán - Đã điều chỉnh margin để không bị card che -->
-                <TextView
-                    android:id="@+id/tvDetailName"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginBottom="8dp"
-                    android:elevation="6dp"
-                    android:text="Tên quán ăn"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:textSize="28sp"
-                    android:textStyle="bold" />
+                    >
+
+                    <TextView
+                        android:id="@+id/tvDetailName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="-2dp"
+                        android:layout_marginEnd="28dp"
+                        android:layout_marginBottom="8dp"
+                        android:elevation="6dp"
+                        android:text="Tên quán ăn"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnFavoriteDetail"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:elevation="4dp"
+                        android:src="@drawable/ic_favorite_border"
+                        android:contentDescription="@string/favorite_button"
+                        app:tint="@android:color/white" />
+
+                </RelativeLayout>
                 <!-- Rating và category -->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -177,6 +178,18 @@
                             android:text="123 Đường ABC"
                             android:textColor="#333"
                             android:textSize="15sp" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_district" />
+
                         <TextView
                             android:id="@+id/tvDetailDistrict"
                             android:layout_width="wrap_content"
@@ -192,7 +205,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginBottom="12px">
+                        android:layout_marginBottom="12dp">
 
                         <ImageView
                             android:layout_width="24dp"
