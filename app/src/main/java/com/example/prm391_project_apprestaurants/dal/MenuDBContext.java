@@ -210,4 +210,33 @@ public class MenuDBContext {
         }
         return false;
     }
+    public List<Menu> getMenusByRestaurantIdDetail(int restaurantId) {
+        List<Menu> menus = new ArrayList<>();
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+
+        // Thêm ORDER BY và LIMIT nếu cần
+        Cursor cursor = db.rawQuery("""
+        SELECT Id, RestaurantId, DishName, Price, ImageUrl, Description, CreatedAt
+        FROM Menus
+        WHERE RestaurantId = ? AND IsHidden = 0
+        ORDER BY CreatedAt DESC
+        LIMIT 10
+    """, new String[]{String.valueOf(restaurantId)});
+
+        while (cursor.moveToNext()) {
+            Menu menu = new Menu();
+            menu.setId(cursor.getInt(0));
+            menu.setRestaurantId(cursor.getInt(1));
+            menu.setDishName(cursor.getString(2));
+            menu.setPrice(cursor.getString(3));
+            menu.setImageUrl(cursor.getString(4));
+            menu.setDescription(cursor.getString(5));
+            menu.setCreatedAt(cursor.getString(6));
+            menus.add(menu);
+        }
+
+        cursor.close();
+        db.close();
+        return menus;
+    }
 }

@@ -1,71 +1,95 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="12dp"
+    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_item">
+    android:background="@drawable/bg_item"
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="10dp"
+    android:elevation="2dp">
 
     <TextView
         android:id="@+id/tvReviewer"
         android:text="Tên người dùng"
         android:textStyle="bold"
-        android:textColor="#333"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <RatingBar
-        android:id="@+id/rbRatingDisplay"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numStars="5"
-        android:stepSize="1"
-        android:isIndicator="true"
-        android:layout_marginTop="2dp" />
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp"
+        android:gravity="center_vertical">
+
+        <RatingBar
+            android:id="@+id/rbRatingDisplay"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="1"
+            android:isIndicator="true"
+            android:rating="4" />
+
+        <TextView
+            android:id="@+id/tvCreatedAt"
+            android:text="Ngày đánh giá"
+            android:textSize="12sp"
+            android:textColor="#757575"
+            android:layout_marginStart="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvContent"
         android:text="Nội dung đánh giá"
-        android:layout_marginTop="4dp"
-        android:layout_width="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#424242"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/tvCreatedAt"
-        android:text="Ngày đánh giá"
-        android:textSize="12sp"
-        android:textColor="#777"
-        android:layout_marginTop="2dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <!-- RecyclerView để hiển thị danh sách ảnh -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvReviewImages"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="12dp"
         android:orientation="horizontal"
         android:nestedScrollingEnabled="false" />
 
-    <!-- Hành động (nếu có) -->
     <LinearLayout
         android:id="@+id/layoutActions"
         android:orientation="horizontal"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <!-- Edit, Delete button -->
+        android:layout_height="wrap_content"
+        android:gravity="end">
+
         <Button
             android:id="@+id/btnEdit"
             android:text="Sửa"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="48dp"
+            android:minWidth="64dp"
+            android:backgroundTint="#2196F3"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textAllCaps="false"
+            style="@style/Widget.AppCompat.Button.Borderless" />
 
         <Button
             android:id="@+id/btnDelete"
             android:text="Xoá"
             android:layout_marginStart="8dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="48dp"
+            android:minWidth="64dp"
+            android:backgroundTint="#F44336"
+            android:textColor="@android:color/holo_red_dark"
+            android:textAllCaps="false"
+            style="@style/Widget.AppCompat.Button.Borderless" />
     </LinearLayout>
 </LinearLayout>

@@ -12,14 +12,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.prm391_project_apprestaurants.R;
 import com.example.prm391_project_apprestaurants.controllers.activities.MenuActivity;
 import com.example.prm391_project_apprestaurants.controllers.activities.ReviewActivity;
+import com.example.prm391_project_apprestaurants.controllers.adapters.FeaturedMenuAdapter;
+import com.example.prm391_project_apprestaurants.dal.MenuDBContext;
 import com.example.prm391_project_apprestaurants.entities.HomeRestaurant;
 import com.example.prm391_project_apprestaurants.dal.RestaurantDetailDBContext;
 import com.example.prm391_project_apprestaurants.dal.FavoriteDBContext;
+import com.example.prm391_project_apprestaurants.entities.Menu;
+
+import java.util.List;
 
 public class RestaurantDetailActivity extends AppCompatActivity {
 
@@ -33,6 +40,8 @@ public class RestaurantDetailActivity extends AppCompatActivity {
     private FavoriteDBContext favoriteDB;
     private HomeRestaurant restaurant;
     private int userId = -1;
+    private RecyclerView rvFeaturedMenu;
+    private FeaturedMenuAdapter featuredMenuAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +67,9 @@ public class RestaurantDetailActivity extends AppCompatActivity {
                 checkFavoriteStatus();
             }
         }
+        if (restaurant != null) {
+            loadFeaturedMenus();
+        }
     }
 
     @SuppressLint("WrongViewCast")
@@ -74,7 +86,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         tvDetailPhone = findViewById(R.id.tvDetailPhone);
         tvDetailWebsite = findViewById(R.id.tvDetailWebsite);
         tvAverageRating = findViewById(R.id.tvAverageRating);
-
+        rvFeaturedMenu = findViewById(R.id.rvFeaturedMenu);
         btnFavoriteDetail = findViewById(R.id.btnFavoriteDetail);
         btnViewReviews = findViewById(R.id.btnViewReviews);
         btnViewMenus = findViewById(R.id.btnViewMenus);
@@ -226,5 +238,23 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
         startActivity(Intent.createChooser(shareIntent, "Chia sẻ quán ăn"));
+    }
+    private void loadFeaturedMenus() {
+        if (restaurant == null) return;
+
+        MenuDBContext menuDB = new MenuDBContext(this);
+        List<Menu> menus = menuDB.getMenusByRestaurantIdDetail(restaurant.getId());
+
+        // Lấy top 3 menu đầu tiên
+        List<Menu> featuredMenus = menus.size() > 3 ? menus.subList(0, 3) : menus;
+
+        // Thiết lập RecyclerView
+        featuredMenuAdapter = new FeaturedMenuAdapter(this, featuredMenus);
+        rvFeaturedMenu.setLayoutManager(new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false));
+        rvFeaturedMenu.setAdapter(featuredMenuAdapter);
+
+        // Ẩn RecyclerView nếu không có menu nào
+        rvFeaturedMenu.setVisibility(featuredMenus.isEmpty() ? View.GONE : View.VISIBLE);
     }
 }
