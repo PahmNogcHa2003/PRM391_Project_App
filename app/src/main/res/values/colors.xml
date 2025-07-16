@@ -37,14 +37,21 @@
     <color name="text_primary">#333333</color>
 <!--    <color name="text_secondary">#666666</color>-->
     <color name="card_background">#FFFFFF</color>
-
-     <!-- Màu xanh nút chính -->
     <color name="colorPrimaryDark">#2D3A4A</color>     <!-- Màu tiêu đề, chữ đậm -->
     <color name="colorAccent">#F6F8FB</color>          <!-- Màu nền nhẹ -->
     <color name="colorInputBg">#FFFFFF</color>         <!-- Nền ô nhập liệu -->
     <color name="colorInputBorder">#E5E7EB</color>     <!-- Viền ô nhập liệu -->
     <color name="colorInputIcon">#9CA3AF</color>       <!-- Icon nhập liệu -->
     <color name="colorButtonText">#FFFFFF</color>      <!-- Chữ trên nút -->
-    <color name="colorPrimary">#4F8EFF</color>
-
+    <color name="primary_dark">#F57C00</color>
+    <color name="accent">#FFC107</color>
+    <color name="primary_blue">#2196F3</color>
+    <color name="star_active">#FFC107</color>
+    <color name="gray_light">#E0E0E0</color>
+    <!-- Progress bar colors -->
+    <color name="progress_5">#4CAF50</color>
+    <color name="progress_4">#8BC34A</color>
+    <color name="progress_3">#FFC107</color>
+    <color name="progress_2">#FF9800</color>
+    <color name="progress_1">#F44336</color>
 </resources>
