@@ -132,5 +132,31 @@
     <string name="forgot_title">Quên mật khẩu</string>
     <string name="forgot_account"> TẠO LẠI MẬT KHẨU</string>
     <string name="forgot_here">Đổi mật khẩu</string>
+    <string name="restaurant_image">Ảnh nhà hàng</string>
+    <string name="back_button">Quay lại</string>
+    <string name="favorite_button">Yêu thích</string>
+
+    <!-- Action buttons -->
+    <string name="call">Gọi</string>
+    <string name="directions">Đường đi</string>
+    <string name="share">Chia sẻ</string>
+
+    <!-- Placeholder text -->
+    <string name="restaurant_name">Tên quán ăn</string>
+    <string name="restaurant_description">Mô tả về quán ăn</string>
+    <string name="restaurant_address">Địa chỉ quán ăn</string>
+    <string name="restaurant_hours">Giờ mở cửa</string>
+    <string name="restaurant_price">Mức giá</string>
+    <string name="restaurant_phone">Số điện thoại</string>
+    <string name="restaurant_website">Website</string>
+
+    <!-- Review section -->
+    <string name="reviews_title">Đánh giá</string>
+    <string name="view_all_reviews">Xem tất cả đánh giá</string>
+    <string name="add_review">Thêm đánh giá</string>
+
+    <!-- Menu section -->
+    <string name="featured_menu">Thực đơn nổi bật</string>
+    <string name="view_full_menu">Xem toàn bộ thực đơn</string>
 
 </resources>
