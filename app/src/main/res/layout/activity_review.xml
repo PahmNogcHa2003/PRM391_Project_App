@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="12dp"
-    android:background="@drawable/bg_comment"
+    android:background="@drawable/bg_review2"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -41,24 +41,24 @@
         <!-- Icon chọn ảnh -->
         <ImageButton
             android:id="@+id/btnChooseImage"
-            android:src="@android:drawable/ic_menu_camera"
-            android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:padding="8dp"
-            android:contentDescription="Chọn ảnh"
+            android:src="@drawable/baseline_add_photo_alternate_24"
+            android:scaleType="centerInside"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Thêm ảnh"
             android:layout_marginEnd="8dp"
-            />
+            android:padding="10dp"/>
 
 
         <EditText
             android:id="@+id/etReviewContent"
-            android:layout_weight="1"
-            android:hint="Viết đánh giá..."
-            android:background="@drawable/bg_edittext"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:padding="8dp"/>
+            android:layout_weight="1"
+            android:background="@drawable/bg_edittext"
+            android:hint="Viết đánh giá..."
+            android:padding="8dp" />
 
         <Button
             android:id="@+id/btnSubmitReview"
