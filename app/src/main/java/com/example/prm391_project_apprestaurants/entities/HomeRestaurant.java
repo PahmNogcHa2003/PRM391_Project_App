@@ -1,5 +1,7 @@
 package com.example.prm391_project_apprestaurants.entities;
 
+import java.util.List;
+
 /**
  * Mô hình dữ liệu cho Nhà hàng (Restaurant)
  * Đã bổ sung trường favoriteCount để hỗ trợ top 10 yêu thích,
@@ -25,6 +27,8 @@ public class HomeRestaurant {
     private double longitude;           // Kinh độ (tọa độ bản đồ)
     private boolean isFavorite;         // Đã yêu thích chưa
     private boolean isSaved;            // Đã lưu địa điểm chưa
+
+    private List<ReviewStatistic> reviewStatistics;
 
     // Constructor mặc định
     public HomeRestaurant() {
@@ -208,5 +212,13 @@ public class HomeRestaurant {
 
     public void setSaved(boolean saved) {
         isSaved = saved;
+    }
+
+    public List<ReviewStatistic> getReviewStatistics() {
+        return reviewStatistics;
+    }
+
+    public void setReviewStatistics(List<ReviewStatistic> reviewStatistics) {
+        this.reviewStatistics = reviewStatistics;
     }
 }

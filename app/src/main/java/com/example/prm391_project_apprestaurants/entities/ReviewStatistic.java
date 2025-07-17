@@ -1,6 +1,6 @@
 package com.example.prm391_project_apprestaurants.entities;
 
-public class AppStatistic {
+public class ReviewStatistic {
     private int rating;
     private int quantity;
     private float percentage;

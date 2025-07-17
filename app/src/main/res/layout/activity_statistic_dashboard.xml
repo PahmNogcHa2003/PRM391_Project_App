@@ -21,7 +21,7 @@
             type="Float" />
         <variable
             name="listReviewStatistic"
-            type="List&lt;com.example.prm391_project_apprestaurants.entities.AppStatistic&gt;" />
+            type="List&lt;com.example.prm391_project_apprestaurants.entities.ReviewStatistic&gt;" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -3,11 +3,14 @@ package com.example.prm391_project_apprestaurants.dal;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.prm391_project_apprestaurants.entities.HomeRestaurant;
+import com.example.prm391_project_apprestaurants.entities.ReviewStatistic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Quản lý truy vấn dữ liệu nhà hàng từ SQLite cho app.
@@ -194,5 +197,40 @@ public class RestaurantDetailDBContext {
                 false, // isFavorite (không có trong DB)
                 false  // isSaved (không có trong DB)
         );
+    }
+
+    public List<ReviewStatistic> getReviewStatisticsByRestaurantId(int restaurantId) {
+        List<ReviewStatistic> statistics = new ArrayList<>();
+        try {
+            SQLiteDatabase db = dbContext.getReadableDatabase();
+            String query = "SELECT " +
+                           "r.Rating, " +
+                           "COUNT(r.Rating) AS TotalRating, " +
+                           "ROUND(COUNT(r.Rating) * 100.0 / (SELECT COUNT(*) FROM Reviews WHERE RestaurantId = ?), 2) AS Percent " +
+                           "FROM Reviews r " +
+                           "WHERE r.RestaurantId = ? " +
+                           "GROUP BY r.Rating " +
+                           "ORDER BY r.Rating;";
+            Cursor cursor = db.rawQuery(query, new String[]{
+                    String.valueOf(restaurantId),
+                    String.valueOf(restaurantId)
+            });
+
+            while (cursor.moveToNext()) {
+                int rating = cursor.getInt(0);
+                int count = cursor.getInt(1);
+                float percent = cursor.getFloat(2);
+                ReviewStatistic statistic = new ReviewStatistic();
+                statistic.setRating(rating);
+                statistic.setQuantity(count);
+                statistic.setPercentage(percent);
+                statistics.add(statistic);
+            }
+            cursor.close();
+            db.close();
+        } catch (Exception e) {
+            Log.d("Error", Objects.requireNonNull(e.getMessage()));
+        }
+        return statistics;
     }
 }
