@@ -1,6 +1,7 @@
 package com.example.prm391_project_apprestaurants.controllers.admin;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -60,7 +61,11 @@ public class RestaurantDetailDashboardActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private void RegisterEvents() {
-        binding.buttonBack.setOnClickListener(v -> finish());
+        binding.buttonBack.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RestaurantManagementActivity.class);
+            startActivity(intent);
+            finish();
+        });
         ScrollView scrollView = findViewById(R.id.scrollDetail);
         View overlay = binding.recyclerViewReviewTouchOverlay;
 

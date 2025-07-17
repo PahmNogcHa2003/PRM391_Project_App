@@ -26,7 +26,8 @@ public class RestaurantDBContext {
         long totalElement = countTotalRestaurants(request);
         try {
             SQLiteDatabase db = dbContext.getReadableDatabase();
-            String query = "SELECT * FROM Restaurants r";
+            String query = "select distinct r.* from Restaurants r left join RestaurantCategory rs on\n" +
+                           "r.Id = rs.RestaurantId left join Categories c on rs.CategoryId = c.Id";
             List<String> params = new ArrayList<>();
             query += buildSearchRestaurantQuery(request, true, params, totalElement).toString();
             Cursor cursor = db.rawQuery(query, params.toArray(new String[0]));
@@ -114,6 +115,23 @@ public class RestaurantDBContext {
             params.add(keyword);
             params.add(keyword);
         }
+        if(request.getCategoryId() != 0){
+            query.append(" AND rs.CategoryId = ? ");
+            params.add(String.valueOf(request.getCategoryId()));
+        }
+        if(request.getMinPrice() != 0 && request.getMaxPrice() == 0){
+            query.append(" AND r.PriceRange >= ? ");
+            params.add(String.valueOf(request.getMinPrice()));
+        }
+        if(request.getMinPrice() == 0 && request.getMaxPrice() != 0){
+            query.append(" AND r.PriceRange <= ? ");
+            params.add(String.valueOf(request.getMaxPrice()));
+        }
+        if(request.getMinPrice() != 0 && request.getMaxPrice() != 0){
+            query.append(" AND r.PriceRange >= ? AND r.PriceRange <= ? ");
+            params.add(String.valueOf(request.getMinPrice()));
+            params.add(String.valueOf(request.getMaxPrice()));
+        }
         if (isPagination) {
             int totalPage = (int) Math.ceil(totalElement * 1.0 / request.getPageSize());
             query.append(" LIMIT ? OFFSET ? ");
@@ -123,7 +141,6 @@ public class RestaurantDBContext {
             params.add(String.valueOf(request.getPageSize()));
             params.add(String.valueOf((correctPage - 1) * request.getPageSize()));
         }
-
         return query;
     }
 
@@ -204,7 +221,8 @@ public class RestaurantDBContext {
         long count = 0;
         try {
             SQLiteDatabase db = dbContext.getReadableDatabase();
-            String query = "SELECT COUNT(r.id) FROM Restaurants r";
+            String query = "select count(distinct r.Id) from Restaurants r left join RestaurantCategory rs on\n" +
+                           "r.Id = rs.RestaurantId left join Categories c on rs.CategoryId = c.Id";
             List<String> params = new ArrayList<>();
             query += buildSearchRestaurantQuery(request, false, params, 0).toString();
             Cursor cursor = db.rawQuery(query, params.toArray(new String[0]));

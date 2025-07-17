@@ -85,18 +85,63 @@
                 android:paddingEnd="8dp"
                 android:spinnerMode="dropdown" />
 
-            <Button
-                android:id="@+id/btnSearch"
-                android:layout_width="wrap_content"
+            <Spinner
+                android:id="@+id/spinnerCategory"
+                android:layout_width="0dp"
                 android:layout_height="42dp"
-                android:layout_marginStart="12dp"
-                android:backgroundTint="#4CAF50"
-                android:drawablePadding="6dp"
-                android:minWidth="90dp"
-                android:text="Tìm kiếm"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
+                android:layout_weight="1"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:spinnerMode="dropdown" />
 
+<!--            <Button-->
+<!--                android:id="@+id/btnSearch"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="42dp"-->
+<!--                android:layout_marginStart="12dp"-->
+<!--                android:backgroundTint="#4CAF50"-->
+<!--                android:drawablePadding="6dp"-->
+<!--                android:minWidth="90dp"-->
+<!--                android:text="Tìm kiếm"-->
+<!--                android:textColor="#FFFFFF"-->
+<!--                android:textSize="14sp" />-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/editTextMinPrice"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:drawableStart="@android:drawable/ic_menu_search"
+                android:hint="Từ giá"
+                android:padding="12dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:inputType="number|numberSigned"
+                android:layout_weight="1"
+                />
+            <EditText
+                android:id="@+id/editTextMaxPrice"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:drawableStart="@android:drawable/ic_menu_search"
+                android:hint="Đến giá"
+                android:padding="12dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:inputType="number|numberSigned"
+                android:layout_weight="1"
+                />
         </LinearLayout>
 
         <Button

@@ -1,5 +1,6 @@
 package com.example.prm391_project_apprestaurants.controllers.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.example.prm391_project_apprestaurants.R;
@@ -85,27 +87,36 @@ public class SideBarFragment extends Fragment {
         LinearLayout restaurantManagementBar = view.findViewById(R.id.llManageRestaurants);
         LinearLayout logoutBar = view.findViewById(R.id.llLogout);
         LinearLayout menuBar = view.findViewById(R.id.llManageMenus);
+        ImageButton btnCloseSideBar = view.findViewById(R.id.btnClose);
 
         statisticBar.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), StatisticDashboardActivity.class);
             startActivity(intent);
+            ((Activity) v.getContext()).finish();
         });
         userManagementBar.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), UserManagementActivity.class);
             startActivity(intent);
+            ((Activity) v.getContext()).finish();
         });
         restaurantManagementBar.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), RestaurantManagementActivity.class);
             startActivity(intent);
+            ((Activity) v.getContext()).finish();
         });
         menuBar.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), MenuManagementActivity.class);
             startActivity(intent);
+            ((Activity) v.getContext()).finish();
         });
         logoutBar.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), Login.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            ((Activity) v.getContext()).finish();
+        });
+        btnCloseSideBar.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager().popBackStack();
         });
     }
 }

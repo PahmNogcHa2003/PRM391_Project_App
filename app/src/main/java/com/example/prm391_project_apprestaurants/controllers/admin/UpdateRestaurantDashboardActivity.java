@@ -186,6 +186,8 @@ public class UpdateRestaurantDashboardActivity extends AppCompatActivity {
     }
 
     private void cancelUpdateRestaurant(View view) {
+        Intent intent = new Intent(this, RestaurantManagementActivity.class);
+        startActivity(intent);
         finish();
     }
 
