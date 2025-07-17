@@ -21,13 +21,15 @@ import com.example.prm391_project_apprestaurants.services.RestaurantService;
 import com.example.prm391_project_apprestaurants.controllers.detail.RestaurantDetailActivity;
 import com.example.prm391_project_apprestaurants.dal.RestaurantDetailDBContext;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import androidx.appcompat.widget.SearchView;
 
 public class FilterActivity extends AppCompatActivity implements HomeRestaurantAdapter.OnItemClickListener {
 
     private RestaurantService restaurantService;
-    private RestaurantDetailDBContext dbContext; // Updated to use RestaurantDetailDBContext
+    private RestaurantDetailDBContext dbContext;
     private RecyclerView rvRestaurants;
     private HomeRestaurantAdapter adapter;
     private List<HomeRestaurant> homeRestaurants = new ArrayList<>();
@@ -52,6 +54,19 @@ public class FilterActivity extends AppCompatActivity implements HomeRestaurantA
 
     private void Initialize() {
         Log.d("FilterActivity", "Initialize started");
+
+        // Initialize services first
+        try {
+            restaurantService = new RestaurantService(this);
+            Log.d("FilterActivity", "restaurantService initialized successfully");
+        } catch (Exception e) {
+            Log.e("FilterActivity", "Failed to initialize restaurantService: " + e.getMessage());
+            return; // Exit if initialization fails
+        }
+        dbContext = new RestaurantDetailDBContext(this);
+        Log.d("FilterActivity", "dbContext initialized successfully");
+
+        // Initialize UI components
         rvRestaurants = findViewById(R.id.rvRestaurants);
         if (rvRestaurants == null) {
             Log.e("FilterActivity", "rvRestaurants not found in layout");
@@ -78,25 +93,32 @@ public class FilterActivity extends AppCompatActivity implements HomeRestaurantA
 
         // Set up Spinners with options
         ArrayAdapter<String> priceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-                new String[]{"Giá", "30-50k", "50-100k", "100-200k"});
+                new String[]{"Giá", "<50,000đ", "<100,000đ", ">100,000đ"});
         priceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPriceRange.setAdapter(priceAdapter);
         spinnerPriceRange.setSelection(0);
 
+        // Fetch districts dynamically
+        Set<String> districts = new HashSet<>();
+        districts.add("Huyện"); // Default option
+        List<Restaurant> allRestaurants = restaurantService.getAllRestaurants();
+        for (Restaurant r : allRestaurants) {
+            districts.add(r.getDistrict());
+        }
         ArrayAdapter<String> districtAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-                new String[]{"Huyện", "Hai Bà Trưng", "Hoàn Kiếm", "Đống Đa", "Ba Đình", "Tây Hồ"});
+                new ArrayList<>(districts));
         districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDistrict.setAdapter(districtAdapter);
         spinnerDistrict.setSelection(0);
 
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-                new String[]{"Loại món", "Bún", "Phở", "Bánh mì", "Chay", "Cơm", "Lẩu", "Xôi", "Mì", "Nước"});
+        // Fetch categories dynamically
+        List<String> categories = restaurantService.getAllCategories();
+        categories.add(0, "Loại món"); // Default option
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategory.setAdapter(categoryAdapter);
         spinnerCategory.setSelection(0);
 
-        restaurantService = new RestaurantService(this);
-        dbContext = new RestaurantDetailDBContext(this); // Updated to RestaurantDetailDBContext
         String initialQuery = getIntent().getStringExtra("initialQuery");
         Log.d("FilterActivity", "Initial query: " + (initialQuery != null ? initialQuery : "null"));
         if (initialQuery != null) {
@@ -131,9 +153,11 @@ public class FilterActivity extends AppCompatActivity implements HomeRestaurantA
         // Add Spinner listeners
         spinnerPriceRange.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                String selectedPrice = getSelectedValue(spinnerPriceRange);
+                Log.d("PriceRange", "Selected price range: " + selectedPrice);
                 updateRestaurantList(
-                        getSelectedValue(spinnerPriceRange),
+                        selectedPrice,
                         getSelectedValue(spinnerDistrict),
                         getSelectedValue(spinnerCategory),
                         searchView.getQuery().toString()
@@ -146,7 +170,7 @@ public class FilterActivity extends AppCompatActivity implements HomeRestaurantA
 
         spinnerDistrict.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
                 updateRestaurantList(
                         getSelectedValue(spinnerPriceRange),
                         getSelectedValue(spinnerDistrict),
@@ -161,7 +185,7 @@ public class FilterActivity extends AppCompatActivity implements HomeRestaurantA
 
         spinnerCategory.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
                 updateRestaurantList(
                         getSelectedValue(spinnerPriceRange),
                         getSelectedValue(spinnerDistrict),
@@ -197,12 +221,17 @@ public class FilterActivity extends AppCompatActivity implements HomeRestaurantA
 
     private String getSelectedValue(Spinner spinner) {
         String value = (String) spinner.getSelectedItem();
-        return "Giá".equals(value) || "Huyện".equals(value) || "Loại món".equals(value) ? null : value;
+        String result = "Giá".equals(value) || "Huyện".equals(value) || "Loại món".equals(value) ? null : value;
+        Log.d("SelectedValue", "Spinner: " + spinner.getId() + ", Value: " + value + ", Result: " + result);
+        return result;
     }
 
     private void updateRestaurantList(String priceRange, String district, String category, String searchQuery) {
         Log.d("FilterActivity", "Updating list with - Price: " + priceRange + ", District: " + district + ", Category: " + category + ", Query: " + searchQuery);
-        List<Restaurant> restaurants = restaurantService.getAllRestaurantsWithFilter(priceRange, district, category, searchQuery);
+        // Map the price range before passing to the service
+        String mappedPriceRange = restaurantService.mapPriceRange(priceRange);
+        Log.d("FilterActivity", "Mapped Price Range: " + mappedPriceRange);
+        List<Restaurant> restaurants = restaurantService.getAllRestaurantsWithFilter(mappedPriceRange, district, category, searchQuery);
         Log.d("FilterActivity", "Fetched " + (restaurants != null ? restaurants.size() : 0) + " restaurants");
         homeRestaurants.clear();
         for (Restaurant r : restaurants) {

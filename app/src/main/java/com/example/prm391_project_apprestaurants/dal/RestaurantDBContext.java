@@ -64,6 +64,7 @@ public class RestaurantDBContext {
         }
         return restaurants;
     }
+
     public List<Restaurant> getAllRestaurants() {
         List<Restaurant> restaurants = new ArrayList<>();
         try {
@@ -144,10 +145,10 @@ public class RestaurantDBContext {
             values.put("Longitude", restaurant.getLongitude());
             values.put("ImageUrl", restaurant.getImage());
             long result = db.insert("Restaurants", null, values);
-            if(isClose){
+            if (isClose) {
                 db.close();
             }
-            if(result > 0){
+            if (result > 0) {
                 restaurant.setId((int) result);
             }
             return result > 0;
@@ -241,56 +242,53 @@ public class RestaurantDBContext {
 
     public List<Restaurant> getAllRestaurantsWithFilter(String priceRange, String district, String category, String searchQuery) {
         List<Restaurant> restaurants = new ArrayList<>();
-        try {
-            SQLiteDatabase db = dbContext.getReadableDatabase();
-            String query = "SELECT * FROM Restaurants WHERE 1=1";
-            List<String> selectionArgs = new ArrayList<>();
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        String selection = "IsHidden = 0"; // Default filter
+        List<String> selectionArgs = new ArrayList<>();
 
-            if (priceRange != null && !priceRange.isEmpty()) {
-                query += " AND PriceRange = ?";
-                selectionArgs.add(priceRange);
+        if (priceRange != null && !priceRange.isEmpty()) {
+            String[] priceRanges = priceRange.split("\\|");
+            selection += " AND PriceRange IN (" + makePlaceholders(priceRanges.length) + ")";
+            for (String range : priceRanges) {
+                selectionArgs.add(range);
             }
-            if (district != null && !district.isEmpty()) {
-                query += " AND District = ?";
-                selectionArgs.add(district);
-            }
-            if (category != null && !category.isEmpty()) {
-                query += " AND Category = ?";
-                selectionArgs.add(category);
-            }
-            if (searchQuery != null && !searchQuery.isEmpty()) {
-                query += " AND Name LIKE ?";
-                selectionArgs.add("%" + searchQuery + "%");
-            }
-
-            Cursor cursor = db.rawQuery(query, selectionArgs.toArray(new String[0]));
-            while (cursor.moveToNext()) {
-                int id = cursor.getInt(0);
-                String name = cursor.getString(1);
-                String address = cursor.getString(3);
-                String description = cursor.getString(2);
-                String image = cursor.getString(10);
-                String priceRangeValue = cursor.getString(5);
-                String website = cursor.getString(9);
-                String categoryValue = cursor.getString(6);
-                String districtValue = cursor.getString(4);
-                Restaurant restaurant = new Restaurant();
-                restaurant.setId(id);
-                restaurant.setName(name);
-                restaurant.setAddress(address);
-                restaurant.setDescription(description);
-                restaurant.setImage(image);
-                restaurant.setPriceRange(priceRangeValue);
-                restaurant.setWebsite(website);
-                restaurant.setCategory(categoryValue);
-                restaurant.setDistrict(districtValue);
-                restaurants.add(restaurant);
-            }
-            cursor.close();
-            db.close();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+        if (district != null && !district.isEmpty() && !district.equals("Huyện")) {
+            selection += " AND District = ?";
+            selectionArgs.add(district);
+        }
+        if (category != null && !category.isEmpty() && !category.equals("Loại món")) {
+            selection += " AND Id IN (SELECT RestaurantId FROM RestaurantCategory WHERE CategoryId = (SELECT Id FROM Categories WHERE Name = ?))";
+            selectionArgs.add(category);
+        }
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            selection += " AND Name LIKE ?";
+            selectionArgs.add("%" + searchQuery + "%");
+        }
+
+        Log.d("FilterQuery", "Executing query with selection: " + selection + ", args: " + String.join(", ", selectionArgs));
+        Cursor cursor = db.rawQuery("SELECT * FROM Restaurants WHERE " + selection, selectionArgs.toArray(new String[0]));
+        if (cursor.moveToFirst()) {
+            do {
+                Restaurant restaurant = new Restaurant();
+                restaurant.setId(cursor.getInt(cursor.getColumnIndexOrThrow("Id")));
+                restaurant.setName(cursor.getString(cursor.getColumnIndexOrThrow("Name")));
+                restaurant.setAddress(cursor.getString(cursor.getColumnIndexOrThrow("Address")));
+                restaurant.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("Description")));
+                restaurant.setImage(cursor.getString(cursor.getColumnIndexOrThrow("ImageUrl")));
+                restaurant.setPriceRange(cursor.getString(cursor.getColumnIndexOrThrow("PriceRange")));
+                restaurant.setWebsite(cursor.getString(cursor.getColumnIndexOrThrow("Website")));
+                restaurant.setCategory(cursor.getString(cursor.getColumnIndexOrThrow("Category")));
+                restaurant.setDistrict(cursor.getString(cursor.getColumnIndexOrThrow("District")));
+                restaurant.setOpeningHours(cursor.getString(cursor.getColumnIndexOrThrow("OpeningHours")));
+                restaurant.setHidden(cursor.getInt(cursor.getColumnIndexOrThrow("IsHidden")) == 1);
+                restaurant.setReviewCount(countReviewByRestaurantId(restaurant.getId()));
+                restaurants.add(restaurant);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        Log.d("FilterResult", "Fetched " + restaurants.size() + " restaurants");
         return restaurants;
     }
 
@@ -313,7 +311,7 @@ public class RestaurantDBContext {
             values.put("Longitude", restaurant.getLongitude());
             values.put("updatedAt", LocalDateTime.now().toString());
             result = db.update("Restaurants", values, "Id = ?", new String[]{String.valueOf(restaurant.getId())}) > 0;
-            if(isClose) {
+            if (isClose) {
                 db.close();
             }
         } catch (Exception e) {
@@ -350,5 +348,27 @@ public class RestaurantDBContext {
             Log.d("Error", Objects.requireNonNull(e.getMessage()));
         }
         return result;
+    }
+
+    public List<String> getAllCategories() {
+        List<String> categories = new ArrayList<>();
+        SQLiteDatabase db = dbContext.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT Name FROM Categories", null);
+        if (cursor.moveToFirst()) {
+            do {
+                categories.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return categories;
+    }
+
+    private String makePlaceholders(int len) {
+        String[] placeholders = new String[len];
+        for (int i = 0; i < len; i++) {
+            placeholders[i] = "?";
+        }
+        return String.join(",", placeholders);
     }
 }
