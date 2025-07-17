@@ -1,5 +1,6 @@
 package com.example.prm391_project_apprestaurants.controllers.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -119,7 +120,9 @@ public class ReviewActivity extends AppCompatActivity {
             previewImageAdapter.notifyDataSetChanged();
             rvImagePreview.setVisibility(View.GONE);
 
-            loadReviews();
+            // QUAN TRỌNG: báo kết quả OK về cho Activity trước đó
+            setResult(RESULT_OK);
+            finish();
         });
     }
 
@@ -197,8 +200,19 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     private void loadReviews() {
+        // Sửa đoạn này: truyền thêm Callback xóa đánh giá để setResult(RESULT_OK)
         List<Review> reviews = reviewService.getReviews(restaurantId);
-        reviewAdapter = new ReviewAdapter(this, reviews, currentUserId, reviewService);
+
+        reviewAdapter = new ReviewAdapter(
+                this,
+                reviews,
+                currentUserId,
+                reviewService,
+                // callback khi xóa review thành công:
+                () -> {
+                    setResult(RESULT_OK); // báo về cho Detail refresh khi trở lại
+                }
+        );
         rvReviews.setAdapter(reviewAdapter);
     }
 

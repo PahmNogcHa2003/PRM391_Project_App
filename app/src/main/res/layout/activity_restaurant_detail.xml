@@ -106,10 +106,10 @@
                         android:layout_height="wrap_content"
                         android:isIndicator="true"
                         android:numStars="5"
-                        android:rating="4.5"
                         android:stepSize="0.1" />
 
                     <TextView
+                        android:id="@+id/tvDetailRating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -210,7 +210,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_time"
+                            android:src="@drawable/ic_time2"
                             app:tint="@color/primary_orange" />
 
                         <TextView
@@ -465,6 +465,7 @@
                                 app:tint="#FFD700" />
 
                             <ProgressBar
+                                android:id="@+id/pbStar5"
                                 style="?android:attr/progressBarStyleHorizontal"
                                 android:layout_width="0dp"
                                 android:layout_height="8dp"
@@ -474,6 +475,7 @@
                                 android:progressTint="#4CAF50" />
 
                             <TextView
+                                android:id="@+id/tvStar5"
                                 android:layout_width="40dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
@@ -507,6 +509,7 @@
                                 app:tint="#FFD700" />
 
                             <ProgressBar
+                                android:id="@+id/pbStar4"
                                 style="?android:attr/progressBarStyleHorizontal"
                                 android:layout_width="0dp"
                                 android:layout_height="8dp"
@@ -516,8 +519,9 @@
                                 android:progressTint="#8BC34A" />
 
                             <TextView
+                                android:id="@+id/tvStar4"
                                 android:layout_width="40dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="19dp"
                                 android:layout_marginStart="8dp"
                                 android:gravity="end"
                                 android:text="20%"
@@ -549,17 +553,18 @@
                                 app:tint="#FFD700" />
 
                             <ProgressBar
+                                android:id="@+id/pbStar3"
                                 style="?android:attr/progressBarStyleHorizontal"
                                 android:layout_width="0dp"
                                 android:layout_height="8dp"
                                 android:layout_weight="1"
-                                android:progress="7"
                                 android:progressBackgroundTint="#E0E0E0"
                                 android:progressTint="#FFC107" />
 
                             <TextView
+                                android:id="@+id/tvStar3"
                                 android:layout_width="40dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="19dp"
                                 android:layout_marginStart="8dp"
                                 android:gravity="end"
                                 android:text="7%"
@@ -591,15 +596,16 @@
                                 app:tint="#FFD700" />
 
                             <ProgressBar
+                                android:id="@+id/pbStar2"
                                 style="?android:attr/progressBarStyleHorizontal"
                                 android:layout_width="0dp"
                                 android:layout_height="8dp"
                                 android:layout_weight="1"
-                                android:progress="2"
                                 android:progressBackgroundTint="#E0E0E0"
                                 android:progressTint="#FF9800" />
 
                             <TextView
+                                android:id="@+id/tvStar2"
                                 android:layout_width="40dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
@@ -632,6 +638,7 @@
                                 app:tint="#FFD700" />
 
                             <ProgressBar
+                                android:id="@+id/pbStar1"
                                 style="?android:attr/progressBarStyleHorizontal"
                                 android:layout_width="0dp"
                                 android:layout_height="8dp"
@@ -641,6 +648,7 @@
                                 android:progressTint="#F44336" />
 
                             <TextView
+                                android:id="@+id/tvStar1"
                                 android:layout_width="40dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
@@ -676,7 +684,6 @@
                             android:layout_height="wrap_content"
                             android:isIndicator="true"
                             android:numStars="5"
-                            android:rating="4.5"
                             android:stepSize="0.1" />
 
                         <!-- Hiển thị số lượng đánh giá chính xác -->

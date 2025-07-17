@@ -1,6 +1,5 @@
 package com.example.prm391_project_apprestaurants.controllers.adapters;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
@@ -18,12 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm391_project_apprestaurants.R;
-import com.example.prm391_project_apprestaurants.controllers.activities.ReviewActivity;
 import com.example.prm391_project_apprestaurants.controllers.helper.ReviewEditHelper;
 import com.example.prm391_project_apprestaurants.entities.Review;
 import com.example.prm391_project_apprestaurants.services.ReviewService;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +30,15 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     private final int currentUserId;
     private final ReviewService service;
     private final Context context;
+    private final Runnable onReviewChanged; // Callback khi xóa hoặc sửa
 
-    public ReviewAdapter(Context context, List<Review> reviews, int currentUserId, ReviewService service) {
+    // Thêm onReviewChanged callback vào constructor
+    public ReviewAdapter(Context context, List<Review> reviews, int currentUserId, ReviewService service, Runnable onReviewChanged) {
         this.reviews = reviews;
         this.currentUserId = currentUserId;
         this.service = service;
         this.context = context;
+        this.onReviewChanged = onReviewChanged;
     }
 
     @NonNull
@@ -100,12 +100,11 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
                 }
             });
 
-
             new AlertDialog.Builder(context)
                     .setTitle("Sửa đánh giá")
                     .setView(editView)
                     .setPositiveButton("Lưu", (dialog, which) -> {
-                        String newContent = edtContent.getText().toString();
+                        String newContent = edtContent.getText().toString().trim();
                         int newRating = (int) ratingBar.getRating();
 
                         // Cập nhật đánh giá
@@ -123,12 +122,14 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
                             }
                         }
 
-
                         // Cập nhật UI
                         review.setContent(newContent);
                         review.setRating(newRating);
                         review.setMediaUrls(service.getMediaUrls(review.getId()));
                         notifyItemChanged(position);
+
+                        // GỌI CALLBACK: báo với Activity là đã cập nhật, cho phép RestaurantDetailActivity refresh khi quay về
+                        if (onReviewChanged != null) onReviewChanged.run();
                     })
                     .setNegativeButton("Hủy", null)
                     .show();
@@ -142,6 +143,9 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
                         service.deleteReview(review.getId());
                         reviews.remove(position);
                         notifyItemRemoved(position);
+
+                        // GỌI CALLBACK: báo với Activity là đã xóa, cho phép RestaurantDetailActivity refresh khi quay về
+                        if (onReviewChanged != null) onReviewChanged.run();
                     })
                     .setNegativeButton("Hủy", null)
                     .show();

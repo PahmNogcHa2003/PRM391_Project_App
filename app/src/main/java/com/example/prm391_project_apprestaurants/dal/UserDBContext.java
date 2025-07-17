@@ -285,4 +285,21 @@ public class UserDBContext {
         values.put("Password", newPassword);
         db.update("Users", values, "Email = ?", new String[]{email});
     }*/
+   public String[] getUserInfo(int userId) {
+       String[] userInfo = new String[3]; // [0] = username, [1] = email, [2] = role
+       SQLiteDatabase db = dbContext.getReadableDatabase();
+
+       String query = "SELECT Username, Email, Role FROM Users WHERE Id = ?";
+       Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
+       if (cursor.moveToFirst()) {
+           userInfo[0] = cursor.getString(0); // Username
+           userInfo[1] = cursor.getString(1); // Email
+           userInfo[2] = cursor.getString(2); // Role
+       }
+       cursor.close();
+       db.close();
+
+       return userInfo;
+   }
 }

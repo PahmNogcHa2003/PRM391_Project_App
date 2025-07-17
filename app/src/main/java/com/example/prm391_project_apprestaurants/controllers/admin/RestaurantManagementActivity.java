@@ -2,6 +2,8 @@ package com.example.prm391_project_apprestaurants.controllers.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,8 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.prm391_project_apprestaurants.R;
 import com.example.prm391_project_apprestaurants.controllers.adapters.RestaurantManagementAdapter;
 import com.example.prm391_project_apprestaurants.controllers.fragments.SideBarFragment;
+import com.example.prm391_project_apprestaurants.entities.Category;
 import com.example.prm391_project_apprestaurants.entities.Restaurant;
 import com.example.prm391_project_apprestaurants.requests.SearchRestaurantRequest;
+import com.example.prm391_project_apprestaurants.services.CategoryService;
 import com.example.prm391_project_apprestaurants.services.RestaurantService;
 
 import org.jetbrains.annotations.Nullable;
@@ -32,14 +36,16 @@ import java.util.Map;
 public class RestaurantManagementActivity extends AppCompatActivity {
 
     private RestaurantService restaurantService;
+    private CategoryService categoryService;
     private RecyclerView recyclerView;
     private RestaurantManagementAdapter adapter;
+    private Map<Integer, String> categoryMap;
     private ImageButton imageMenuButton;
     private SideBarFragment sideBarFragment;
     private Spinner spinner;
-    private Button searchButton;
+    private Spinner categorySpinner;
     private Button createButton;
-    private EditText editTextKeyword;
+    private EditText editTextKeyword, editMinPrice, editMaxPrice;
     private SearchRestaurantRequest searchRestaurantRequest;
     private TextView textViewPage;
     private ImageButton btnFirst;
@@ -63,13 +69,15 @@ public class RestaurantManagementActivity extends AppCompatActivity {
 
     private void Initialize() {
         searchRestaurantRequest = new SearchRestaurantRequest();
+        categoryMap = new LinkedHashMap<>();
+        categoryMap.put(0, "Tất cả");
         searchRestaurantRequest.setPage(1);
         searchRestaurantRequest.setPageSize(5);
         recyclerView = findViewById(R.id.recyclerViewRestaurants);
         restaurantService = new RestaurantService(this);
+        categoryService = new CategoryService(this);
         adapter = new RestaurantManagementAdapter(restaurantService.getAllRestaurants(searchRestaurantRequest));
         recyclerView.setAdapter(adapter);
-        searchButton = findViewById(R.id.btnSearch);
         editTextKeyword = findViewById(R.id.editTextSearch);
         recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
         imageMenuButton = findViewById(R.id.imageMenuButton);
@@ -79,6 +87,8 @@ public class RestaurantManagementActivity extends AppCompatActivity {
         btnPrevious = findViewById(R.id.btnPrevious);
         btnNext = findViewById(R.id.btnNext);
         createButton = findViewById(R.id.btnCreate);
+        editMinPrice = findViewById(R.id.editTextMinPrice);
+        editMaxPrice = findViewById(R.id.editTextMaxPrice);
         bindingPaginationData(searchRestaurantRequest);
         imageMenuButton.setOnClickListener(view -> {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -89,6 +99,14 @@ public class RestaurantManagementActivity extends AppCompatActivity {
             fragmentTransaction.commit();
         });
         spinner = findViewById(R.id.spinnerPageSize);
+        categorySpinner = findViewById(R.id.spinnerCategory);
+        List<Category> categories = categoryService.getAllCategories();
+        for (Category category : categories) {
+            categoryMap.put(category.getId(), category.getName());
+        }
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoryMap.values().toArray(new String[0]));
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(categoryAdapter);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pageSizeMap.keySet().toArray(new String[0]));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -105,7 +123,6 @@ public class RestaurantManagementActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        searchButton.setOnClickListener(this::handleClickSearch);
         btnFirst.setOnClickListener(view -> {
             searchRestaurantRequest.setPage(1);
             loadRestaurantData();
@@ -126,18 +143,95 @@ public class RestaurantManagementActivity extends AppCompatActivity {
             Intent intent = new Intent(this, CreateRestaurantDashboardActivity.class);
             startActivity(intent);
         });
+        editTextKeyword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String keyword = editTextKeyword.getText().toString();
+                searchRestaurantRequest.setKeyword(keyword);
+                loadRestaurantData();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String category = parent.getItemAtPosition(position).toString();
+                Integer categoryId = 0;
+                for (Map.Entry<Integer, String> entry : categoryMap.entrySet()) {
+                    if (entry.getValue().equals(category)) {
+                        categoryId = entry.getKey();
+                        break;
+                    }
+                }
+                searchRestaurantRequest.setCategoryId(categoryId);
+                loadRestaurantData();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        editMinPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String minPrice = editMinPrice.getText().toString().trim();
+                if (!minPrice.isEmpty()) {
+                    try {
+                        float price = Float.parseFloat(minPrice);
+                        searchRestaurantRequest.setMinPrice(price);
+                    } catch (NumberFormatException e) {
+                        searchRestaurantRequest.setMinPrice(0);
+                    }
+                } else {
+                    searchRestaurantRequest.setMinPrice(0);
+                }
+                loadRestaurantData();
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        editMaxPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String maxPrice = editMaxPrice.getText().toString().trim();
+                if (!maxPrice.isEmpty()) {
+                    try {
+                        float price = Float.parseFloat(maxPrice);
+                        searchRestaurantRequest.setMaxPrice(price);
+                    } catch (NumberFormatException e) {
+                        searchRestaurantRequest.setMaxPrice(0);
+                    }
+                } else {
+                    searchRestaurantRequest.setMaxPrice(0);
+                }
+                loadRestaurantData();
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
     }
+
+
 
     private void setPageSizeMap(AdapterView<?> parent, View view, int pageSize) {
         searchRestaurantRequest.setPageSize(pageSize);
     }
-
-    private void handleClickSearch(View view) {
-        String keyword = editTextKeyword.getText().toString();
-        searchRestaurantRequest.setKeyword(keyword);
-        loadRestaurantData();
-    }
-
     public void loadRestaurantData(){
         List<Restaurant> restaurants = restaurantService.getAllRestaurants(searchRestaurantRequest);
         adapter.setRestaurants(restaurants);

@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.example.prm391_project_apprestaurants.entities.AppStatistic;
+import com.example.prm391_project_apprestaurants.entities.ReviewStatistic;
 import com.example.prm391_project_apprestaurants.entities.Review;
 
 import java.util.ArrayList;
@@ -141,8 +141,8 @@ public class ReviewDBContext {
     }
 
 
-    public List<AppStatistic> getReviewStatistics() {
-        List<AppStatistic> statistics = new ArrayList<>();
+    public List<ReviewStatistic> getReviewStatistics() {
+        List<ReviewStatistic> statistics = new ArrayList<>();
         try {
             SQLiteDatabase db = dbContext.getReadableDatabase();
             String query = "SELECT \n" +
@@ -160,7 +160,7 @@ public class ReviewDBContext {
                 int rating = cursor.getInt(0);
                 int count = cursor.getInt(1);
                 float percent = cursor.getFloat(2);
-                AppStatistic statistic = new AppStatistic();
+                ReviewStatistic statistic = new ReviewStatistic();
                 statistic.setRating(rating);
                 statistic.setQuantity(count);
                 statistic.setPercentage(percent);

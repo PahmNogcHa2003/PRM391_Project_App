@@ -19,9 +19,13 @@
         tools:targetApi="31">
         <activity
             android:name=".controllers.detail.RestaurantDetailActivity"
-            android:exported="false"/>
-
-
+            android:exported="false"
+            android:parentActivityName=".controllers.user.UserHomeActivity"/>
+        <activity
+            android:name=".controllers.activities.ProfileActivity"
+            android:label="Thông tin cá nhân"
+            android:parentActivityName=".controllers.user.UserHomeActivity">
+        </activity>
         <!-- Các Activity admin và hệ thống -->
         <activity android:name=".controllers.admin.CreateRestaurantDashboardActivity" android:exported="false" />
         <activity android:name=".controllers.admin.CreateMenuDashboardActivity" android:exported="false" />

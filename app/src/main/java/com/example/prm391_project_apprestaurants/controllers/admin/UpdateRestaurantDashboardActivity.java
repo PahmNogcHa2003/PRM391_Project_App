@@ -177,6 +177,7 @@ public class UpdateRestaurantDashboardActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, RestaurantManagementActivity.class);
                 NotificationHelper.showNotification(this, "Cập nhật quán ăn", "Cập nhật quán ăn thanh cong",
                         null, NotificationCompat.PRIORITY_HIGH);
+                NotificationHelper.NOTIFICATION_ID += 1;
                 startActivity(intent);
                 finish();
             }else{
@@ -186,6 +187,8 @@ public class UpdateRestaurantDashboardActivity extends AppCompatActivity {
     }
 
     private void cancelUpdateRestaurant(View view) {
+        Intent intent = new Intent(this, RestaurantManagementActivity.class);
+        startActivity(intent);
         finish();
     }
 

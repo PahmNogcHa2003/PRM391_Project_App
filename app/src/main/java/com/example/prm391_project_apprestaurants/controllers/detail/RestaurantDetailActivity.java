@@ -5,11 +5,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +31,8 @@ import com.example.prm391_project_apprestaurants.entities.HomeRestaurant;
 import com.example.prm391_project_apprestaurants.dal.RestaurantDetailDBContext;
 import com.example.prm391_project_apprestaurants.dal.FavoriteDBContext;
 import com.example.prm391_project_apprestaurants.entities.Menu;
+import com.example.prm391_project_apprestaurants.entities.ReviewStatistic;
+import com.example.prm391_project_apprestaurants.utils.BindingAdapters;
 
 import java.util.List;
 
@@ -33,7 +41,8 @@ public class RestaurantDetailActivity extends AppCompatActivity {
     private ImageView ivDetailImage, ivBackButton;
     private TextView tvDetailName, tvDetailDescription, tvDetailAddress, tvDetailDistrict,
             tvDetailPrice, tvDetailCategory, tvDetailOpeningHours, tvDetailPhone,
-            tvDetailWebsite, tvAverageRating;
+            tvDetailWebsite, tvAverageRating, tvReviewCount, tvDetailRating,
+            tvStar1, tvStar2, tvStar3, tvStar4, tvStar5;
     private Button btnFavoriteDetail, btnViewReviews, btnViewMenus;
     private CardView cvCall, cvDirection, cvShare;
     private RestaurantDetailDBContext dbContext;
@@ -42,6 +51,10 @@ public class RestaurantDetailActivity extends AppCompatActivity {
     private int userId = -1;
     private RecyclerView rvFeaturedMenu;
     private FeaturedMenuAdapter featuredMenuAdapter;
+    private ProgressBar pbStar1, pbStar2, pbStar3, pbStar4, pbStar5;
+    private RatingBar ratingBar, ratingBarDetail;
+
+    private ActivityResultLauncher<Intent> reviewLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,23 +70,51 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         dbContext = new RestaurantDetailDBContext(this);
         favoriteDB = new FavoriteDBContext(this);
 
+        // Đăng ký ActivityResultLauncher để nhận về cập nhật sau review
+        reviewLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        // Khi review xong, cập nhật lại dữ liệu đánh giá, UI detail
+                        if (restaurant != null) {
+                            restaurant = dbContext.getRestaurantById(restaurant.getId());
+                            // Lấy lại category nếu dùng DB chuẩn hóa
+                            List<String> categoryList = dbContext.getCategoriesByRestaurantId(restaurant.getId());
+                            restaurant.setCategory(categoryList != null && !categoryList.isEmpty()
+                                    ? TextUtils.join(", ", categoryList) : "Chưa cập nhật");
+                            showRestaurantDetail(restaurant);
+                            showReviewStatistics(restaurant);
+                        }
+                    }
+                }
+        );
+
         // Nhận id quán ăn từ Intent
         int restaurantId = getIntent().getIntExtra("RESTAURANT_ID", -1);
 
         if (restaurantId != -1) {
             restaurant = dbContext.getRestaurantById(restaurantId);
             if (restaurant != null) {
+                // LẤY CATEGORY CHUẨN TỪ BẢNG LIÊN KẾT
+                List<String> categoryList = dbContext.getCategoriesByRestaurantId(restaurant.getId());
+                restaurant.setCategory(categoryList != null && !categoryList.isEmpty()
+                        ? TextUtils.join(", ", categoryList)
+                        : "Chưa cập nhật");
                 showRestaurantDetail(restaurant);
                 checkFavoriteStatus();
+                showReviewStatistics(restaurant);
             }
         }
         if (restaurant != null) {
             loadFeaturedMenus();
+            showReviewStatistics(restaurant);
         }
     }
 
     @SuppressLint("WrongViewCast")
     private void initViews() {
+        ratingBar = findViewById(R.id.ratingBar);
+        ratingBarDetail = findViewById(R.id.ratingBar2);
         ivDetailImage = findViewById(R.id.ivDetailImage);
         ivBackButton = findViewById(R.id.btnBack);
         tvDetailName = findViewById(R.id.tvDetailName);
@@ -86,10 +127,22 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         tvDetailPhone = findViewById(R.id.tvDetailPhone);
         tvDetailWebsite = findViewById(R.id.tvDetailWebsite);
         tvAverageRating = findViewById(R.id.tvAverageRating);
+        tvReviewCount = findViewById(R.id.tvReviewCount);
+        tvDetailRating = findViewById(R.id.tvDetailRating);
         rvFeaturedMenu = findViewById(R.id.rvFeaturedMenu);
         btnFavoriteDetail = findViewById(R.id.btnFavoriteDetail);
         btnViewReviews = findViewById(R.id.btnViewReviews);
         btnViewMenus = findViewById(R.id.btnViewMenus);
+        tvStar1 = findViewById(R.id.tvStar1);
+        tvStar2 = findViewById(R.id.tvStar2);
+        tvStar3 = findViewById(R.id.tvStar3);
+        tvStar4 = findViewById(R.id.tvStar4);
+        tvStar5 = findViewById(R.id.tvStar5);
+        pbStar1 = findViewById(R.id.pbStar1);
+        pbStar2 = findViewById(R.id.pbStar2);
+        pbStar3 = findViewById(R.id.pbStar3);
+        pbStar4 = findViewById(R.id.pbStar4);
+        pbStar5 = findViewById(R.id.pbStar5);
 
         cvCall = findViewById(R.id.cvCall);
         cvDirection = findViewById(R.id.cvDirection);
@@ -107,12 +160,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             openReviewActivity();
         });
 
-        btnViewMenus.setOnClickListener(v -> {
-            openMenuActivity();
-        });
-
-
-
+        btnViewMenus.setOnClickListener(v -> openMenuActivity());
 
         btnFavoriteDetail.setOnClickListener(v -> toggleFavorite());
 
@@ -124,21 +172,42 @@ public class RestaurantDetailActivity extends AppCompatActivity {
     }
 
     private void showRestaurantDetail(HomeRestaurant restaurant) {
+        ratingBar.setRating((float) restaurant.getRating());
+        ratingBarDetail.setRating((float)restaurant.getRating());
+        tvDetailRating.setText(String.format("%.1f", restaurant.getRating()) + " (" + restaurant.getReviewCount() + " đánh giá)");
         tvDetailName.setText(restaurant.getName());
         tvDetailDescription.setText(restaurant.getDescription());
         tvDetailAddress.setText(restaurant.getAddress());
         tvDetailDistrict.setText(restaurant.getDistrict());
         tvDetailPrice.setText(restaurant.getPrice());
+
+        // HIỂN THỊ CATEGORY CHUẨN
         tvDetailCategory.setText(restaurant.getCategory());
+
         tvDetailOpeningHours.setText(restaurant.getOpeningHours());
         tvDetailPhone.setText(restaurant.getPhone());
         tvDetailWebsite.setText(restaurant.getWebsite());
         tvAverageRating.setText(String.format("%.1f", restaurant.getRating()));
+        tvReviewCount.setText(restaurant.getReviewCount() + " đánh giá");
 
         Glide.with(this)
                 .load(restaurant.getImageUrl())
                 .placeholder(R.drawable.restaurant)
                 .into(ivDetailImage);
+    }
+
+    private void showReviewStatistics(HomeRestaurant restaurant) {
+        List<ReviewStatistic> statistics = dbContext.getReviewStatisticsByRestaurantId(restaurant.getId());
+        BindingAdapters.setProgressFromRating(pbStar1, statistics, 1);
+        BindingAdapters.setProgressFromRating(pbStar2, statistics, 2);
+        BindingAdapters.setProgressFromRating(pbStar3, statistics, 3);
+        BindingAdapters.setProgressFromRating(pbStar4, statistics, 4);
+        BindingAdapters.setProgressFromRating(pbStar5, statistics, 5);
+        BindingAdapters.setPercentFromRating(tvStar1, statistics, 1);
+        BindingAdapters.setPercentFromRating(tvStar2, statistics, 2);
+        BindingAdapters.setPercentFromRating(tvStar3, statistics, 3);
+        BindingAdapters.setPercentFromRating(tvStar4, statistics, 4);
+        BindingAdapters.setPercentFromRating(tvStar5, statistics, 5);
     }
 
     private void checkFavoriteStatus() {
@@ -173,9 +242,8 @@ public class RestaurantDetailActivity extends AppCompatActivity {
     private void openReviewActivity() {
         Intent intent = new Intent(this, ReviewActivity.class);
         intent.putExtra("RESTAURANT_ID", restaurant.getId());
-        startActivity(intent);
+        reviewLauncher.launch(intent); // SỬ DỤNG LAUNCHER ĐÃ ĐĂNG KÝ
     }
-
 
     private void openMenuActivity() {
         Intent intent = new Intent(this, MenuActivity.class);
@@ -187,7 +255,6 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         Toast.makeText(this, "Vui lòng đăng nhập để sử dụng tính năng này", Toast.LENGTH_SHORT).show();
     }
 
-    // Tính năng chỉ đường mới
     private void openDirections() {
         if (restaurant == null || restaurant.getLatitude() == 0 || restaurant.getLongitude() == 0) {
             Toast.makeText(this, "Không có thông tin vị trí của quán ăn", Toast.LENGTH_SHORT).show();
@@ -239,6 +306,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
         startActivity(Intent.createChooser(shareIntent, "Chia sẻ quán ăn"));
     }
+
     private void loadFeaturedMenus() {
         if (restaurant == null) return;
 
