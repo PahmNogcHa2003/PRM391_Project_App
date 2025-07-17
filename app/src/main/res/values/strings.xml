@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PRM391_Project_AppRestaurants</string>
+    <string name="app_name">ResMap</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="restaurant_dashboard">Restaurant Dashboard</string>
@@ -62,7 +62,7 @@
     <string name="search_by_name_email">Search by name, email,...</string>
 
     <!-- vinh-->
-    <string name="app_title">App Quán Ăn</string>
+    <string name="app_title">ResMap, xin chào quý khách !</string>
     <string name="search_hint">Tìm tên quán ăn...</string>
     <string name="filter_title">Bộ lọc tìm kiếm</string>
     <string name="price_range">Mức giá</string>
@@ -158,5 +158,19 @@
     <!-- Menu section -->
     <string name="featured_menu">Thực đơn nổi bật</string>
     <string name="view_full_menu">Xem toàn bộ thực đơn</string>
+
+
+    <string name="restaurant_list">Danh sách quán ăn</string>
+
+
+    <!-- New strings for bottom navigation -->
+    <string name="home">Trang chủ</string>
+
+
+    <string name="profile">Cá nhân</string>
+
+
+
+    <string name="banner_desc">Promotion banner</string>
 
 </resources>
