@@ -49,4 +49,20 @@ public class RestaurantService {
     public List<Restaurant> getAllRestaurants() {
         return restaurantDBContext.getAllRestaurants();
     }
+    public List<String> getAllCategories() {
+        return restaurantDBContext.getAllCategories();
+    }
+    public String mapPriceRange(String selectedRange) {
+        if (selectedRange == null) return null;
+        switch (selectedRange) {
+            case "<50,000đ":
+                return "20-30k|20-35k|15-25k|35-50k|25-40k|30-50k";
+            case "<100,000đ":
+                return "20-30k|20-35k|15-25k|35-50k|30-100k|25-40k|30-50k|50-150k|50-100k";
+            case ">100,000đ":
+                return "50-150k|120k-220k|100-200k|100-180k|180-250k|120k-200k|150-250k|200-300k";
+            default:
+                return null;
+        }
+    }
 }
