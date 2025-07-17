@@ -49,7 +49,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
     private RecyclerView rvFeaturedMenu;
     private FeaturedMenuAdapter featuredMenuAdapter;
     private ProgressBar pbStar1, pbStar2, pbStar3, pbStar4, pbStar5;
-    private RatingBar ratingBar;
+    private RatingBar ratingBar, ratingBarDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +85,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
     @SuppressLint("WrongViewCast")
     private void initViews() {
         ratingBar = findViewById(R.id.ratingBar);
+        ratingBarDetail = findViewById(R.id.ratingBar2);
         ivDetailImage = findViewById(R.id.ivDetailImage);
         ivBackButton = findViewById(R.id.btnBack);
         tvDetailName = findViewById(R.id.tvDetailName);
@@ -145,7 +146,8 @@ public class RestaurantDetailActivity extends AppCompatActivity {
     }
 
     private void showRestaurantDetail(HomeRestaurant restaurant) {
-        ratingBar.setRating(Float.parseFloat(String.valueOf(restaurant.getRating())));
+        ratingBar.setRating((float)restaurant.getRating());
+        ratingBarDetail.setRating((float)restaurant.getRating());
         tvDetailRating.setText(String.format("%.1f", restaurant.getRating()) + " (" + restaurant.getReviewCount() + " đánh giá)");
         tvDetailName.setText(restaurant.getName());
         tvDetailDescription.setText(restaurant.getDescription());

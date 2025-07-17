@@ -22,7 +22,7 @@ import java.util.Objects;
 
 public class NotificationHelper {
     public static final String CHANNEL_ID = "default_channel";
-    private static final int NOTIFICATION_ID = 1001;
+    public static int NOTIFICATION_ID = 1001;
 
     public static void showNotification(Context context, String title, String message, @Nullable PendingIntent pendingIntent, int priority) {
         try {

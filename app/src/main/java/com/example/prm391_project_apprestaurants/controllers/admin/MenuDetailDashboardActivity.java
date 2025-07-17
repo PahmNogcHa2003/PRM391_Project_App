@@ -1,5 +1,6 @@
 package com.example.prm391_project_apprestaurants.controllers.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -35,6 +36,10 @@ public class MenuDetailDashboardActivity extends AppCompatActivity {
         binding.setViewModel(menuService.getMenuById(menuId));
     }
     private void RegisterEvents() {
-        binding.buttonBack.setOnClickListener(v -> finish());
+        binding.buttonBack.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MenuManagementActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 }

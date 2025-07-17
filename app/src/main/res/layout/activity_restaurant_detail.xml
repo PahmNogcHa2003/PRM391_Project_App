@@ -106,7 +106,6 @@
                         android:layout_height="wrap_content"
                         android:isIndicator="true"
                         android:numStars="5"
-                        android:rating="4.5"
                         android:stepSize="0.1" />
 
                     <TextView
@@ -685,7 +684,6 @@
                             android:layout_height="wrap_content"
                             android:isIndicator="true"
                             android:numStars="5"
-                            android:rating="4.5"
                             android:stepSize="0.1" />
 
                         <!-- Hiển thị số lượng đánh giá chính xác -->
