@@ -26,8 +26,13 @@ public class RestaurantDBContext {
         long totalElement = countTotalRestaurants(request);
         try {
             SQLiteDatabase db = dbContext.getReadableDatabase();
-            String query = "select distinct r.* from Restaurants r left join RestaurantCategory rs on\n" +
-                           "r.Id = rs.RestaurantId left join Categories c on rs.CategoryId = c.Id";
+            String query = "SELECT DISTINCT r.*, " +
+                           "CAST(REPLACE(SUBSTR(r.PriceRange, 1, INSTR(r.PriceRange, '-') - 1), 'k', '') AS FLOAT) AS MinPrice, " +
+                           "CAST(REPLACE(SUBSTR(r.PriceRange, INSTR(r.PriceRange, '-') + 1), 'k', '') AS FLOAT) AS MaxPrice " +
+                           "FROM Restaurants r " +
+                           "LEFT JOIN RestaurantCategory rs ON r.Id = rs.RestaurantId " +
+                           "LEFT JOIN Categories c ON rs.CategoryId = c.Id";
+
             List<String> params = new ArrayList<>();
             query += buildSearchRestaurantQuery(request, true, params, totalElement).toString();
             Cursor cursor = db.rawQuery(query, params.toArray(new String[0]));
@@ -120,15 +125,16 @@ public class RestaurantDBContext {
             params.add(String.valueOf(request.getCategoryId()));
         }
         if(request.getMinPrice() != 0 && request.getMaxPrice() == 0){
-            query.append(" AND r.PriceRange >= ? ");
+            query.append(" AND CAST(REPLACE(SUBSTR(r.PriceRange, 1, INSTR(r.PriceRange, '-') - 1), 'k', '') AS FLOAT) >= ? ");
             params.add(String.valueOf(request.getMinPrice()));
         }
         if(request.getMinPrice() == 0 && request.getMaxPrice() != 0){
-            query.append(" AND r.PriceRange <= ? ");
+            query.append(" AND CAST(REPLACE(SUBSTR(r.PriceRange, INSTR(r.PriceRange, '-') + 1), 'k', '') AS FLOAT) <= ? ");
             params.add(String.valueOf(request.getMaxPrice()));
         }
         if(request.getMinPrice() != 0 && request.getMaxPrice() != 0){
-            query.append(" AND r.PriceRange >= ? AND r.PriceRange <= ? ");
+            query.append(" AND CAST(REPLACE(SUBSTR(r.PriceRange, 1, INSTR(r.PriceRange, '-') - 1), 'k', '') AS FLOAT) >= ? ")
+                    .append(" AND CAST(REPLACE(SUBSTR(r.PriceRange, INSTR(r.PriceRange, '-') + 1), 'k', '') AS FLOAT) <= ? ");
             params.add(String.valueOf(request.getMinPrice()));
             params.add(String.valueOf(request.getMaxPrice()));
         }

@@ -1,6 +1,7 @@
 package com.example.prm391_project_apprestaurants.controllers.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -36,11 +37,13 @@ public class UserManagementAdapter extends RecyclerView.Adapter<BindingViewHolde
             Intent intent = new Intent(v.getContext(), UserDetailDashboardActivity.class);
             intent.putExtra("userId", user.getId());
             v.getContext().startActivity(intent);
+            ((Activity) v.getContext()).finish();
         });
         holder.getBinding().buttonEdit.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), UpdateUserDashboardActivity.class);
             intent.putExtra("userId", user.getId());
             v.getContext().startActivity(intent);
+            ((Activity) v.getContext()).finish();
         });
         holder.getBinding().setViewHolder(user);
         holder.getBinding().executePendingBindings();

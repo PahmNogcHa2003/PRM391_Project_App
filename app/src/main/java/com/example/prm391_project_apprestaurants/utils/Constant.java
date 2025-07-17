@@ -491,10 +491,10 @@ public class Constant {
 
 
     public static final String SQL_INSERT_TABLE_CATEGORIES = """
-                INSERT INTO Categories (Name) VALUES
-                ('Cơm'), ('Bún'), ('Phở'), ('Bánh mì'), ('Chay'), 
-                ('Lẩu'), ('Xôi'), ('Mì'), ('Nước');
-            """;
+INSERT INTO Categories (Name) VALUES ('Cơm'), ('Bún'), ('Phở'), ('Bánh mì'), ('Chay'),('Nướng'),
+ ('Lẩu'), ('Xôi'), ('Mì'), ('Nước'); 
+""";
+
 
     public static final String SQL_INSERT_TABLE_RESTAURANT_CATEGORY = """
                            INSERT INTO RestaurantCategory (RestaurantId, CategoryId) VALUES

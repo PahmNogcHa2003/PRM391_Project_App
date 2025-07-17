@@ -49,7 +49,11 @@ public class UpdateUserDashboardActivity extends AppCompatActivity {
     }
 
     private void RegisterEvents() {
-        binding.buttonCancel.setOnClickListener(v -> finish());
+        binding.buttonCancel.setOnClickListener(v ->{
+            Intent intent = new Intent(this, UserManagementActivity.class);
+            startActivity(intent);
+            finish();
+        });
         binding.buttonUpdate.setOnClickListener(this::UpdateUser);
         binding.editUsername.setOnFocusChangeListener(this::updateUsername);
         binding.editPassword.setOnFocusChangeListener(this::updatePassword);

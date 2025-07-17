@@ -11,14 +11,29 @@
   </component>
   <component name="DBNavigator.Project.DatabaseAssistantManager">
     <assistants>
-      <assistant-state connection-id="566a8a81-7c9b-46c3-a247-1a845939113e" default-profile-name="" selected-profile-name="" selected-model-name="" assistant-type="GENERIC" selected-action="SHOW_SQL" availability="UNAVAILABLE" acknowledgement="NONE">
-        <messages />
+      <assistant-state connection-id="566a8a81-7c9b-46c3-a247-1a845939113e" default-profile-name="" selected-conversation-id="5B958F3091FC47C0B4A97A2A09F4A9CF" assistant-type="GENERIC" availability="UNAVAILABLE" acknowledgement="NONE">
+        <conversations>
+          <conversation id="5B958F3091FC47C0B4A97A2A09F4A9CF" title="" session-signature="" timestamp="1752770606596">
+            <messages />
+            <context profile="" model="" action="SHOW_SQL" interactive="false" />
+          </conversation>
+        </conversations>
       </assistant-state>
-      <assistant-state connection-id="7a37433c-9ba3-4c2c-a56f-af044b1086bd" default-profile-name="" selected-profile-name="" selected-model-name="" assistant-type="GENERIC" selected-action="SHOW_SQL" availability="UNAVAILABLE" acknowledgement="NONE">
-        <messages />
+      <assistant-state connection-id="7a37433c-9ba3-4c2c-a56f-af044b1086bd" default-profile-name="" selected-conversation-id="AD37B7A72F614BA8967008AB0457EA3C" assistant-type="GENERIC" availability="UNAVAILABLE" acknowledgement="NONE">
+        <conversations>
+          <conversation id="AD37B7A72F614BA8967008AB0457EA3C" title="" session-signature="" timestamp="1752770606598">
+            <messages />
+            <context profile="" model="" action="SHOW_SQL" interactive="false" />
+          </conversation>
+        </conversations>
       </assistant-state>
-      <assistant-state connection-id="0c1475f4-ad5c-404e-aa83-d0c7431b817f" default-profile-name="" selected-profile-name="" selected-model-name="" assistant-type="GENERIC" selected-action="SHOW_SQL" availability="UNAVAILABLE" acknowledgement="NONE">
-        <messages />
+      <assistant-state connection-id="0c1475f4-ad5c-404e-aa83-d0c7431b817f" default-profile-name="" selected-conversation-id="E183AF13A30E45CB93E0D00FE26F541F" assistant-type="GENERIC" availability="UNAVAILABLE" acknowledgement="NONE">
+        <conversations>
+          <conversation id="E183AF13A30E45CB93E0D00FE26F541F" title="" session-signature="" timestamp="1752770606599">
+            <messages />
+            <context profile="" model="" action="SHOW_SQL" interactive="false" />
+          </conversation>
+        </conversations>
       </assistant-state>
     </assistants>
   </component>
@@ -38,8 +53,12 @@
       <console name="Connection 1" type="STANDARD" schema="" session="Main" />
     </connection>
     <connection id="566a8a81-7c9b-46c3-a247-1a845939113e">
-      <console name="Connection 2" type="STANDARD" schema="main" session="Main"><![CDATA[select * from "Restaurants" rss join RestaurantCategory rs 
-on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
+      <console name="Connection 2" type="STANDARD" schema="main" session="Main"><![CDATA[select distinct rss.*,  CAST(REPLACE(SUBSTR(rss.PriceRange, 1, INSTR(rss.PriceRange, '-') - 1), 'k', '') AS FLOAT) AS MinPrice,
+  CAST(REPLACE(SUBSTR(rss.PriceRange, INSTR(rss.PriceRange, '-') + 1), 'k', '') AS FLOAT) AS MaxPrice from Restaurants rss join RestaurantCategory rs 
+on rss.Id = rs.RestaurantId join Categories c on c.id = rs.CategoryId
+where MinPrice >= 100.3
+
+SELECT * FROM Menus m JOIN Restaurants r ON m.RestaurantId = r.Id]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -110,7 +129,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="0c1475f4-ad5c-404e-aa83-d0c7431b817f" active="true" signed="true">
+      <connection source-id="" id="0c1475f4-ad5c-404e-aa83-d0c7431b817f" active="true" signed="true">
         <database>
           <name value="Connection" />
           <description value="" />
@@ -126,6 +145,9 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
           <database value="" />
           <tns-folder value="" />
           <tns-profile value="" />
+          <server-type value="" />
+          <protocol value="" />
+          <url-parameters />
           <files>
             <file path="C:\Users\Admin\Downloads\Restaurants.db" schema="main" />
           </files>
@@ -187,6 +209,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
             <object-type name="CHARSET" enabled="true" />
             <object-type name="TABLE" enabled="true" />
             <object-type name="VIEW" enabled="true" />
+            <object-type name="JSON_VIEW" enabled="true" />
             <object-type name="MATERIALIZED_VIEW" enabled="true" />
             <object-type name="NESTED_TABLE" enabled="true" />
             <object-type name="COLUMN" enabled="true" />
@@ -203,9 +226,9 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
             <object-type name="TYPE_ATTRIBUTE" enabled="true" />
             <object-type name="ARGUMENT" enabled="true" />
             <object-type name="JAVA_CLASS" enabled="true" />
-            <object-type name="JAVA_INNER_CLASS" enabled="true" />
             <object-type name="JAVA_FIELD" enabled="true" />
             <object-type name="JAVA_METHOD" enabled="true" />
+            <object-type name="JAVA_RESOURCE" enabled="true" />
             <object-type name="DIMENSION" enabled="true" />
             <object-type name="CLUSTER" enabled="true" />
             <object-type name="DBLINK" enabled="true" />
@@ -214,7 +237,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
           </object-type-filter>
         </object-filters>
       </connection>
-      <connection id="7a37433c-9ba3-4c2c-a56f-af044b1086bd" active="false" signed="true">
+      <connection source-id="" id="7a37433c-9ba3-4c2c-a56f-af044b1086bd" active="false" signed="true">
         <database>
           <name value="Connection 1" />
           <description value="" />
@@ -230,6 +253,9 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
           <database value="" />
           <tns-folder value="" />
           <tns-profile value="" />
+          <server-type value="" />
+          <protocol value="" />
+          <url-parameters />
           <files>
             <file path="C:\Users\admin\Downloads\Restaurants.db" schema="main" />
           </files>
@@ -291,6 +317,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
             <object-type name="CHARSET" enabled="true" />
             <object-type name="TABLE" enabled="true" />
             <object-type name="VIEW" enabled="true" />
+            <object-type name="JSON_VIEW" enabled="true" />
             <object-type name="MATERIALIZED_VIEW" enabled="true" />
             <object-type name="NESTED_TABLE" enabled="true" />
             <object-type name="COLUMN" enabled="true" />
@@ -307,9 +334,9 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
             <object-type name="TYPE_ATTRIBUTE" enabled="true" />
             <object-type name="ARGUMENT" enabled="true" />
             <object-type name="JAVA_CLASS" enabled="true" />
-            <object-type name="JAVA_INNER_CLASS" enabled="true" />
             <object-type name="JAVA_FIELD" enabled="true" />
             <object-type name="JAVA_METHOD" enabled="true" />
+            <object-type name="JAVA_RESOURCE" enabled="true" />
             <object-type name="DIMENSION" enabled="true" />
             <object-type name="CLUSTER" enabled="true" />
             <object-type name="DBLINK" enabled="true" />
@@ -318,7 +345,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
           </object-type-filter>
         </object-filters>
       </connection>
-      <connection id="566a8a81-7c9b-46c3-a247-1a845939113e" active="true" signed="true">
+      <connection source-id="" id="566a8a81-7c9b-46c3-a247-1a845939113e" active="true" signed="true">
         <database>
           <name value="Connection 2" />
           <description value="" />
@@ -334,6 +361,9 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
           <database value="" />
           <tns-folder value="" />
           <tns-profile value="" />
+          <server-type value="" />
+          <protocol value="" />
+          <url-parameters />
           <files>
             <file path="C:\Users\Admin\Downloads\Restaurants.db" schema="Restaurants" />
           </files>
@@ -395,6 +425,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
             <object-type name="CHARSET" enabled="true" />
             <object-type name="TABLE" enabled="true" />
             <object-type name="VIEW" enabled="true" />
+            <object-type name="JSON_VIEW" enabled="true" />
             <object-type name="MATERIALIZED_VIEW" enabled="true" />
             <object-type name="NESTED_TABLE" enabled="true" />
             <object-type name="COLUMN" enabled="true" />
@@ -411,9 +442,9 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
             <object-type name="TYPE_ATTRIBUTE" enabled="true" />
             <object-type name="ARGUMENT" enabled="true" />
             <object-type name="JAVA_CLASS" enabled="true" />
-            <object-type name="JAVA_INNER_CLASS" enabled="true" />
             <object-type name="JAVA_FIELD" enabled="true" />
             <object-type name="JAVA_METHOD" enabled="true" />
+            <object-type name="JAVA_RESOURCE" enabled="true" />
             <object-type name="DIMENSION" enabled="true" />
             <object-type name="CLUSTER" enabled="true" />
             <object-type name="DBLINK" enabled="true" />
@@ -429,6 +460,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
         <navigation-history-size value="100" />
         <show-object-details value="false" />
         <enable-sticky-paths value="true" />
+        <enable-quick-filters value="false" />
       </general>
       <filters>
         <object-type-filter>
@@ -439,6 +471,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
           <object-type name="CHARSET" enabled="true" />
           <object-type name="TABLE" enabled="true" />
           <object-type name="VIEW" enabled="true" />
+          <object-type name="JSON_VIEW" enabled="true" />
           <object-type name="MATERIALIZED_VIEW" enabled="true" />
           <object-type name="NESTED_TABLE" enabled="true" />
           <object-type name="COLUMN" enabled="true" />
@@ -455,9 +488,9 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
           <object-type name="TYPE_ATTRIBUTE" enabled="true" />
           <object-type name="ARGUMENT" enabled="true" />
           <object-type name="JAVA_CLASS" enabled="true" />
-          <object-type name="JAVA_INNER_CLASS" enabled="true" />
           <object-type name="JAVA_FIELD" enabled="true" />
           <object-type name="JAVA_METHOD" enabled="true" />
+          <object-type name="JAVA_RESOURCE" enabled="true" />
           <object-type name="DIMENSION" enabled="true" />
           <object-type name="CLUSTER" enabled="true" />
           <object-type name="DBLINK" enabled="true" />
@@ -488,6 +521,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
           <object-type name="CHARSET" enabled="false" />
           <object-type name="TABLE" enabled="true" />
           <object-type name="VIEW" enabled="true" />
+          <object-type name="JSON VIEW" enabled="true" />
           <object-type name="MATERIALIZED VIEW" enabled="true" />
           <object-type name="INDEX" enabled="true" />
           <object-type name="CONSTRAINT" enabled="true" />
@@ -504,6 +538,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
           <object-type name="JAVA FIELD" enabled="true" />
           <object-type name="JAVA METHOD" enabled="true" />
           <object-type name="JAVA PARAMETER" enabled="true" />
+          <object-type name="JAVA RESOURCE" enabled="true" />
           <object-type name="DIMENSION" enabled="false" />
           <object-type name="CLUSTER" enabled="false" />
           <object-type name="DBLINK" enabled="false" />
@@ -604,6 +639,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
           <user-schema>
             <filter-element type="OBJECT" id="table" selected="true" />
             <filter-element type="OBJECT" id="view" selected="true" />
+            <filter-element type="OBJECT" id="json view" selected="true" />
             <filter-element type="OBJECT" id="materialized view" selected="true" />
             <filter-element type="OBJECT" id="index" selected="true" />
             <filter-element type="OBJECT" id="constraint" selected="true" />
@@ -622,6 +658,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
           <public-schema>
             <filter-element type="OBJECT" id="table" selected="false" />
             <filter-element type="OBJECT" id="view" selected="false" />
+            <filter-element type="OBJECT" id="json view" selected="false" />
             <filter-element type="OBJECT" id="materialized view" selected="false" />
             <filter-element type="OBJECT" id="index" selected="false" />
             <filter-element type="OBJECT" id="constraint" selected="false" />
@@ -640,6 +677,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
           <any-schema>
             <filter-element type="OBJECT" id="table" selected="true" />
             <filter-element type="OBJECT" id="view" selected="true" />
+            <filter-element type="OBJECT" id="json view" selected="true" />
             <filter-element type="OBJECT" id="materialized view" selected="true" />
             <filter-element type="OBJECT" id="index" selected="true" />
             <filter-element type="OBJECT" id="constraint" selected="true" />
@@ -669,6 +707,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
           <user-schema>
             <filter-element type="OBJECT" id="table" selected="true" />
             <filter-element type="OBJECT" id="view" selected="true" />
+            <filter-element type="OBJECT" id="json view" selected="true" />
             <filter-element type="OBJECT" id="materialized view" selected="true" />
             <filter-element type="OBJECT" id="index" selected="true" />
             <filter-element type="OBJECT" id="constraint" selected="true" />
@@ -687,6 +726,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
           <public-schema>
             <filter-element type="OBJECT" id="table" selected="true" />
             <filter-element type="OBJECT" id="view" selected="true" />
+            <filter-element type="OBJECT" id="json view" selected="true" />
             <filter-element type="OBJECT" id="materialized view" selected="true" />
             <filter-element type="OBJECT" id="index" selected="true" />
             <filter-element type="OBJECT" id="constraint" selected="true" />
@@ -705,6 +745,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
           <any-schema>
             <filter-element type="OBJECT" id="table" selected="true" />
             <filter-element type="OBJECT" id="view" selected="true" />
+            <filter-element type="OBJECT" id="json view" selected="true" />
             <filter-element type="OBJECT" id="materialized view" selected="true" />
             <filter-element type="OBJECT" id="index" selected="true" />
             <filter-element type="OBJECT" id="constraint" selected="true" />
@@ -723,6 +764,7 @@ on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
         </extended-filter>
       </filters>
       <sorting enabled="true">
+        <sorting-element type="OBJECT" id="json view" />
         <sorting-element type="OBJECT" id="unknown" />
         <sorting-element type="RESERVED_WORD" id="keyword" />
         <sorting-element type="RESERVED_WORD" id="datatype" />

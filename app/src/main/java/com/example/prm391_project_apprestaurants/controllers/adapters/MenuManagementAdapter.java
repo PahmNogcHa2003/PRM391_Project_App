@@ -1,6 +1,7 @@
 package com.example.prm391_project_apprestaurants.controllers.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,11 +50,13 @@ public class MenuManagementAdapter extends RecyclerView.Adapter<BindingViewHolde
             Intent intent = new Intent(v.getContext(), MenuDetailDashboardActivity.class);
             intent.putExtra("menuId", menu.getId());
             v.getContext().startActivity(intent);
+            ((Activity) v.getContext()).finish();
         });
         holder.getBinding().buttonEdit.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), UpdateMenuDashboardActivity.class);
             intent.putExtra("menuId", menu.getId());
             v.getContext().startActivity(intent);
+            ((Activity) v.getContext()).finish();
         });
         holder.getBinding().buttonDelete.setOnClickListener(v -> {
             Context context = v.getContext();

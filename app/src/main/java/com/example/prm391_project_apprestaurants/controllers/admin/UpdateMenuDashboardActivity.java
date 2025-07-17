@@ -63,7 +63,11 @@ public class UpdateMenuDashboardActivity extends AppCompatActivity {
         binding.editDescription.setOnFocusChangeListener(this::updateDescriptionMenu);
         binding.editPrice.setOnFocusChangeListener(this::updatePriceRestaurant);
         binding.editImageUrl.setOnFocusChangeListener(this::updateImageUrlRestaurant);
-        binding.buttonCancel.setOnClickListener(v -> finish());
+        binding.buttonCancel.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MenuManagementActivity.class);
+            startActivity(intent);
+            finish();
+        });
         binding.buttonUpdate.setOnClickListener(this::updateMenu);
     }
 
@@ -122,6 +126,7 @@ public class UpdateMenuDashboardActivity extends AppCompatActivity {
             Toast.makeText(this, "Cập nhật món ăn thành công", Toast.LENGTH_SHORT).show();
             NotificationHelper.showNotification(this, "Cập nhật món ăn", "Cập nhật món ăn thanh cong",
                     null, NotificationCompat.PRIORITY_HIGH);
+            NotificationHelper.NOTIFICATION_ID += 1;
             Intent intent = new Intent(this, MenuManagementActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
