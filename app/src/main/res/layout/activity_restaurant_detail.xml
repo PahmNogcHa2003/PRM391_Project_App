@@ -210,7 +210,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_time"
+                            android:src="@drawable/ic_time2"
                             app:tint="@color/primary_orange" />
 
                         <TextView

@@ -78,7 +78,7 @@
                     android:id="@+id/textReviewCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0 review(s)"
+                    android:text="0 đánh giá"
                     android:textColor="#FFCC66"
                     android:textSize="13sp"
                     android:textStyle="bold"
@@ -89,11 +89,12 @@
                     android:id="@+id/textRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rating: 0.0"
+                    android:text="★ 0.0"
                     android:textColor="#FFA000"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     android:layout_marginEnd="16dp"/>
+
 
                 <!-- Thêm số lượt yêu thích -->
                 <TextView
