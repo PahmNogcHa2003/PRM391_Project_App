@@ -53,8 +53,12 @@
       <console name="Connection 1" type="STANDARD" schema="" session="Main" />
     </connection>
     <connection id="566a8a81-7c9b-46c3-a247-1a845939113e">
-      <console name="Connection 2" type="STANDARD" schema="main" session="Main"><![CDATA[select * from "Restaurants" rss join RestaurantCategory rs 
-on rss. = rs."RestaurantId" join Category c on c.id = rs.CategoryId]]></console>
+      <console name="Connection 2" type="STANDARD" schema="main" session="Main"><![CDATA[select distinct rss.*,  CAST(REPLACE(SUBSTR(rss.PriceRange, 1, INSTR(rss.PriceRange, '-') - 1), 'k', '') AS FLOAT) AS MinPrice,
+  CAST(REPLACE(SUBSTR(rss.PriceRange, INSTR(rss.PriceRange, '-') + 1), 'k', '') AS FLOAT) AS MaxPrice from Restaurants rss join RestaurantCategory rs 
+on rss.Id = rs.RestaurantId join Categories c on c.id = rs.CategoryId
+where MinPrice >= 100.3
+
+SELECT * FROM Menus m JOIN Restaurants r ON m.RestaurantId = r.Id]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">

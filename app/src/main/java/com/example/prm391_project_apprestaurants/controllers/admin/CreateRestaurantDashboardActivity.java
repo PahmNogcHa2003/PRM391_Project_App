@@ -111,6 +111,7 @@ public class CreateRestaurantDashboardActivity extends AppCompatActivity {
                 Toast.makeText(this, "Thêm mới quán ăn thành công", Toast.LENGTH_SHORT).show();
                 NotificationHelper.showNotification(this, "Thêm quán ăn", "Thêm mới quán ăn thành công",
                         null, NotificationCompat.PRIORITY_HIGH);
+                NotificationHelper.NOTIFICATION_ID += 1;
                 Intent intent = new Intent(this, RestaurantManagementActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);

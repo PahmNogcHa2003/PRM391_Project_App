@@ -81,6 +81,7 @@ public class CreateMenuDashboardActivity extends AppCompatActivity {
             Toast.makeText(this, "Thêm mới món ăn thành công", Toast.LENGTH_SHORT).show();
             NotificationHelper.showNotification(this, "Thêm món ăn", "Thêm mới món ăn thành công",
                     null, NotificationCompat.PRIORITY_HIGH);
+            NotificationHelper.NOTIFICATION_ID += 1;
             Intent intent = new Intent(this, MenuManagementActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
